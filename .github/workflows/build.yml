@@ -30,9 +30,8 @@ jobs:
         black .
         flake8 .
         pylint main.py
-    - name: Check Build and test
+    - name: Run Tests
       run: |
-        uvicorn main:app --reload
         pytest
 
 
