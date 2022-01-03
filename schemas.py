@@ -2,7 +2,7 @@
 Pydantic models stored here
 """
 
-from typing import Optional
+from typing import Optional, List
 from datetime import datetime
 
 from pydantic import BaseModel
@@ -61,7 +61,6 @@ class Video(BaseModel):
     Attributes:
         - video_id: int
         - video_user_id: int
-        - video_comment_id: int
         - video_name: str
         - original_video_quality: str
         - file_format: str
@@ -75,7 +74,6 @@ class Video(BaseModel):
 
     video_id: int
     video_user_id: int
-    video_comment_id: int
     video_name: str
     original_video_quality: str
     file_format: str
@@ -97,7 +95,8 @@ class Comment(BaseModel):
         - ts_comment:  datetime
     """
 
-    comment_id: int
+    comment_id: List[int] = []
     comment_user_id: int
+    comment_video_id: int
     comment_content: str
     ts_comment: datetime
