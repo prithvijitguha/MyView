@@ -52,7 +52,6 @@ class Video(Base):
     Attributes:
         - video_id: int, non-nullable, primary_key
         - video_user_id: int, non-nullable, foreign_key
-        - comment_id: int, non-nullable,
         - video_name: string, non-nullable,
         - original_video_quality: string, non-nullable,
         - file_format: string, non-nullable,
@@ -69,7 +68,6 @@ class Video(Base):
 
     video_id = Column(Integer, primary_key=True, index=True)
     video_user_id = Column(Integer, ForeignKey("users.user_id"))
-    video_comment_id = Column(Integer, ForeignKey("comments.comment_id"))
     video_name = Column(String)
     original_video_quality = Column(String)
     file_format = Column(String)
@@ -97,5 +95,6 @@ class Comment(Base):
 
     comment_id = Column(Integer, primary_key=True, index=True)
     comment_user_id = Column(Integer, ForeignKey("users.user_id"))
+    comment_video_id = Column(Integer, ForeignKey("video_library.video_id"))
     comment_content = Column(Text)
     ts_comment = Column(DateTime)
