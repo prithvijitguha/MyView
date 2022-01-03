@@ -1,2 +1,5 @@
-#Not required files
+#Python generated
 __pycache__/
+
+#docs
+docs/build/
