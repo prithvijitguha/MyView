@@ -60,7 +60,7 @@ Once your file passes the checks you can commit your changes. ::
 Pushing your code
 -----------------
 
-Once committed you can push your code
+Once committed you can push your code. ::
 
     git push origin shiny-new-feature
 
