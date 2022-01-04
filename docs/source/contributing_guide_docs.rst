@@ -1,4 +1,4 @@
-Contributing Guide
+Contributing Guide - Documentation
 ===================================
 
 Forking
@@ -33,9 +33,35 @@ Install all the required dependencies. ::
 
     pip install -r requirements.txt
 
-Run website locally. ::
 
-    uvicorn main:app --reload
+Building the documentation
+---------------------------
+
+while cd'd into ``MyView``, type the following command to build the documentation.::
+
+    sphinx-build -b html docs/source/ docs/build/html
+
+Let's break down that command:
+    - ``sphinx-build``: Command to use python package
+    - ``-b``: build flag
+    - ``html``: build format(what format your files need to be generated in)
+    - ``docs/source``: source destination(rst files)
+    - ``docs/build/html``: final destination of html files
+
+Make your changes
+------------------
+
+Documentation source material is stored in ``docs/source/`` directory of the repo
+Make your changes to the rst files.
+If you're adding a new page make sure to add the page name to ``index.rst``
+
+For eg. if new page is ``new_page.rst``
+
+in ``index.rst``, under ``toctree``
+    - ``contributing_guide_code``
+    - ``contributing_guide_docs``
+    - ``new_page``
+
 
 
 Commiting
@@ -57,6 +83,7 @@ Once your file passes the checks you can commit your changes. ::
 
     git commit -m "modified file modified_file"
 
+
 Pushing your code
 -----------------
 
@@ -73,5 +100,7 @@ Create a Pull Request
    okay one last time
 #. Write a description of your changes in the ``Preview Discussion`` tab
 #. Click ``Send Pull Request``.
+
+
 
 
