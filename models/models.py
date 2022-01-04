@@ -86,7 +86,8 @@ class Comment(Base):
     tablename: comments
     Attributes:
         - comment_id: int, primary, index
-        - user_id: int,
+        - comment_user_id: int,
+        - comment_video_id: int,
         - comment_content: string,
         - ts_comment: datetime,
     """

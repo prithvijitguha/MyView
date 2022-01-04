@@ -3,24 +3,311 @@ Reusable functions to interact with the database
 CRUD: Create, Read, Update, and Delete.
 """
 
-# from sqlalchemy.orm import Session
+# flake8: noqa:E501, F821
 
-# from MyView.core.models import models
-# from MyView.core.schemas import schemas
+from sqlalchemy.orm import Session
+from passlib.context import CryptContext
+
+from MyView.models import models
+from MyView.schemas import schemas
+
+from datetime import datetime, timezone
+
+pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
 
-# def create user
-# hash password
-# add to users table
-# add to users_hash table
+def hash_password(plain_password: str):
+    """
+    Function to generate hash string for password
+    Args:
+        - plain_password: str
+    Returns:
+        - hashed_password: str
 
-# def get videos of a user
-# filter for videos with user_id
+    Example:
+    `
+    >>> plain_password = "test"
+    >>> hash_password(plain_password)
+    hashed_password_string
+    `
+    """
+    return pwd_context.hash(plain_password)
 
-# def get comment of video
-# filter comments table for video_id
 
-# def delete_comment
-# del for comment_id and user_id
+def compare_password(plain_password: str, hashed_password: str):
+    """
+    Function to compare password plain with hash.
+    Returns True if password matches hash, False otherwise
+    Args:
+        - plain_password: str
+        - hashed_password: str
 
-#
+    Returns:
+        - Boolean
+
+    Example:
+    `
+    >>> plain_password = "test"
+    >>> hashed_password = "test_hashed_password"
+    >>> compare_password(plain_password, hashed_password)
+    True`
+    """
+    return pwd_context.verify(plain_password, hashed_password)
+
+
+def get_timestamp_now():
+    """Function to get current datetime stamp in utc timezone.
+    Args:
+        - None
+    Returns:
+        - datetime.object
+    Example:
+    `
+    >>> get_timestamp_now()
+    2022-01-04 08:17:18.990273+00:00
+    `
+    """
+    return datetime.now(timezone.utc)
+
+
+def create_user(db: Session, user: schemas.User):
+    """
+    Function to create user to `users` table and
+    password to `users_hashes` table.
+    Uses schemas.User to add to models.User
+    models.User attributes:
+        - user_id: int, non-nullable, unique
+        - username: str, non-nullable, unique
+        - email: str, non-nullable, unique
+        - ts_joined: datetime, non-nullable
+
+    models.UserHashed attributes:
+        - user_email: int, foreign_key, non-nullable, unique
+        - password_hash: string, non-nullable, unique
+        - ts_created: datetime, non-nullable
+
+    Args:
+        - db: Session
+        - user: schemas.User
+    Returns:
+        - db_user Object
+    """
+    # hash the password
+    hashed_password = hash_password(user.password)
+    # generate timestamp
+    timestamp = get_timestamp_now()
+    # create model for User
+    db_user = models.User(username=user.username, email=user.email, ts_joined=timestamp)
+    # create model for UserHashed
+    db_user_hashed = models.UserHashed(
+        user_email=user.email, password_hash=hashed_password, ts_created=timestamp
+    )
+    # add both model instances to database
+    db.add(db_user)
+    db.add(db_user_hashed)
+    db.commit()
+    db.refresh(db_user)
+    db.refresh(db_user_hashed)
+    return db_user
+
+
+# def get user
+def get_user(db: Session, user_id: int):
+    """get user from table `users`
+    Args:
+        - db: Session object
+        - user_id: int
+
+    Returns:
+        - db query instance
+    """
+    return db.query(models.User).filter(models.User.user_id == user_id).first()
+
+
+# def delete user
+def delete_user(db: Session, user_id: int):
+    """Used to delete user from table `users`
+    Args:
+        - db: Session
+        - user_id: int
+    Returns:
+        - Boolean
+    """
+    user = db.query(models.User).filter(models.User.user_id == user_id).first()
+    try:
+        db.delete(user)
+        db.commit()
+        db.refresh
+        return True
+    except Exception as e:
+        print(f"Could not delete user={user_id}: {e}")
+        return False
+
+
+# def add video to library
+def add_video(db: Session, video: schemas.Video):
+    """
+    Adds video to table video_library
+    model used is Video.
+    Attributes:
+        - video_id: int, non-nullable, primary_key
+        - video_user_id: int, non-nullable, foreign_key
+        - video_name: string, non-nullable,
+        - original_video_quality: string, non-nullable,
+        - file_format: string, non-nullable,
+        - ts_upload: datetime, non-nullable,
+        - categories: string, nullable,
+        - description: string, nullable,
+        - length: int, non-nullable,
+        - no_likes: int, non-nullable,
+        - no_dislikes: int, non-nullable
+
+    Args:
+        - db: Session
+        - video: schemas.Video
+    Returns:
+        - db_video object
+    """
+    db_video = models.Video(
+        video_user_id=video.video_user_id,
+        video_name=video.video_name,
+        original_video_quality=video.original_video_quality,
+        file_format=video.file_format,
+        ts_upload=get_timestamp_now(),
+        categories=video.categories,
+        description=video.description,
+        length=video.length,
+        no_likes=video.no_likes,
+        no_dislikes=video.no_dislikes,
+    )
+    # add to database
+    db.add(db_video)
+    db.commit()
+    db.refresh(db_video)
+    return db_video
+
+
+# def get video
+def get_video(db: Session, video_id: int):
+    """
+    get video from table video_library
+    Args:
+        - db: Session
+        - video_id: int
+    Returns:
+        - Session query object
+    """
+    return db.query(models.Video).filter(models.Video.video_id == video_id).first()
+
+
+# no update video
+
+# def delete video
+def delete_video(db: Session, video_id: int):
+    """
+    Delete from table video_library
+    Please note: this does not delete from media storage
+    Args:
+        - db: Session
+        - video_id: int
+
+    Returns:
+        - status: bool
+    """
+    video = db.query(models.Video).filter(models.Video.video_id == video_id).first()
+    try:
+        db.delete(video)
+        db.commit()
+        db.refresh
+        return True
+    except Exception as e:
+        print(f"Could not delete user={video_id}: {e}")
+        return False
+
+
+# def create comment
+def create_comment(db: Session, comment: schemas.Comment):
+    """
+    Adds comment to `comments` table
+    Adds to Comment model.
+    Attributes:
+        - comment_id: int, primary, index
+        - comment_user_id: int,
+        - comment_content: string,
+        - ts_comment: datetime
+
+    Args:
+        - db: Session
+        - comment: schemas.Comment
+
+    Returns:
+        - session object
+    """
+    db_comment = models.Comment(
+        comment_user_id == comment.comment_user_id,
+        comment_video_id == comment.comment_video_id,
+        comment_content == comment.comment_content,
+        ts_comment == get_timestamp_now(),
+    )
+
+    db.add(db_comment)
+    db.commit()
+    db.refresh(db_comment)
+    return db_comment
+
+
+# def get comments of video
+def get_comments(db: Session, video_id: int):
+    """
+    Get all comments for video from video_id from `comments` table
+    Args:
+        - db: Session
+        - video_id: int
+
+    Returns:
+        - Session object all
+    """
+    return db.query(models.Comment(video_id == video_id)).all()
+
+
+# def change comment
+def update_comment(db: Session, comment_id: int, new_content: str):
+    """
+    Update comment with new content
+    Args:
+        - db: Session
+        - comment_id: int
+
+    Returns:
+        - Session object
+    """
+    db_comment = db.query(models.Comment(comment_id == comment_id)).first()
+    db_comment.comment_content = new_content
+    db.add(db_comment)
+    db.commit()
+    db.refresh(db_comment)
+    return db_comment
+
+
+# def delete comment
+def delete_comment(db: Session, comment_id: int):
+    """
+    Delete comment from comments table
+    Args:
+        - db: Session
+        - comment_id: int
+
+    Returns:
+        - Status: bool
+    """
+    db_comment = (
+        db.query(models.Comment).filter(models.Comment.comment_id == comment_id).first()
+    )
+    try:
+        db.delete(db_comment)
+        db.commit()
+        db.refresh(db_comment)
+        return True
+    except Exception as e:
+        print(f"Could not delete user={comment_id}: {e}")
+        return False

@@ -11,9 +11,11 @@ from pydantic import BaseModel
 class UserBase(BaseModel):
     """Base schema for User
     Attribute:
+        - username: str
         - email: str
     """
 
+    username: str
     email: str
 
 
@@ -32,27 +34,14 @@ class User(UserCreate):
     User schema
     Attributes:
         - user_id: int
-        - username: str
         - ts_joined: datetime
     """
 
     user_id: int
-    username: str
     ts_joined: datetime
 
     class Config:
         orm_mode = True
-
-
-class UserHashed(UserBase):
-    """
-    Password schema
-    Attributes:
-        - password_hash: str
-
-    """
-
-    password_hash: str
 
 
 class Video(BaseModel):
@@ -91,6 +80,7 @@ class Comment(BaseModel):
     Attribute:
         - comment_id: int
         - comment_user_id: int
+        - comment_video_id
         - comment_content: str
         - ts_comment:  datetime
     """
