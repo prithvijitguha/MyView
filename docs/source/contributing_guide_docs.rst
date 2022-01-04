@@ -27,7 +27,19 @@ Creating a development environment
 ----------------------------------
 Create a virtual environment. ::
 
-    python -m venv hms_env
+    python -m venv myview_env
+
+activate virtual environment.
+
+Windows: ::
+
+    myview_env/scripts/activate
+
+
+Linux: ::
+
+    source venv/bin/activate
+
 
 Install all the required dependencies. ::
 

@@ -11,6 +11,8 @@ Contents
 --------
 
 .. toctree::
+   :maxdepth: 1
+
    architecture
    data_models
    contributing_guide_code

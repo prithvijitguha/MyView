@@ -4,14 +4,18 @@ CRUD: Create, Read, Update, and Delete.
 """
 
 # flake8: noqa:E501, F821
+# pylint: disable=import-error
+# pylint: disable=invalid-name
+# pylint: disable=broad-except
+# pylint: disable=undefined-variable
 
-from sqlalchemy.orm import Session
+from datetime import datetime, timezone
 from passlib.context import CryptContext
+from sqlalchemy.orm import Session
 
 from models import models
 from schemas import schemas
 
-from datetime import datetime, timezone
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
@@ -53,6 +57,25 @@ def compare_password(plain_password: str, hashed_password: str):
     True`
     """
     return pwd_context.verify(plain_password, hashed_password)
+
+
+def authenticate_user(db: Session, username: str, password: str):
+    """
+    Check if user is authenticated
+    """
+    # get current user
+    user = get_user(db, username)
+    # get the user email
+    check_email = user.email
+    # get the row from UserHash table
+    db_UserHash = models.UserHashed(user_email=check_email)
+    # get the hash value
+    hashed_password = db_UserHash.password_hash
+    if not user:
+        return False
+    if not compare_password(password, hashed_password):
+        return False
+    return user
 
 
 def get_timestamp_now():
@@ -114,6 +137,7 @@ def create_user(db: Session, user: schemas.User):
 # def get user
 def get_user(db: Session, user_id: int):
     """get user from table `users`
+    by id
     Args:
         - db: Session object
         - user_id: int
@@ -125,6 +149,14 @@ def get_user(db: Session, user_id: int):
 
 
 def get_user_by_email(db: Session, email: str):
+    """get user from table `users`
+    by email
+    Args:
+        - db: Session
+        - email: str
+    Returns:
+        - db query instance
+    """
     return db.query(models.User).filter(models.User.user_email == email).first()
 
 
@@ -137,11 +169,11 @@ def delete_user(db: Session, user_id: int):
     Returns:
         - Boolean
     """
-    user = db.query(models.User).filter(models.User.user_id == user_id).first()
+    db_user = db.query(models.User).filter(models.User.user_id == user_id).first()
     try:
-        db.delete(user)
+        db.delete(db_user)
         db.commit()
-        db.refresh
+        db.refresh(db_user)
         return True
     except Exception as e:
         print(f"Could not delete user={user_id}: {e}")
@@ -218,11 +250,11 @@ def delete_video(db: Session, video_id: int):
     Returns:
         - status: bool
     """
-    video = db.query(models.Video).filter(models.Video.video_id == video_id).first()
+    db_video = db.query(models.Video).filter(models.Video.video_id == video_id).first()
     try:
-        db.delete(video)
+        db.delete(db_video)
         db.commit()
-        db.refresh
+        db.refresh(db_video)
         return True
     except Exception as e:
         print(f"Could not delete user={video_id}: {e}")
@@ -271,21 +303,21 @@ def get_comments(db: Session, video_id: int):
     Returns:
         - Session object all
     """
-    return db.query(models.Comment(video_id == video_id)).all()
+    return db.query(models.Comment(comment_video_id == video_id)).all()
 
 
 # def change comment
-def update_comment(db: Session, comment_id: int, new_content: str):
+def update_comment(db: Session, req_comment_id: int, new_content: str):
     """
     Update comment with new content
     Args:
         - db: Session
-        - comment_id: int
+        - req_comment_id: int
 
     Returns:
         - Session object
     """
-    db_comment = db.query(models.Comment(comment_id == comment_id)).first()
+    db_comment = db.query(models.Comment(comment_id == req_comment_id)).first()
     db_comment.comment_content = new_content
     db.add(db_comment)
     db.commit()
