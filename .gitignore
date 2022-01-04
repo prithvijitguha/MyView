@@ -1,6 +1,10 @@
 #Python generated
 __pycache__/
 
+
+#pytest
+.pytest_cache
+
 #docs
 docs/build/
 
