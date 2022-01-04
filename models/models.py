@@ -3,7 +3,7 @@
 from sqlalchemy import Column, ForeignKey
 from sqlalchemy.sql.sqltypes import Integer, String, DateTime, Text
 
-from MyView.db.database import Base
+from db.database import Base
 
 
 class User(Base):
@@ -38,7 +38,9 @@ class UserHashed(Base):
     """
 
     __tablename__ = "users_hashes"
-    user_email = Column(Integer, ForeignKey("users.email"), unique=True)
+    user_email = Column(
+        Integer, ForeignKey("users.email"), primary_key=True, unique=True
+    )
     password_hash = Column(String)
     ts_created = Column(DateTime)
 
