@@ -12,4 +12,6 @@ Contents
 
 .. toctree::
    architecture
+   data_models
    contributing_guide
+   front_end_prototype
