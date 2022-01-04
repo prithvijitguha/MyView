@@ -8,8 +8,8 @@ CRUD: Create, Read, Update, and Delete.
 from sqlalchemy.orm import Session
 from passlib.context import CryptContext
 
-from MyView.models import models
-from MyView.schemas import schemas
+from models import models
+from schemas import schemas
 
 from datetime import datetime, timezone
 
@@ -122,6 +122,10 @@ def get_user(db: Session, user_id: int):
         - db query instance
     """
     return db.query(models.User).filter(models.User.user_id == user_id).first()
+
+
+def get_user_by_email(db: Session, email: str):
+    return db.query(models.User).filter(models.User.user_email == email).first()
 
 
 # def delete user

@@ -44,6 +44,16 @@ class User(UserCreate):
         orm_mode = True
 
 
+class UserHashed(UserBase):
+    """
+    Password schema
+    Attributes:
+        - password_hash: str
+    """
+
+    password_hash: str
+
+
 class Video(BaseModel):
     """
     schema for video
