@@ -3,7 +3,7 @@
 from sqlalchemy import Column, ForeignKey
 from sqlalchemy.sql.sqltypes import Integer, String, DateTime, Text
 
-from MyView.core.models.database import Base
+from MyView.db.database import Base
 
 
 class User(Base):
