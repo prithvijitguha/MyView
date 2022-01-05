@@ -13,6 +13,29 @@
     {% endblock %}
   </head>
   <body>
+    <nav class="navbar navbar-expand-md navbar-light bg-light mb-4">
+      <div class="container-fluid">
+        <a class="navbar-brand ml-auto" href="#">MyView</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+          <form class="mx-auto d-flex w-50">
+            <input class="form-control me-2"type="search" placeholder="Search" aria-label="Search">
+            <button class="btn btn-light" type="submit">🔍</button>
+          </form>
+
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item mr-auto">
+              <a class="nav-link active" aria-current="page" href="#">Home</a>
+            </li>
+          </ul>
+
+        </div>
+      </div>
+    </nav>
+
+
     <div id="content">{% block content %}{% endblock %}</div>
 
     <div id="footer">
