@@ -1,11 +1,13 @@
 """Write your tests here"""
+# pylint: disable=import-error
 
-# from fastapi.testclient import TestClient
-# from ..main import app
+from fastapi.testclient import TestClient
+from main import app
 
-# client = TestClient(app)
+client = TestClient(app)
 
-# def test_read_main():
-#     """Check the index page for responses"""
-#     response = client.get("/")
-#     assert response.status_code == 200
+
+def test_read_main():
+    """Check the index page for responses"""
+    response = client.get("/")
+    assert response.status_code == 200
