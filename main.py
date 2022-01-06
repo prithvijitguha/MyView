@@ -4,9 +4,11 @@ MyView all views saved here
 
 # pylint: disable=import-error
 # pylint: disable=invalid-name
+# pylint: disable=protected-access
 
+import os
 
-from fastapi import FastAPI, Request, Depends, HTTPException
+from fastapi import FastAPI, Request, Depends, HTTPException, File, UploadFile
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 from fastapi.staticfiles import StaticFiles
@@ -16,6 +18,7 @@ from sqlalchemy.orm import Session
 from crud import crud
 from models import models
 from schemas import schemas
+from media import s3_utils
 from db.database import SessionLocal, engine
 
 models.Base.metadata.create_all(bind=engine)
@@ -93,3 +96,22 @@ async def home(request: Request):
     HomePage
     """
     return templates.TemplateResponse("index.html", {"request": request})
+
+
+@app.get("/upload", response_class=HTMLResponse)
+async def upload_page(request: Request):
+    """
+    Upload page
+    """
+    return templates.TemplateResponse("upload.html", {"request": request})
+
+
+@app.post("/upload_file")
+async def upload_file(video_file: UploadFile = File(...)):
+    """Upload file to s3"""
+    # upload to s3
+    data = video_file.file._file
+    filename = video_file.filename
+    bucket = os.environ.get("bucket_name")
+    s3_utils.upload_file(data, bucket, filename)
+    return {"status": 200}
