@@ -34,8 +34,8 @@ jobs:
         black .
         flake8 .
         pylint main.py
-    # - name: Run Tests
-    #   run: |
-    #     pytest
+    - name: Run Tests
+      run: |
+        python -m pytest tests/
 
 
