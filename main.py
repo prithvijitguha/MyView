@@ -5,6 +5,7 @@ MyView all views saved here
 # pylint: disable=import-error
 # pylint: disable=invalid-name
 # pylint: disable=protected-access
+# pylint: disable=no-else-return
 
 import os
 
@@ -108,10 +109,19 @@ async def upload_page(request: Request):
 
 @app.post("/upload_file")
 async def upload_file(video_file: UploadFile = File(...)):
-    """Upload file to s3"""
-    # upload to s3
-    data = video_file.file._file
-    filename = video_file.filename
-    bucket = os.environ.get("bucket_name")
-    s3_utils.upload_file(data, bucket, filename)
-    return {"status": 200}
+    """
+    Upload file to s3
+    Only accepts video file types.
+    Args:
+        - video_file: UploadFile
+    Returns:
+        - Status 200 if success, else 304 invalid type
+    """
+    if video_file.content_type in ["video/mp4", "video/x-m4v", "video/*"]:
+        data = video_file.file._file
+        filename = video_file.filename
+        bucket = os.environ.get("bucket_name")
+        s3_utils.upload_file(data, bucket, filename)
+        return {"status": 200}
+    else:
+        return {"Invalid file type": 304}
