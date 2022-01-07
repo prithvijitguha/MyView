@@ -9,7 +9,8 @@ MyView all views saved here
 
 import os
 
-from fastapi import FastAPI, Request, Depends, HTTPException, File, UploadFile
+from fastapi import FastAPI, Request, Depends
+from fastapi import HTTPException, File, UploadFile, Form
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 from fastapi.staticfiles import StaticFiles
@@ -125,3 +126,23 @@ async def upload_file(video_file: UploadFile = File(...)):
         return {"status": 200}
     else:
         return {"Invalid file type": 304}
+
+
+@app.get("/login", response_class=HTMLResponse)
+async def login_page(request: Request):
+    """
+    Login Page
+    """
+    return templates.TemplateResponse("login.html", {"request": request})
+
+
+@app.post("/login")
+async def login(username: str = Form(...)):
+    """
+    Login Page Post
+    Args:
+        - username: str = Form(...)
+        - password: str = Form(...)
+
+    """
+    return {"username": username}
