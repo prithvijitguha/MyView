@@ -2,12 +2,14 @@
 {% block title %}Index{% endblock %}
 {% block head %}
 {{ super() }}
-<style type="text/css">
-  .important { color: #336699; }
-</style>
 {% endblock %}
 {% block content %}
-  <h1>Index</h1>
-  <p class="important">
-    Login.</p>
+<!--action="/login" method="POST" enctype="multipart/form-data"-->
+<form class="mx-auto w-25" action="/login" method="POST">
+  <div class="form-group">
+    <input placeholder= "username@domain.com" type="email" autocomplete="off"  class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"><br>
+    <input placeholder= "password" type="password" autocomplete="off"  class="form-control" id="exampleInputPassword1"><br>
+    <button type="submit" class="btn btn-primary">Submit</button>
+  </div>
+</form>
 {% endblock %}
