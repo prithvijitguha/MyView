@@ -31,7 +31,7 @@ function addModal() {
 }
 
 
-function check_video(){
+function checkVideo(){
   //get the element
   input_value = document.getElementById("inputGroupFile04")
   //get the first element in files and check its type
