@@ -33,9 +33,10 @@ function addModal() {
 
 function checkVideo(){
   //get the element
-  input_value = document.getElementById("inputGroupFile04")
+  input_value = document.getElementById("inputVideoFile")
   //get the first element in files and check its type
-  file_type = input_value.files[0].type
+  video_file = input_value.files[0]
+  file_type = video_file.type
   //if file type is not video
   //then create a message that tells the user invalid file type
   if (!file_type.includes('video')) {
@@ -53,4 +54,59 @@ function checkVideo(){
 
     console.log("invalid file type, input reset")
   }
+
+  else {
+    //read video and play video in frame
+    //get the frame element
+    videoFrame = document.getElementById("demoVideo")
+    //change the frame element source and title
+    $("#demoVideo").attr("src", URL.createObjectURL(video_file))
+    document.getElementById("demoVideo").load()
+    //
+    document.getElementById("thumbnailCapturebtn").disabled = false
+  }
+}
+
+
+function capture(){
+  //function to capture thumbnail
+  canvas = document.getElementById('thumbnailDisplay');
+  video = document.getElementById('demoVideo');
+  //get original video dimensions
+  video_file = video.getAttribute('src')
+  console.log(video_file)
+  canvas.getContext('2d').drawImage(video, 0, 0, video.width, video.height)
+  canvas_image = canvas.toDataURL('image/jpeg', 1.0)
+  document.getElementById("thumbnailImage").setAttribute("src", canvas_image)
+  document.getElementById("inputVideoThumbnail").files[0] = canvas_image
+}
+
+function checkImage(){
+  //get the element
+  input_value = document.getElementById("inputVideoThumbnail")
+  //get the first element in files and check its type
+  image_file = input_value.files[0]
+  file_type = image_file.type
+  //if file type is not video
+  //then create a message that tells the user invalid file type
+  if (!file_type.includes('image')) {
+    input_value.value = ""
+    //create element modal
+    addModal()
+    modal = document.getElementById("mainModal")
+    document.getElementById("mainModalTitle").innerHTML = "Invalid File Type"
+    document.getElementById("mainModalBody").innerHTML = "Only Images Accepted"
+    $('#mainModal').modal({ show: false})
+    $('#mainModal').modal('show');
+    //delete element
+    $('#mainModal').remove()
+    //display alert
+    console.log("invalid file type, input reset")
+  }
+  else {
+    //read image
+    $("#thumbnailImage").attr("src", URL.createObjectURL(image_file))
+    //display image
+  }
+
 }
