@@ -5,7 +5,7 @@
 {% endblock %}
 {% block content %}
 <div class="d-flex justify-content-center">
-<form action="/upload_file" method="POST" enctype="multipart/form-data">
+<form action="/upload_file" method="POST" enctype="application/json">
     <div class="input-group">
     <input type="file" name="video_file" class="form-control" id="inputGroupFile04" aria-describedby="inputGroupFileAddon04" aria-label="Upload" oninput="checkVideo()" accept="video/mp4,video/x-m4v,video/*">
     <button class="btn btn-outline-secondary" type="submit" id="inputGroupFileAddon04">

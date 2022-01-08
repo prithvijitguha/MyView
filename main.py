@@ -12,8 +12,10 @@ import os
 
 from fastapi import FastAPI, Request, Depends
 from fastapi import HTTPException, File, UploadFile, Form
+from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
+from fastapi.security import OAuth2PasswordBearer
 from fastapi.staticfiles import StaticFiles
 from sqlalchemy.orm import Session
 
@@ -29,11 +31,37 @@ models.Base.metadata.create_all(bind=engine)
 
 app = FastAPI()
 
+origins = [
+    "http://localhost",
+    "http://localhost:8080",
+]
+
+# static files directory for javascript and css
 app.mount("/static", StaticFiles(directory="static"), name="static")
 
+# html templates directory
 templates = Jinja2Templates(directory="templates")
 
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+
 models.Base.metadata.create_all(bind=engine)
+
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
+
+
+@app.get("/test")
+async def check_current_user(token: str = Depends(oauth2_scheme)):
+    """Test Function
+    to check if user is logged in
+    """
+    return {"token": token}
 
 
 def get_db():
@@ -154,4 +182,27 @@ async def login(username: str = Form(...)):
         - password: str = Form(...)
 
     """
+    return {"username": username}
+
+
+@app.get("/register", response_class=HTMLResponse)
+async def register_page(request: Request):
+    """
+    Register page
+
+    """
+    return templates.TemplateResponse("register.html", {"request": request})
+
+
+@app.post("/register")
+async def register(username: schemas.User):
+    """
+    Regiser Post Page
+    Args:
+        - username: str = Form(...)
+        - password: str = Form(...)
+
+    """
+    print(username)
+    print(dir(username))
     return {"username": username}
