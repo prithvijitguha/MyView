@@ -1,6 +1,8 @@
 """
 Pydantic models stored here
 """
+# pylint: disable=import-error
+# pylint: disable=too-few-public-methods
 
 from typing import Optional, List
 from datetime import datetime
@@ -41,6 +43,12 @@ class User(UserCreate):
     ts_joined: datetime
 
     class Config:
+        """
+        Attributes can be accessed
+        by both Schema.attribute
+        or Schema["attribute"]
+        """
+
         orm_mode = True
 
 
@@ -50,6 +58,7 @@ class Video(BaseModel):
     Attributes:
         - video_id: int
         - video_user_id: int
+        - video_link: str
         - video_name: str
         - original_video_quality: str
         - file_format: str
@@ -63,6 +72,7 @@ class Video(BaseModel):
 
     video_id: int
     video_user_id: int
+    video_link: str
     video_name: str
     original_video_quality: str
     file_format: str

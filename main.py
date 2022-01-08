@@ -6,6 +6,7 @@ MyView all views saved here
 # pylint: disable=invalid-name
 # pylint: disable=protected-access
 # pylint: disable=no-else-return
+# pylint: disable=broad-except
 
 import os
 
@@ -22,6 +23,7 @@ from models import models
 from schemas import schemas
 from media import s3_utils
 from db.database import SessionLocal, engine
+from utils import utils
 
 models.Base.metadata.create_all(bind=engine)
 
@@ -119,11 +121,18 @@ async def upload_file(video_file: UploadFile = File(...)):
         - Status 200 if success, else 304 invalid type
     """
     if video_file.content_type in ["video/mp4", "video/x-m4v", "video/*"]:
-        data = video_file.file._file
-        filename = video_file.filename
-        bucket = os.environ.get("bucket_name")
-        s3_utils.upload_file(data, bucket, filename)
-        return {"status": 200}
+        try:
+            data = video_file.file._file
+            filename = video_file.filename
+            bucket = os.environ.get("bucket_name")
+            new_video_name = utils.create_video_name(filename)
+            folder_name = os.environ.get("folder_name")
+            destination = f"{folder_name}/{new_video_name}"
+            s3_utils.upload_file(data, bucket, destination)
+            return {"status": 200}
+        except Exception as e:
+            print(f"Could not upload {filename}: {e}")
+            return {"status": 124}
     else:
         return {"Invalid file type": 304}
 

@@ -188,6 +188,7 @@ def add_video(db: Session, video: schemas.Video):
     Attributes:
         - video_id: int, non-nullable, primary_key
         - video_user_id: int, non-nullable, foreign_key
+        - video_link: string, non-nullable, unique
         - video_name: string, non-nullable,
         - original_video_quality: string, non-nullable,
         - file_format: string, non-nullable,
@@ -206,6 +207,7 @@ def add_video(db: Session, video: schemas.Video):
     """
     db_video = models.Video(
         video_user_id=video.video_user_id,
+        video_link=video.video_link,
         video_name=video.video_name,
         original_video_quality=video.original_video_quality,
         file_format=video.file_format,
