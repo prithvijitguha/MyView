@@ -1,5 +1,8 @@
 """All sqlalchemy models"""
 
+# pylint: disable=import-error
+# pylint: disable=too-few-public-methods
+
 from sqlalchemy import Column, ForeignKey
 from sqlalchemy.sql.sqltypes import Integer, String, DateTime, Text
 
@@ -54,6 +57,7 @@ class Video(Base):
     Attributes:
         - video_id: int, non-nullable, primary_key
         - video_user_id: int, non-nullable, foreign_key
+        - video_link: string, non-nullable, unique
         - video_name: string, non-nullable,
         - original_video_quality: string, non-nullable,
         - file_format: string, non-nullable,
@@ -70,6 +74,7 @@ class Video(Base):
 
     video_id = Column(Integer, primary_key=True, index=True)
     video_user_id = Column(Integer, ForeignKey("users.user_id"))
+    video_link = Column(String, unique=True)
     video_name = Column(String)
     original_video_quality = Column(String)
     file_format = Column(String)
