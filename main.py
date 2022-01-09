@@ -68,8 +68,8 @@ def get_db():
     """
     Connects to database
     """
+    db = SessionLocal()
     try:
-        db = SessionLocal()
         yield db
     finally:
         db.close()
