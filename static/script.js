@@ -58,12 +58,26 @@ function checkVideo(){
   else {
     //read video and play video in frame
     //get the frame element
-    videoFrame = document.getElementById("demoVideo")
+    //video = document.getElementById("demoVideo")
     //change the frame element source and title
     $("#demoVideo").attr("src", URL.createObjectURL(video_file))
-    document.getElementById("demoVideo").load()
-    //
-    document.getElementById("thumbnailCapturebtn").disabled = false
+    document.getElementById("demoVideo").autoplay;
+
+    //enable the capture thumbnail button
+    document.getElementById("thumbnailCapturebtn").disabled = false;
+    //get video frame
+    video = document.getElementById("demoVideo");
+
+    video.addEventListener('loadeddata',
+      function() {
+      // Video is loaded and can be played
+      get_metadata()
+      },
+    );
+
+
+
+
   }
 }
 
@@ -71,10 +85,8 @@ function checkVideo(){
 function capture(){
   //function to capture thumbnail
   canvas = document.getElementById('thumbnailDisplay');
-  video = document.getElementById('demoVideo');
+  video = document.getElementById("demoVideo");
   //get original video dimensions
-  video_file = video.getAttribute('src')
-  console.log(video_file)
   canvas.getContext('2d').drawImage(video, 0, 0, video.width, video.height)
   canvas_image = canvas.toDataURL('image/jpeg', 1.0)
   document.getElementById("thumbnailImage").setAttribute("src", canvas_image)
@@ -108,5 +120,20 @@ function checkImage(){
     $("#thumbnailImage").attr("src", URL.createObjectURL(image_file))
     //display image
   }
+
+}
+
+
+
+
+function get_metadata() {
+  //capture first image as thumbnail
+  capture()
+  //autofill video name
+  document.getElementById("inputVideoName").value = video_file.name;
+  //autofill length
+  video = document.getElementById("demoVideo")
+  videoLength = Math.round(video.duration)
+  document.getElementById("inputVideoLength").value = videoLength
 
 }
