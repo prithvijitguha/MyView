@@ -1,5 +1,9 @@
 # MyView
 
+<div align="center">
+    <img src="static/MyViewLogo.png" width="320" height="240"><br>
+</div>
+
 ## About:
 **MyView** is an online video sharing platform built using FastAPI
 
