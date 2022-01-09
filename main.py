@@ -1,7 +1,7 @@
 """
 MyView all views saved here
 """
-
+# flake8: noqa:E501
 # pylint: disable=import-error
 # pylint: disable=invalid-name
 # pylint: disable=protected-access
@@ -13,7 +13,7 @@ import os
 from fastapi import FastAPI, Request, Depends
 from fastapi import HTTPException, File, UploadFile, Form
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import HTMLResponse
+from fastapi.responses import HTMLResponse, RedirectResponse
 from fastapi.templating import Jinja2Templates
 from fastapi.security import OAuth2PasswordBearer
 from fastapi.staticfiles import StaticFiles
@@ -174,15 +174,30 @@ async def login_page(request: Request):
 
 
 @app.post("/login")
-async def login(username: str = Form(...)):
+async def login(
+    request: Request,
+    db: Session = Depends(get_db),
+    email: str = Form(...),
+    password: str = Form(...),
+):
     """
     Login Page Post
     Args:
-        - username: str = Form(...)
+        - email: str = Form(...)
         - password: str = Form(...)
-
     """
-    return {"username": username}
+    # check if user is present
+    user_status = crud.authenticate_user_email(db, email=email, password=password)
+    # if username and password matches redirect to homepage
+    if user_status:
+        # check in user table for correct user name
+        # check is UserHashed table for password match
+        return RedirectResponse("/")
+    # else provide error message
+    else:
+        message = "Username or Password is incorrect"
+        print(request)
+        return {message: 141}
 
 
 @app.get("/register", response_class=HTMLResponse)

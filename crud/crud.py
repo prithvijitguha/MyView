@@ -78,6 +78,19 @@ def authenticate_user(db: Session, username: str, password: str):
     return user
 
 
+def authenticate_user_email(db: Session, email: str, password: str):
+    """
+    Check if user is authenticated
+    by email
+    """
+    # get current user
+    user = db.query(models.User).filter(models.User.email == email).first()
+    # authenticate user
+    if user and authenticate_user(db, user.username, password):
+        return True
+    return False
+
+
 def get_timestamp_now():
     """Function to get current datetime stamp in utc timezone.
     Args:
