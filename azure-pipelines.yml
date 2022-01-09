@@ -6,12 +6,12 @@
 trigger:
   branches:
     include:
-    - '*'
-paths:
-    exclude:
-    - 'docs/*'
-    - 'static/assets/*'
-    - 'readme.md'
+    - master
+  paths:
+      exclude:
+      - 'docs/*'
+      - 'static/assets/*'
+      - 'readme.md'
 
 pool:
   vmImage: ubuntu-latest
