@@ -11,7 +11,7 @@ trigger:
       include:
       - docs/*
       exclude:
-      - readme.md
+      - 'readme.md'
       - 'static/assets/*'
       - 'readme.md'
 
