@@ -5,13 +5,13 @@ on:
     paths-ignore:
       - 'docs/**'
       - 'static/assets/**'
-      - 'readme.md'
+      - 'README.md'
     branches: [ master ]
   pull_request:
     paths-ignore:
       - 'docs/**'
       - 'static/assets/**'
-      - 'readme.md'
+      - 'README.md'
     branches: [ master ]
 
 jobs:

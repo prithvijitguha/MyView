@@ -11,7 +11,7 @@ trigger:
       exclude:
       - 'docs/*'
       - 'static/assets/*'
-      - 'readme.md'
+      - 'README.md'
 
 pool:
   vmImage: ubuntu-latest
