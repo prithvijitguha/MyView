@@ -139,7 +139,12 @@ async def upload_page(request: Request):
 
 
 @app.post("/upload_file")
-async def upload_file(video_file: UploadFile = File(...)):
+async def upload_file(
+    video_file: UploadFile = File(...),
+    # pylint: disable=unused-argument
+    thumbnail: UploadFile = File(...),
+    db: Session = Depends(get_db),
+):
     """
     Upload file to s3
     Only accepts video file types.
@@ -149,7 +154,9 @@ async def upload_file(video_file: UploadFile = File(...)):
         - Status 200 if success, else 304 invalid type
     """
     if video_file.content_type in ["video/mp4", "video/x-m4v", "video/*"]:
+        # upload to s3
         try:
+            # upload video
             data = video_file.file._file
             filename = video_file.filename
             bucket = os.environ.get("bucket_name")
@@ -157,10 +164,28 @@ async def upload_file(video_file: UploadFile = File(...)):
             folder_name = os.environ.get("folder_name")
             destination = f"{folder_name}/{new_video_name}"
             s3_utils.upload_file(data, bucket, destination)
-            return {"status": 200}
+            # upload thumbnail
+            # data_tn = thumbnail.file._file
+            # filename_tn = thumbnail.file.filename
+            # new_tn_name = utils.create_video_name(filename_tn)
+            # folder_name_tn = os.environ.get("folder_name_tn")
+            # destination_tn = f"{folder_name_tn}/{new_tn_name}"
+            # s3_utils.upload_file(data_tn, bucket, destination_tn)
         except Exception as e:
             print(f"Could not upload {filename}: {e}")
             return {"status": 124}
+        # add entry to database
+        try:
+            # create schema according to video
+            # schemas.Video()
+            pass
+            # TODO
+        # crud.add_video(db=db,video= )
+
+        except Exception as e:
+            print(f"Could not make entry {filename}: {e}")
+            return {"status": 125}
+
     else:
         return {"Invalid file type": 304}
 
