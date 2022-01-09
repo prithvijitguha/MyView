@@ -4,11 +4,11 @@
 {{ super() }}
 {% endblock %}
 {% block content %}
-<form class="mx-auto w-25" action="/register" method="POST" enctype="application/json">
+<form class="mx-auto w-25" action="/register" method="POST">
   <div class="form-group">
-    <input placeholder= "username" name="username" type="username" autocomplete="off"  class="form-control" id="rregisterInputEmail1" aria-describedby="usernameRegister"><br>
-    <input placeholder= "username@domain.com" name="email" type="email" autocomplete="off"  class="form-control" id="registerInputEmail1" aria-describedby="emailRegister"><br>
-    <input placeholder= "password" name="password" type="password" autocomplete="off"  class="form-control" id="registerInputPassword1"><br>
+    <input placeholder="username" name="username" type="username" autocomplete="off"  class="form-control" id="rregisterInputEmail1" aria-describedby="usernameRegister"><br>
+    <input placeholder="username@domain.com" name="email" type="email" autocomplete="off"  class="form-control" id="registerInputEmail1" aria-describedby="emailRegister"><br>
+    <input placeholder="password" name="password" type="password" autocomplete="off"  class="form-control" id="registerInputPassword1"><br>
     <button type="submit" class="btn btn-primary">Submit</button>
   </div>
 </form>

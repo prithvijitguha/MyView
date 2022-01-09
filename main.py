@@ -13,7 +13,7 @@ import os
 from fastapi import FastAPI, Request, Depends
 from fastapi import HTTPException, File, UploadFile, Form
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import HTMLResponse, RedirectResponse
+from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 from fastapi.security import OAuth2PasswordBearer
 from fastapi.staticfiles import StaticFiles
@@ -68,8 +68,8 @@ def get_db():
     """
     Connects to database
     """
-    db = SessionLocal()
     try:
+        db = SessionLocal()
         yield db
     finally:
         db.close()
@@ -192,11 +192,10 @@ async def login(
     if user_status:
         # check in user table for correct user name
         # check is UserHashed table for password match
-        return RedirectResponse("/")
+        return templates.TemplateResponse("index.html", {"request": request})
     # else provide error message
     else:
         message = "Username or Password is incorrect"
-        print(request)
         return {message: 141}
 
 
@@ -210,14 +209,24 @@ async def register_page(request: Request):
 
 
 @app.post("/register")
-async def register(username: schemas.User):
+async def register(
+    username: str = Form(...),
+    password: str = Form(...),
+    email: str = Form(...),
+    db: Session = Depends(get_db),
+):
     """
     Regiser Post Page
     Args:
         - username: str = Form(...)
         - password: str = Form(...)
+        - email: str = Form(...)
 
     """
-    print(username)
-    print(dir(username))
+    # get the details
+
+    # create the schema to carry it
+    user = schemas.UserCreate(username=username, email=email, password=password)
+    # create user
+    create_user(db=db, user=user)
     return {"username": username}

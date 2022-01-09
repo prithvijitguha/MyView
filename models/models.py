@@ -35,14 +35,14 @@ class UserHashed(Base):
 
     tablename: users_hashes
     Attributes:
-        - user_email: int, foreign_key, non-nullable, unique
+        - user_email: string, foreign_key, non-nullable, unique
         - password_hash: string, non-nullable, unique
         - ts_created: datetime, non-nullable
     """
 
     __tablename__ = "users_hashes"
     user_email = Column(
-        Integer, ForeignKey("users.email"), primary_key=True, unique=True
+        String, ForeignKey("users.email"), primary_key=True, unique=True
     )
     password_hash = Column(String)
     ts_created = Column(DateTime)

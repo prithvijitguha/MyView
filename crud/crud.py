@@ -64,15 +64,23 @@ def authenticate_user(db: Session, username: str, password: str):
     Check if user is authenticated
     """
     # get current user
-    user = get_user(db, username)
+    # get user_id of current user
+    user_id = (
+        db.query(models.User).filter(models.User.username == username).first().user_id
+    )
+    user = get_user(db, user_id)
+    if not user:
+        return False
     # get the user email
     check_email = user.email
     # get the row from UserHash table
-    db_UserHash = models.UserHashed(user_email=check_email)
+    db_UserHash = (
+        db.query(models.UserHashed)
+        .filter(models.UserHashed.user_email == check_email)
+        .first()
+    )
     # get the hash value
     hashed_password = db_UserHash.password_hash
-    if not user:
-        return False
     if not compare_password(password, hashed_password):
         return False
     return user
@@ -106,7 +114,7 @@ def get_timestamp_now():
     return datetime.now(timezone.utc)
 
 
-def create_user(db: Session, user: schemas.User):
+def create_user(db: Session, user: schemas.UserCreate):
     """
     Function to create user to `users` table and
     password to `users_hashes` table.
@@ -170,7 +178,7 @@ def get_user_by_email(db: Session, email: str):
     Returns:
         - db query instance
     """
-    return db.query(models.User).filter(models.User.user_email == email).first()
+    return db.query(models.User).filter(models.User.email == email).first()
 
 
 # def delete user
