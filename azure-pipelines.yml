@@ -5,15 +5,13 @@
 
 trigger:
   branches:
-  include:
-    - master
-  paths:
-      include:
-      - 'docs/*'
-      exclude:
-      - 'docs/*'
-      - 'static/assets/*'
-      - 'readme.md'
+    include:
+    - '*'
+paths:
+    exclude:
+    - 'docs/*'
+    - 'static/assets/*'
+    - 'readme.md'
 
 pool:
   vmImage: ubuntu-latest
