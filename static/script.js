@@ -61,14 +61,14 @@ function checkVideo(){
     //video = document.getElementById("demoVideo")
     //change the frame element source and title
     $("#demoVideo").attr("src", URL.createObjectURL(video_file))
-    document.getElementById("demoVideo").autoplay;
+    document.getElementById("demoVideo").play()
 
     //enable the capture thumbnail button
     document.getElementById("thumbnailCapturebtn").disabled = false;
     //get video frame
     video = document.getElementById("demoVideo");
 
-    video.addEventListener('loadeddata',
+    video.addEventListener('loadedmetadata',
       function() {
       // Video is loaded and can be played
       get_metadata()
