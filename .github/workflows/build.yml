@@ -4,10 +4,14 @@ on:
   push:
     paths-ignore:
       - 'docs/**'
+      - 'static/assets/**'
+      - 'readme.md'
     branches: [ master ]
   pull_request:
     paths-ignore:
       - 'docs/**'
+      - 'static/assets/**'
+      - 'readme.md'
     branches: [ master ]
 
 jobs:
