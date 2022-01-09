@@ -9,9 +9,9 @@ trigger:
     - master
   paths:
       include:
-      - docs/*
+      - 'docs/*'
       exclude:
-      - 'readme.md'
+      - 'docs/*'
       - 'static/assets/*'
       - 'readme.md'
 
