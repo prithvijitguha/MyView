@@ -8,17 +8,17 @@
 <form action="/upload_file" method="POST" enctype="multipart/form-data">
     <!--DemoVideo-->
     <h1 class="display-4 d-flex justify-content-center">Video</h1>
-    <video id="demoVideo" width="720" height="480" poster="{{ url_for('static', path='/stock.png') }}" controls><source src="" title="" type="video/mp4"></video>
+    <video id="demoVideo" width="480" height="320" poster="{{ url_for('static', path='/stock.png') }}" controls><source src="" title="" type="video/mp4"></video>
     <div class="mb-3">
 
         <input type="file" name="video_file" class="form-control" id="inputVideoFile" aria-describedby="inputGroupFileAddon04" aria-label="Upload" oninput="checkVideo()" accept="video/mp4,video/x-m4v,video/*">
     </div>
     <!--Canvas Display Keep Hidden-->
-    <canvas id="thumbnailDisplay" width="720" height="480" style="display: none;"></canvas><br>
+    <canvas id="thumbnailDisplay" width="480" height="320" style="display: none;"></canvas><br>
     <!--Thumbnail Display-->
     <div class="mb-3">
         <h1 class="display-4 d-flex justify-content-center">Thumbnail</h1>
-        <img id="thumbnailImage" width="720" height="480" src="{{ url_for('static', path='/stock.png') }}">
+        <img id="thumbnailImage" width="480" height="320" src="{{ url_for('static', path='/stock.png') }}">
     </div>
     <div class="mb-3 d-flex justify-content-center">
         <button type="button" id="thumbnailCapturebtn" disabled="true" class="btn btn-outline-primary" value="capture thumbnail" onclick="capture()">Capture Thumbnail</button>
