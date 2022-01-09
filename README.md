@@ -1,7 +1,7 @@
 # MyView
 
 <div align="center">
-    <img src="static/MyViewLogo.png" width="320" height="240"><br>
+    <img src="static/assets/MyViewLogo.png" width="320" height="240"><br>
 </div>
 
 ## About:
