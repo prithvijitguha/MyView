@@ -6,8 +6,6 @@
 trigger:
 - master
 paths:
-    include:
-    - 'docs/*'
     exclude:
     - 'docs/*'
     - 'static/assets/*'
