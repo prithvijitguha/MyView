@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% block title %}Index{% endblock %}
+{% block title %}Upload Video{% endblock %}
 {% block head %}
 {{ super() }}
 {% endblock %}
@@ -7,29 +7,30 @@
 <div class="d-flex justify-content-center">
 <form action="/upload_file" method="POST" enctype="multipart/form-data">
     <!--DemoVideo-->
+    <h1 class="display-4 d-flex justify-content-center">Video</h1>
     <video id="demoVideo" width="320" height="240" poster="{{ url_for('static', path='/stock.png') }}" controls><source src="" title="" type="video/mp4"></video>
     <div class="mb-3">
-        <label for="formFile" class="form-label">Video</label>
+
         <input type="file" name="video_file" class="form-control" id="inputVideoFile" aria-describedby="inputGroupFileAddon04" aria-label="Upload" oninput="checkVideo()" accept="video/mp4,video/x-m4v,video/*">
     </div>
     <!--Canvas Display Keep Hidden-->
     <canvas id="thumbnailDisplay" width="320" height="240" style="display: none;"></canvas><br>
     <!--Thumbnail Display-->
     <div class="mb-3">
+        <h1 class="display-4 d-flex justify-content-center">Thumbnail</h1>
         <img id="thumbnailImage" width="320" height="240" src="{{ url_for('static', path='/stock.png') }}">
     </div>
-    <div class="mb-3">
+    <div class="mb-3 d-flex justify-content-center">
         <button type="button" id="thumbnailCapturebtn" disabled="true" class="btn btn-outline-primary" value="capture thumbnail" onclick="capture()">Capture Thumbnail</button>
     </div>
     <div class="mb-3">
-        <label for="formFile" class="form-label">Thumbnail</label>
         <input type="file" name="thumbnail" class="form-control" id="inputVideoThumbnail" aria-describedby="videoThumbnail" aria-label="UploadThumbmnail" oninput="checkImage()" accept="image/png, image/gif, image/jpeg, image/*">
     </div>
 
     <!--Video Name-->
     <div class="mb-3">
         <label for="formFile" class="form-label">Video Name</label>
-        <input type="text" name="videoName" class="form-control" aria-describedby="videoName" aria-label="videoName">
+        <input type="text" id="inputVideoName" name="videoName" class="form-control" aria-describedby="videoName" aria-label="videoName">
     </div>
     <!--Video Description-->
     <div class="mb-3">
@@ -44,7 +45,7 @@
     <!--Video Length-->
     <div class="mb-3">
         <label for="formFile" class="form-label">Video Length</label>
-        <input type="text" name="videoLength" class="form-control" aria-describedby="videoLength" aria-label="videoLength" disabled="true">
+        <input type="number" id="inputVideoLength" name="videoLength" class="form-control" aria-describedby="videoLength" aria-label="videoLength" disabled="true">
     </div>
 
 
