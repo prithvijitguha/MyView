@@ -7,6 +7,10 @@
 ## About:
 **MyView** is an online video sharing platform built using FastAPI
 
+
+![example workflow](https://github.com/prithvijitguha/MyView/actions/workflows/build.yml/badge.svg?branch=master)
+
+
 For more details, please check the [documentation](https://myview.readthedocs.io/en/latest/index.html)
 
 
