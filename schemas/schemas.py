@@ -100,3 +100,13 @@ class Comment(BaseModel):
     comment_video_id: int
     comment_content: str
     ts_comment: datetime
+
+
+class TokenData(BaseModel):
+    """
+    Schema to carry token
+    Attributes:
+        email: str
+    """
+
+    email: Optional[str] = None

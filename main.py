@@ -7,16 +7,18 @@ MyView all views saved here
 # pylint: disable=protected-access
 # pylint: disable=no-else-return
 # pylint: disable=broad-except
+# pylint: disable=raise-missing-from
 
 import os
 
-from fastapi import FastAPI, Request, Depends
+from fastapi import FastAPI, Request, Depends, status
 from fastapi import HTTPException, File, UploadFile, Form
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import HTMLResponse
+from fastapi.responses import HTMLResponse, JSONResponse
 from fastapi.templating import Jinja2Templates
-from fastapi.security import OAuth2PasswordBearer
+from fastapi.security import OAuth2PasswordBearer, APIKeyCookie
 from fastapi.staticfiles import StaticFiles
+from jose import JWTError, jwt
 from sqlalchemy.orm import Session
 
 
@@ -26,6 +28,7 @@ from schemas import schemas
 from media import s3_utils
 from db.database import SessionLocal, engine
 from utils import utils
+from security import security
 
 models.Base.metadata.create_all(bind=engine)
 
@@ -50,18 +53,18 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+# path to get tokens
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/login")
+
+cookie_sec = APIKeyCookie(name="session")
+
+
+SECRET_KEY = os.environ.get("SECRET_KEY_JWT")
+ALGORITHM = os.environ.get("JWT_ALGO")
+ACCESS_TOKEN_EXPIRE_MINUTES = int(os.environ.get("ACCESS_TOKEN_EXPIRES"))
+
 
 models.Base.metadata.create_all(bind=engine)
-
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
-
-
-@app.get("/test")
-async def check_current_user(token: str = Depends(oauth2_scheme)):
-    """Test Function
-    to check if user is logged in
-    """
-    return {"token": token}
 
 
 def get_db():
@@ -190,6 +193,12 @@ async def login(
     # check if user is present
     user_status = crud.authenticate_user_email(db, email=email, password=password)
     # if username and password matches redirect to homepage
+    # create access token
+    data = {"token_type": "access_token", "sub": email}
+    content = security.create_access_token(data=data)
+    response = JSONResponse(content=content)
+    response.set_cookie(data)
+
     if user_status:
         # check in user table for correct user name
         # check is UserHashed table for password match
@@ -238,3 +247,48 @@ async def register(
     # create user
     create_user(db=db, user=user)
     return {"username": username}
+
+
+async def get_current_user(
+    token: str = Depends(cookie_sec), db: Session = Depends(get_db)
+):
+    """
+    Get current user and check token status
+    Args:
+        token: str = Depends(cookie_sec)
+        db:Session=Depends(get_db)
+
+    Returns:
+        user
+
+    Raises:
+        credentials_exception: HTTPException
+        credentials_exception: if user is none
+        JWT Error: credentials_exception
+    """
+    credentials_exception = HTTPException(
+        status_code=status.HTTP_401_UNAUTHORIZED,
+        detail="Could not validate credentials",
+        headers={"WWW-Authenticate": "Bearer"},
+    )
+    try:
+        payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+        email: str = payload.get("sub")
+        if email is None:
+            raise credentials_exception
+        token_data = schemas.TokenData(email=email)
+    except JWTError:
+        raise credentials_exception
+    user = db.query(models.User).filter(models.User.email == token_data.email).first()
+    if user is None:
+        raise credentials_exception
+    return user
+
+
+@app.get("/test")
+def test(db: Session = Depends(get_db)):
+    """
+    Testing JWT
+    """
+    user = get_current_user(db=db)
+    return user
