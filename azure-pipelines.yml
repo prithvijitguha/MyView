@@ -9,9 +9,10 @@ trigger:
     - master
   paths:
       exclude:
-      - 'docs/*'
-      - 'static/assets/*'
+      - 'docs'
+      - 'static/assets'
       - 'README.md'
+      - '**/*.md'
 
 pool:
   vmImage: ubuntu-latest
