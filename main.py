@@ -98,30 +98,6 @@ def create_user(user: schemas.UserCreate, db: Session = Depends(get_db)):
     return crud.create_user(db=db, user=user)
 
 
-@app.get("/users/{user_id}", response_model=schemas.User)
-def read_user(user_id: int, db: Session = Depends(get_db)):
-    """
-    Function to read user table.
-    Check if user exists.
-    Raise error if not found
-
-    Args:
-        - user_id: int
-        - db: Session
-
-    Returns:
-        - user
-
-    Raises:
-        - HTTPException if user not found
-
-    """
-    db_user = crud.get_user(db, user_id=user_id)
-    if db_user is None:
-        raise HTTPException(status_code=404, detail="User not found")
-    return db_user
-
-
 @app.get("/", response_class=HTMLResponse)
 async def home(request: Request):
     """
@@ -249,9 +225,16 @@ async def register(
 
     """
     # get the details
-
-    # create the schema to carry it
     user = schemas.UserCreate(username=username, email=email, password=password)
+    # first check if user exists
+    # #if user exists return error
+    username_check = (
+        db.query(models.User).filter(models.User.username == user.username).first()
+    )
+    email_check = db.query(models.User).filter(models.User.email == user.email).first()
+    if username_check or email_check:
+        return {"error": "email/username already taken"}
+    # create the schema to carry it
     # create user
     create_user(db=db, user=user)
     return {"username": username}
