@@ -3,7 +3,7 @@ Architecture
 
 
 #. Backend: FastAPI
-#. Front End: ReactJS
+#. Front End: Javascript, JQuery, HTML, CSS
 #. Database: PostgreSQL
 #. CI/CD: github-actions and azure pipelines, precommit hooks
 #. Server: Heroku(Ubuntu OS)
