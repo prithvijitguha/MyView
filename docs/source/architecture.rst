@@ -10,3 +10,11 @@ Architecture
 #. Static Files Storage: AWS S3
 #. Devops: Azure Devops
 #. Repo: github
+
+
+MyView Architecture
+--------------------
+.. figure:: assets/MyView_Architecture.png
+  :class: with-border
+  :width: 500
+  :alt: MyView Architecture
