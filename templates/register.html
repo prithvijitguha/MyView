@@ -4,12 +4,20 @@
 {{ super() }}
 {% endblock %}
 {% block content %}
-<form class="mx-auto w-25" action="/register" method="POST">
+<form class="mx-auto w-25" action="/register" id="registerForm"method="POST" onsubmit="return validateForm()">
   <div class="form-group">
-    <input placeholder="username" name="username" type="username" autocomplete="off"  class="form-control" id="rregisterInputEmail1" aria-describedby="usernameRegister"><br>
-    <input placeholder="username@domain.com" name="email" type="email" autocomplete="off"  class="form-control" id="registerInputEmail1" aria-describedby="emailRegister"><br>
-    <input placeholder="password" name="password" type="password" autocomplete="off"  class="form-control" id="registerInputPassword1"><br>
+    <input required placeholder="username" name="username" type="username" autocomplete="off"  class="form-control" id="rregisterInputEmail1" aria-describedby="usernameRegister"><br>
+    <input required placeholder="username@domain.com" name="email" type="email" autocomplete="off"  class="form-control" id="registerInputEmail1" aria-describedby="emailRegister"><br>
+    <input required placeholder="password" name="password" type="password" autocomplete="off"  class="form-control" id="registerInputPassword1"><br>
+    <input required placeholder="password" name="reconfirmPassword" type="password" autocomplete="off"  class="form-control" id="reconfirmPassword"><br>
+    <input class="form-check-input" type="checkbox" onclick="showPassword()" >
+      <label class="form-check-label" for="flexCheckIndeterminate">
+        Show Password
+      </label>
+
+
     <button type="submit" class="btn btn-primary">Submit</button>
   </div>
 </form>
+<script src="{{ url_for('static', path='/register.js') }}"></script>
 {% endblock %}

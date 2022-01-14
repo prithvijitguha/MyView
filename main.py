@@ -17,6 +17,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 from fastapi.staticfiles import StaticFiles
+from fastapi.security import APIKeyCookie
 from sqlalchemy.orm import Session
 from jwt.jwt_utils import get_current_user, create_access_token
 
@@ -58,6 +59,8 @@ models.Base.metadata.create_all(bind=engine)
 
 JWT_SECRET = os.environ.get("JWT_SECRET")
 JWT_ALGO = os.environ.get("JWT_ALGO")
+
+cookie_sec = APIKeyCookie(name="session")
 
 
 @app.post("/users/", response_model=schemas.User)
@@ -196,9 +199,17 @@ async def login(
 ):
     """
     Login Page Post
+    Logs user in and creates cookie
     Args:
-        - email: str = Form(...)
-        - password: str = Form(...)
+        - request: Request,
+        - response: Response,
+        - db: Session = Depends(get_db),
+        - email: str = Form(...),
+        - password: str = Form(...),
+
+    Returns:
+        - index.html: if user credentials are valid
+        - login.html: if user credentials are invalid
     """
     # check if user is present
     user_status = crud.authenticate_user_email(db, email=email, password=password)
@@ -239,9 +250,15 @@ async def register(
     """
     Regiser Post Page
     Args:
-        - username: str = Form(...)
-        - password: str = Form(...)
-        - email: str = Form(...)
+        - request: Request,
+        - username: str = Form(...),
+        - password: str = Form(...),
+        - email: str = Form(...),
+        - db: Session = Depends(get_db),
+
+    Returns:
+        - register.html: if name already in use
+        - login.html: if successly registered
 
     """
     # get the details
@@ -269,3 +286,26 @@ async def register(
     }
 
     return templates.TemplateResponse("login.html", context=success_context)
+
+
+@app.get("/logout")
+def logout(response: Response, request: Request):
+    """
+    Logs user out of session.
+    Deletes cookie
+
+    Args:
+        - response: Response
+        - request: Request
+
+    Returns:
+        - response - index.html and delete cookie session
+    """
+    success_context = {
+        "request": request,
+        "message": "Successfully Logged Out",
+        "tag": "success",
+    }
+    response = templates.TemplateResponse("index.html", context=success_context)
+    response.delete_cookie("session")
+    return response

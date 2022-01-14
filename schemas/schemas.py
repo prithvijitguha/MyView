@@ -66,6 +66,7 @@ class Video(BaseModel):
         - categories: Optional[str] = None
         - description: Optional[str] = None
         - length: int
+        - views: int
         - no_likes: int
         - no_dislikes: int
     """
@@ -80,6 +81,7 @@ class Video(BaseModel):
     categories: Optional[str] = None
     description: Optional[str] = None
     length: int
+    view: int
     no_likes: int
     no_dislikes: int
 
