@@ -19,3 +19,4 @@ Other modules:
 - **static**: javascript, css
 - **templates**: html templates
 - **docs**: documentation
+- **.github**: github workflows
