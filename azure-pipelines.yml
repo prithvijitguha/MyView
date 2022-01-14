@@ -8,10 +8,10 @@ trigger:
     include:
     - master
   paths:
-      exclude:
-      - 'docs/*'
-      - 'static/assets/'
-      - 'README.md'
+    exclude:
+    - 'docs/*'
+    - 'static/assets/'
+    - 'README.md'
 
 pool:
   vmImage: ubuntu-latest

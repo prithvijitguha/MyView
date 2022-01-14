@@ -11,7 +11,7 @@
 ![github workflow](https://github.com/prithvijitguha/MyView/actions/workflows/build.yml/badge.svg?branch=master)&nbsp;
 [![Build Status](https://dev.azure.com/prithvijitguha20703/Home%20projects/_apis/build/status/prithvijitguha.MyView?branchName=master)](https://dev.azure.com/prithvijitguha20703/Home%20projects/_build/latest?definitionId=3&branchName=master)&nbsp;
 [![Python 3.9](https://img.shields.io/badge/python-3.9-%2334D058.svg)](https://www.python.org/downloads/release/python-390/)&nbsp;
-[![Documentation Status](https://readthedocs.org/projects/pip/badge/?version=stable)](https://pip.pypa.io/en/stable/?badge=stable)
+[![Documentation Status](https://readthedocs.org/projects/myview/badge/?version=latest)](https://myview.readthedocs.io/en/latest/?badge=latest)
 
 For more details, please check the [documentation](https://myview.readthedocs.io/en/latest/index.html)
 
