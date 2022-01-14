@@ -15,7 +15,7 @@ from fastapi import HTTPException, File, UploadFile, Form
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
-from fastapi.security import OAuth2PasswordBearer
+from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from fastapi.staticfiles import StaticFiles
 from sqlalchemy.orm import Session
 
@@ -53,15 +53,23 @@ app.add_middleware(
 
 models.Base.metadata.create_all(bind=engine)
 
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
+# url to get tokens from
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/token")
+
+
+@app.post("/token")
+async def token(form_data: OAuth2PasswordRequestForm = Depends()):
+    """Create token"""
+    new_token = form_data.username + "placeholder_token"
+    return {"access_token": new_token}
 
 
 @app.get("/test")
-async def check_current_user(token: str = Depends(oauth2_scheme)):
+async def check_current_user(user_token: str = Depends(oauth2_scheme)):
     """Test Function
     to check if user is logged in
     """
-    return {"token": token}
+    return {"token": user_token}
 
 
 def get_db():
@@ -216,8 +224,12 @@ async def login(
         return templates.TemplateResponse("index.html", {"request": request})
     # else provide error message
     else:
-        message = "Username or Password is incorrect"
-        return {message: 141}
+        context = {
+            "request": request,
+            "message": "Email or Password is incorrect",
+            "tag": "warning",
+        }
+        return templates.TemplateResponse("login.html", context=context)
 
 
 @app.get("/register", response_class=HTMLResponse)
@@ -231,6 +243,7 @@ async def register_page(request: Request):
 
 @app.post("/register")
 async def register(
+    request: Request,
     username: str = Form(...),
     password: str = Form(...),
     email: str = Form(...),
@@ -253,8 +266,19 @@ async def register(
     )
     email_check = db.query(models.User).filter(models.User.email == user.email).first()
     if username_check or email_check:
-        return {"error": "email/username already taken"}
+        error_context = {
+            "request": request,
+            "message": "Email or Username already in use",
+            "tag": "warning",
+        }
+        return templates.TemplateResponse("register.html", context=error_context)
     # create the schema to carry it
     # create user
     create_user(db=db, user=user)
-    return {"username": username}
+    success_context = {
+        "request": request,
+        "message": "Successfully registered",
+        "tag": "success",
+    }
+
+    return templates.TemplateResponse("login.html", context=success_context)
