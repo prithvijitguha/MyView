@@ -37,7 +37,7 @@ jobs:
       run: |
         black .
         flake8 .
-        pylint main.py
+        pylint main.py crud db jwt media models schemas tests
     - name: Run Tests
       run: |
         python -m pytest tests/

@@ -3,6 +3,7 @@ Pydantic models stored here
 """
 # pylint: disable=import-error
 # pylint: disable=too-few-public-methods
+# pylint: disable=no-name-in-module
 
 from typing import Optional, List
 from datetime import datetime
