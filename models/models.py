@@ -65,6 +65,7 @@ class Video(Base):
         - categories: string, nullable,
         - description: string, nullable,
         - length: int, non-nullable,
+        - view: int, non-nullable
         - no_likes: int, non-nullable,
         - no_dislikes: int, non-nullable,
 
@@ -82,6 +83,7 @@ class Video(Base):
     categories = Column(String, nullable=True)
     description = Column(String, nullable=True)
     length = Column(Integer)
+    views = Column(Integer)
     no_likes = Column(Integer)
     no_dislikes = Column(Integer)
 

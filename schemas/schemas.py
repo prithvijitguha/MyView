@@ -3,6 +3,7 @@ Pydantic models stored here
 """
 # pylint: disable=import-error
 # pylint: disable=too-few-public-methods
+# pylint: disable=no-name-in-module
 
 from typing import Optional, List
 from datetime import datetime
@@ -66,6 +67,7 @@ class Video(BaseModel):
         - categories: Optional[str] = None
         - description: Optional[str] = None
         - length: int
+        - views: int
         - no_likes: int
         - no_dislikes: int
     """
@@ -80,6 +82,7 @@ class Video(BaseModel):
     categories: Optional[str] = None
     description: Optional[str] = None
     length: int
+    view: int
     no_likes: int
     no_dislikes: int
 
