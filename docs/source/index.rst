@@ -14,6 +14,7 @@ Contents
    :maxdepth: 1
 
    architecture
+   modules
    data_models
    contributing_guide_code
    contributing_guide_docs
