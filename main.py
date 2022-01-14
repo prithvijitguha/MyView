@@ -58,6 +58,7 @@ models.Base.metadata.create_all(bind=engine)
 
 JWT_SECRET = os.environ.get("JWT_SECRET")
 JWT_ALGO = os.environ.get("JWT_ALGO")
+ACCESS_TOKEN_EXPIRE_MINUTES = int(os.environ.get("ACCESS_TOKEN_EXPIRES"))
 
 
 @app.post("/users/", response_model=schemas.User)
