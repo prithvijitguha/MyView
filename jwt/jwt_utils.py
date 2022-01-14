@@ -27,7 +27,7 @@ from schemas import schemas
 load_dotenv()
 SECRET_KEY = os.environ.get("JWT_SECRET")
 ALGORITHM = os.environ.get("JWT_ALGO")
-ACCESS_TOKEN_EXPIRE_MINUTES = int(os.environ.get("ACCESS_TOKEN_EXPIRES"))
+ACCESS_TOKEN_EXPIRES = int(os.environ.get("ACCESS_TOKEN_EXPIRES"))
 
 # path to get tokens
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/login")
@@ -50,7 +50,7 @@ async def create_access_token(data: dict, expires_delta: Optional[timedelta] = N
     if expires_delta:
         expire = datetime.utcnow() + expires_delta
     else:
-        expire = datetime.utcnow() + timedelta(minutes=5)
+        expire = datetime.utcnow() + timedelta(minutes=ACCESS_TOKEN_EXPIRES)
     to_encode.update({"exp": expire})
     encoded_jwt = jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
     return encoded_jwt
