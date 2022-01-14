@@ -2,6 +2,7 @@
 Connects to Database
 """
 # pylint: disable=import-error
+# pylint: disable=invalid-name
 
 from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
@@ -21,3 +22,14 @@ engine = create_engine(
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 Base = declarative_base()
+
+
+def get_db():
+    """
+    Connects to database
+    """
+    db = SessionLocal()
+    try:
+        yield db
+    finally:
+        db.close()

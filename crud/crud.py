@@ -62,6 +62,11 @@ def compare_password(plain_password: str, hashed_password: str):
 def authenticate_user(db: Session, username: str, password: str):
     """
     Check if user is authenticated
+
+    Args:
+        - db: Session
+        - username: str
+        - password: str
     """
     # get current user
     # get user_id of current user
@@ -179,6 +184,18 @@ def get_user_by_email(db: Session, email: str):
         - db query instance
     """
     return db.query(models.User).filter(models.User.email == email).first()
+
+
+def get_user_by_username(db: Session, username: str):
+    """get user from table `users`
+    by email
+    Args:
+        - db: Session
+        - username: str
+    Returns:
+        - db query instance
+    """
+    return db.query(models.User).filter(models.User.username == username).first()
 
 
 # def delete user

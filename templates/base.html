@@ -43,14 +43,15 @@
               <a class="nav-link active" aria-current="page" href="/upload">Upload</a>
             </li>
             <!-- Login and register to be if based on authentication-->
+            {% if active_user %}
             <li class="nav-item mr-auto">
               <a class="nav-link active" aria-current="page" href="/login">Login</a>
             </li>
+            {% else %}
             <li class="nav-item mr-auto">
               <a class="nav-link active" aria-current="page" href="/register">Register</a>
             </li>
-
-
+            {% endif %}
           </ul>
 
         </div>
@@ -58,10 +59,10 @@
     </nav>
     <!--Error Messages-->
     {% if message %}
-    <div class="alert alert-{{ tag }} alert-dismissible fade show" role="alert">
+    <div id="messageBase" class="alert alert-{{ tag }} alert-dismissible fade show d-flex justify-content-center" role="alert">
         <strong>Message: </strong> {{ message }}
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-      </div>
+    </div>
     {% endif %}
 
 
