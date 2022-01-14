@@ -7,24 +7,25 @@ MyView all views saved here
 # pylint: disable=protected-access
 # pylint: disable=no-else-return
 # pylint: disable=broad-except
+# pylint: disable=using-constant-test
 
 import os
 
-from fastapi import FastAPI, Request, Depends
+from fastapi import FastAPI, Request, Depends, Response
 from fastapi import HTTPException, File, UploadFile, Form
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
-from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from fastapi.staticfiles import StaticFiles
 from sqlalchemy.orm import Session
+from jwt.jwt_utils import get_current_user, create_access_token
 
 
 from crud import crud
 from models import models
 from schemas import schemas
 from media import s3_utils
-from db.database import SessionLocal, engine
+from db.database import get_db, engine
 from utils import utils
 
 models.Base.metadata.create_all(bind=engine)
@@ -54,33 +55,9 @@ app.add_middleware(
 models.Base.metadata.create_all(bind=engine)
 
 # url to get tokens from
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/token")
 
-
-@app.post("/token")
-async def token(form_data: OAuth2PasswordRequestForm = Depends()):
-    """Create token"""
-    new_token = form_data.username + "placeholder_token"
-    return {"access_token": new_token}
-
-
-@app.get("/test")
-async def check_current_user(user_token: str = Depends(oauth2_scheme)):
-    """Test Function
-    to check if user is logged in
-    """
-    return {"token": user_token}
-
-
-def get_db():
-    """
-    Connects to database
-    """
-    db = SessionLocal()
-    try:
-        yield db
-    finally:
-        db.close()
+JWT_SECRET = os.environ.get("JWT_SECRET")
+JWT_ALGO = os.environ.get("JWT_ALGO")
 
 
 @app.post("/users/", response_model=schemas.User)
@@ -131,7 +108,14 @@ async def home(request: Request):
     """
     HomePage
     """
-    return templates.TemplateResponse("index.html", {"request": request})
+    # checks if user if logged in
+    active_user = get_current_user
+    if active_user:
+        return templates.TemplateResponse(
+            "index.html", context={"request": request, "active_user": active_user}
+        )
+    else:
+        return templates.TemplateResponse("index.html", context={"request": request})
 
 
 @app.get("/upload", response_class=HTMLResponse)
@@ -205,6 +189,7 @@ async def login_page(request: Request):
 @app.post("/login")
 async def login(
     request: Request,
+    response: Response,
     db: Session = Depends(get_db),
     email: str = Form(...),
     password: str = Form(...),
@@ -219,9 +204,11 @@ async def login(
     user_status = crud.authenticate_user_email(db, email=email, password=password)
     # if username and password matches redirect to homepage
     if user_status:
-        # check in user table for correct user name
-        # check is UserHashed table for password match
-        return templates.TemplateResponse("index.html", {"request": request})
+        # create access token
+        # set the cookie and return it
+        token = await create_access_token(data={"sub": email})
+        response.set_cookie("session", token)
+        return templates.TemplateResponse("index.html", context={"request": request})
     # else provide error message
     else:
         context = {
