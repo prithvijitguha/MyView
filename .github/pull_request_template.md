@@ -1,0 +1,4 @@
+- [ ] Fixes #ISSUENUMBER
+- [ ] tests passed/added
+- [ ] Ensure all linting tests/pre-commit pass, see [here](https://myview.readthedocs.io/en/latest/contributing_guide_code.html) for how to run them.
+- [ ] whatsnew entry
