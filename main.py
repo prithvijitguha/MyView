@@ -144,7 +144,9 @@ async def upload_page(
         # set found status code
         response.status_code = status.HTTP_302_FOUND
         return response
-    return templates.TemplateResponse("upload.html", {"request": request})
+    return templates.TemplateResponse(
+        "upload.html", context={"request": request, "active_user": active_user}
+    )
 
 
 @app.post("/upload_file")
@@ -248,12 +250,12 @@ async def login(
 
     # else provide error message
     else:
-        context = {
+        login_context = {
             "request": request,
             "message": "Email or Password is incorrect",
             "tag": "warning",
         }
-        return templates.TemplateResponse("login.html", context=context)
+        return templates.TemplateResponse("login.html", context=login_context)
 
 
 @app.get("/register", response_class=HTMLResponse)
