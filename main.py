@@ -11,7 +11,6 @@ MyView all views saved here
 
 import os
 
-
 from fastapi import FastAPI, Request, Depends, Response
 from fastapi import HTTPException, File, UploadFile, Form
 from fastapi.middleware.cors import CORSMiddleware
@@ -113,13 +112,13 @@ async def home(request: Request):
     HomePage
     """
     # checks if user if logged in
-    active_user = get_current_user
-    if active_user:
-        return templates.TemplateResponse(
-            "index.html", context={"request": request, "active_user": active_user}
-        )
-    else:
-        return templates.TemplateResponse("index.html", context={"request": request})
+    # if active_user:
+    #     return templates.TemplateResponse(
+    #         "index.html", context={"request": request, "active_user": active_user,
+    #  "username":active_user.username,"email":active_user.email}
+    #     )
+    #    else:
+    return templates.TemplateResponse("index.html", context={"request": request})
 
 
 @app.get("/upload", response_class=HTMLResponse)
@@ -219,8 +218,11 @@ async def login(
         # create access token
         # set the cookie and return it
         token = await create_access_token(data={"sub": email})
+        response = templates.TemplateResponse(
+            "index.html", context={"request": request}
+        )
         response.set_cookie("session", token)
-        return templates.TemplateResponse("index.html", context={"request": request})
+        return response
     # else provide error message
     else:
         context = {
@@ -310,3 +312,21 @@ def logout(response: Response, request: Request):
     response = templates.TemplateResponse("index.html", context=success_context)
     response.delete_cookie("session")
     return response
+
+
+@app.get("/testroute")
+async def test_route(
+    request: Request, active_user: schemas.User = Depends(get_current_user)
+):
+    """
+    This is a test route to test the
+    login feature"""
+
+    return templates.TemplateResponse(
+        "test.html",
+        context={
+            "request": request,
+            "username": active_user.username,
+            "email": active_user.email,
+        },
+    )
