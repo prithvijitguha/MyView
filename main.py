@@ -12,10 +12,10 @@ MyView all views saved here
 import os
 from typing import Optional
 
-from fastapi import FastAPI, Request, Depends, Response
+from fastapi import FastAPI, Request, Depends, Response, status
 from fastapi import HTTPException, File, UploadFile, Form
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import HTMLResponse
+from fastapi.responses import HTMLResponse, RedirectResponse
 from fastapi.templating import Jinja2Templates
 from fastapi.staticfiles import StaticFiles
 from sqlalchemy.orm import Session
@@ -129,10 +129,21 @@ async def home(
 
 
 @app.get("/upload", response_class=HTMLResponse)
-async def upload_page(request: Request):
+async def upload_page(
+    request: Request, active_user: schemas.User = Depends(get_current_user_optional)
+):
     """
     Upload page
     """
+    # if user is not logged in
+    if not active_user:
+        # url for login
+        url = app.url_path_for("login")
+        # return url
+        response = RedirectResponse(url=url)
+        # set found status code
+        response.status_code = status.HTTP_302_FOUND
+        return response
     return templates.TemplateResponse("upload.html", {"request": request})
 
 
@@ -142,6 +153,7 @@ async def upload_file(
     # pylint: disable=unused-argument
     thumbnail: UploadFile = File(...),
     db: Session = Depends(get_db),
+    active_user: schemas.User = Depends(get_current_user_optional),
 ):
     """
     Upload file to s3
@@ -151,6 +163,7 @@ async def upload_file(
     Returns:
         - Status 200 if success, else 304 invalid type
     """
+
     if video_file.content_type in ["video/mp4", "video/x-m4v", "video/*"]:
         # upload to s3
         try:
@@ -223,13 +236,16 @@ async def login(
     # if username and password matches redirect to homepage
     if user_status:
         # create access token
-        # set the cookie and return it
         token = await create_access_token(data={"sub": email})
-        response = templates.TemplateResponse(
-            "index.html", context={"request": request}
-        )
+        # url for homepage
+        url = app.url_path_for("home")
+        # return url
+        response = RedirectResponse(url=url)
+        # set found status code
+        response.status_code = status.HTTP_302_FOUND
         response.set_cookie("session", token)
         return response
+
     # else provide error message
     else:
         context = {
