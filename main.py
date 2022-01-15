@@ -129,10 +129,21 @@ async def home(
 
 
 @app.get("/upload", response_class=HTMLResponse)
-async def upload_page(request: Request):
+async def upload_page(
+    request: Request, active_user: schemas.User = Depends(get_current_user_optional)
+):
     """
     Upload page
     """
+    # if user is not logged in
+    if not active_user:
+        # url for login
+        url = app.url_path_for("login")
+        # return url
+        response = RedirectResponse(url=url)
+        # set found status code
+        response.status_code = status.HTTP_302_FOUND
+        return response
     return templates.TemplateResponse("upload.html", {"request": request})
 
 
@@ -142,6 +153,7 @@ async def upload_file(
     # pylint: disable=unused-argument
     thumbnail: UploadFile = File(...),
     db: Session = Depends(get_db),
+    active_user: schemas.User = Depends(get_current_user_optional),
 ):
     """
     Upload file to s3
@@ -151,6 +163,7 @@ async def upload_file(
     Returns:
         - Status 200 if success, else 304 invalid type
     """
+
     if video_file.content_type in ["video/mp4", "video/x-m4v", "video/*"]:
         # upload to s3
         try:
