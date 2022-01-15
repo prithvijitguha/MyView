@@ -57,7 +57,6 @@ class Video(BaseModel):
     """
     schema for video
     Attributes:
-        - video_id: int
         - video_user_id: int
         - video_link: str
         - video_name: str
@@ -73,14 +72,13 @@ class Video(BaseModel):
         - no_dislikes: int
     """
 
-    video_id: int
     video_user_id: int
     video_link: str
     video_name: str
     video_height = int
     video_width = int
     file_format: str
-    ts_upload: datetime
+    # ts_upload: datetime
     categories: Optional[str] = None
     description: Optional[str] = None
     length: int

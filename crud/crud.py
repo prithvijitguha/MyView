@@ -198,6 +198,19 @@ def get_user_by_username(db: Session, username: str):
     return db.query(models.User).filter(models.User.username == username).first()
 
 
+def get_user_id(db: Session, username: str):
+    """get user id from username
+    Args:
+        - db: Session
+        - username: str
+
+    Returns:
+        - user_int: int
+    """
+    user = db.query(models.User).filter(models.User.username == username).first()
+    return user.user_id
+
+
 # def delete user
 def delete_user(db: Session, user_id: int):
     """Used to delete user from table `users`

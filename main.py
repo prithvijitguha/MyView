@@ -165,7 +165,7 @@ async def upload_file(
     Returns:
         - Status 200 if success, else 304 invalid type
     """
-
+    # pylint: disable=too-many-locals
     if video_file.content_type in ["video/mp4", "video/x-m4v", "video/*"]:
         # upload to s3
         try:
@@ -189,12 +189,29 @@ async def upload_file(
             return {"status": 124}
         # add entry to database
         try:
-            # create schema according to video
-            # schemas.Video()
-            pass
-            # TODO
-        # crud.add_video(db=db,video= )
+            # create instance of video schemas
+            # add parameters
+            user_id = crud.get_user_id(db, active_user.username)
+            file_format = video_file.content_type
+            categories = None
+            description = None
 
+            if video_file.categories:
+                categories = video_file.categories
+            if video_file.description:
+                description = video_file.description
+
+            video = schemas.Video(
+                video_user_id=user_id,
+                video_link=new_video_name,
+                video_name=new_video_name,
+                file_format=file_format,
+                categories=categories,
+                description=description,
+                length=video_file.length,
+            )
+            # pass it to crud function
+            crud.add_video(db, video)
         except Exception as e:
             print(f"Could not make entry {filename}: {e}")
             return {"status": 125}
