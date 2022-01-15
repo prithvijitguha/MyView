@@ -154,15 +154,15 @@ async def upload_file(
     # pylint: disable=too-many-arguments
     video_file: UploadFile = File(...),
     videoName: str = Form(...),
-    videoDescription: Optional[str] = Form(...),
-    videoCategories: Optional[str] = Form(...),
-    videoLength: int = Form(...),
+    videoLength: str = Form(...),
     videoHeight: int = Form(...),
     videoWidth: int = Form(...),
     # pylint: disable=unused-argument
     thumbnail: UploadFile = File(...),
     db: Session = Depends(get_db),
     active_user: schemas.User = Depends(get_current_user_optional),
+    videoDescription: Optional[str] = Form(None),
+    videoCategories: Optional[str] = Form(None),
 ):
     """
     Upload file to s3
