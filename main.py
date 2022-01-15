@@ -151,7 +151,14 @@ async def upload_page(
 
 @app.post("/upload_file")
 async def upload_file(
+    # pylint: disable=too-many-arguments
     video_file: UploadFile = File(...),
+    videoName: str = Form(...),
+    videoDescription: Optional[str] = Form(...),
+    videoCategories: Optional[str] = Form(...),
+    videoLength: int = Form(...),
+    videoHeight: int = Form(...),
+    videoWidth: int = Form(...),
     # pylint: disable=unused-argument
     thumbnail: UploadFile = File(...),
     db: Session = Depends(get_db),
@@ -178,12 +185,7 @@ async def upload_file(
             destination = f"{folder_name}/{new_video_name}"
             s3_utils.upload_file(data, bucket, destination)
             # upload thumbnail
-            # data_tn = thumbnail.file._file
-            # filename_tn = thumbnail.file.filename
-            # new_tn_name = utils.create_video_name(filename_tn)
-            # folder_name_tn = os.environ.get("folder_name_tn")
-            # destination_tn = f"{folder_name_tn}/{new_tn_name}"
-            # s3_utils.upload_file(data_tn, bucket, destination_tn)
+            # TODO
         except Exception as e:
             print(f"Could not upload {filename}: {e}")
             return {"status": 124}
@@ -193,28 +195,28 @@ async def upload_file(
             # add parameters
             user_id = crud.get_user_id(db, active_user.username)
             file_format = video_file.content_type
-            categories = None
-            description = None
-
-            if video_file.categories:
-                categories = video_file.categories
-            if video_file.description:
-                description = video_file.description
-
             video = schemas.Video(
                 video_user_id=user_id,
                 video_link=new_video_name,
-                video_name=new_video_name,
+                video_name=videoName,
+                video_height=videoHeight,
+                video_width=videoWidth,
                 file_format=file_format,
-                categories=categories,
-                description=description,
-                length=video_file.length,
+                categories=videoCategories,
+                description=videoDescription,
+                length=videoLength,
             )
             # pass it to crud function
             crud.add_video(db, video)
         except Exception as e:
             print(f"Could not make entry {filename}: {e}")
             return {"status": 125}
+        # url for homepage
+        url = app.url_path_for("home")
+        response = RedirectResponse(url=url)
+        # set found status code
+        response.status_code = status.HTTP_302_FOUND
+        return response
 
     else:
         return {"Invalid file type": 304}

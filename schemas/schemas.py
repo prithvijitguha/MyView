@@ -75,16 +75,15 @@ class Video(BaseModel):
     video_user_id: int
     video_link: str
     video_name: str
-    video_height = int
-    video_width = int
+    video_height: int
+    video_width: int
     file_format: str
-    # ts_upload: datetime
     categories: Optional[str] = None
     description: Optional[str] = None
     length: int
-    views: int
-    no_likes: int
-    no_dislikes: int
+    views: Optional[int] = 0
+    no_likes: Optional[int] = 0
+    no_dislikes: Optional[int] = 0
 
 
 class Comment(BaseModel):
