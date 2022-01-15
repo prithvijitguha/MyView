@@ -10,6 +10,7 @@ MyView all views saved here
 # pylint: disable=using-constant-test
 
 import os
+from typing import Optional
 
 from fastapi import FastAPI, Request, Depends, Response
 from fastapi import HTTPException, File, UploadFile, Form
@@ -107,18 +108,26 @@ def read_user(user_id: int, db: Session = Depends(get_db)):
 
 
 @app.get("/", response_class=HTMLResponse)
-async def home(request: Request):
+async def home(
+    request: Request, active_user: Optional[schemas.User] = Depends(get_current_user)
+):
     """
     HomePage
+    Args:
+        - request: Request
+        - active_user: Optional[schemas.User] = Depends(get_current_user)
+
+    Returns:
+        - index.html
+        - Optional: active_user
     """
     # checks if user if logged in
-    # if active_user:
-    #     return templates.TemplateResponse(
-    #         "index.html", context={"request": request, "active_user": active_user,
-    #  "username":active_user.username,"email":active_user.email}
-    #     )
-    #    else:
-    return templates.TemplateResponse("index.html", context={"request": request})
+    if active_user:
+        return templates.TemplateResponse(
+            "index.html", context={"request": request, "active_user": active_user}
+        )
+    else:
+        return templates.TemplateResponse("index.html", context={"request": request})
 
 
 @app.get("/upload", response_class=HTMLResponse)
@@ -312,21 +321,3 @@ def logout(response: Response, request: Request):
     response = templates.TemplateResponse("index.html", context=success_context)
     response.delete_cookie("session")
     return response
-
-
-@app.get("/testroute")
-async def test_route(
-    request: Request, active_user: schemas.User = Depends(get_current_user)
-):
-    """
-    This is a test route to test the
-    login feature"""
-
-    return templates.TemplateResponse(
-        "test.html",
-        context={
-            "request": request,
-            "username": active_user.username,
-            "email": active_user.email,
-        },
-    )
