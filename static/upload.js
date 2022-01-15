@@ -102,9 +102,8 @@ function checkVideo(){
     //autofill length
     video = document.getElementById("demoVideo")
     videoLength = Math.round(video.duration)
-    document.getElementById("inputVideoLength").value = videoLength
+    document.getElementById("inputVideoLength").value = videoLength;
     //autofill video quality data
-    document.getElementById("inputVideoHeight").value = video.videoHeight
-    document.getElementById("inputVideoWidth").value = video.videoWidth
-
+    document.getElementById("inputVideoHeight").value = video.videoHeight;
+    document.getElementById("inputVideoWidth").value = video.videoWidth;
   }
