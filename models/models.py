@@ -66,7 +66,7 @@ class Video(Base):
         - categories: string, nullable,
         - description: string, nullable,
         - length: int, non-nullable,
-        - view: int, non-nullable
+        - views: int, non-nullable
         - no_likes: int, non-nullable,
         - no_dislikes: int, non-nullable,
 
