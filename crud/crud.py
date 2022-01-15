@@ -198,6 +198,19 @@ def get_user_by_username(db: Session, username: str):
     return db.query(models.User).filter(models.User.username == username).first()
 
 
+def get_user_id(db: Session, username: str):
+    """get user id from username
+    Args:
+        - db: Session
+        - username: str
+
+    Returns:
+        - user_int: int
+    """
+    user = db.query(models.User).filter(models.User.username == username).first()
+    return user.user_id
+
+
 # def delete user
 def delete_user(db: Session, user_id: int):
     """Used to delete user from table `users`
@@ -224,18 +237,19 @@ def add_video(db: Session, video: schemas.Video):
     Adds video to table video_library
     model used is Video.
     Attributes:
-        - video_id: int, non-nullable, primary_key
         - video_user_id: int, non-nullable, foreign_key
         - video_link: string, non-nullable, unique
         - video_name: string, non-nullable,
-        - original_video_quality: string, non-nullable,
+        - video_height: int, non-nullable,
+        - video_width: int, non-nullable,
         - file_format: string, non-nullable,
         - ts_upload: datetime, non-nullable,
         - categories: string, nullable,
         - description: string, nullable,
         - length: int, non-nullable,
+        - views: int, non-nullable
         - no_likes: int, non-nullable,
-        - no_dislikes: int, non-nullable
+        - no_dislikes: int, non-nullable,
 
     Args:
         - db: Session
@@ -247,12 +261,14 @@ def add_video(db: Session, video: schemas.Video):
         video_user_id=video.video_user_id,
         video_link=video.video_link,
         video_name=video.video_name,
-        original_video_quality=video.original_video_quality,
+        video_height=video.video_height,
+        video_width=video.video_width,
         file_format=video.file_format,
         ts_upload=get_timestamp_now(),
         categories=video.categories,
         description=video.description,
         length=video.length,
+        views=video.views,
         no_likes=video.no_likes,
         no_dislikes=video.no_dislikes,
     )
