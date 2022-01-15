@@ -6,12 +6,14 @@ on:
       - 'docs/**'
       - 'static/assets/**'
       - 'README.md'
+      - '**/*.md'
     branches: [ master ]
   pull_request:
     paths-ignore:
       - 'docs/**'
       - 'static/assets/**'
       - 'README.md'
+      - '**/*.md'
     branches: [ master ]
 
 jobs:
