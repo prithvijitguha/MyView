@@ -43,11 +43,20 @@
               <a class="nav-link active" aria-current="page" href="/upload">Upload</a>
             </li>
             <!-- Login and register to be if based on authentication-->
+            <!--If user is logged in -->
             {% if active_user %}
-            <li class="nav-item mr-auto">
-              <a class="nav-link active" aria-current="page" href="/logout">Logout</a>
-            </li>
+            <div class="collapse navbar-collapse">
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                {{ active_user.username }}
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                  <li><a class="dropdown-item" href="/logout">Logout</a></li>
+                </ul>
+              </li>
+            </div>
             {% else %}
+            <!--If user not logged in show login and register prompt -->
             <li class="nav-item mr-auto">
               <a class="nav-link active" aria-current="page" href="/login">Login</a>
             </li>

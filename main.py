@@ -10,7 +10,7 @@ MyView all views saved here
 # pylint: disable=using-constant-test
 
 import os
-
+from typing import Optional
 
 from fastapi import FastAPI, Request, Depends, Response
 from fastapi import HTTPException, File, UploadFile, Form
@@ -18,9 +18,8 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 from fastapi.staticfiles import StaticFiles
-from fastapi.security import APIKeyCookie
 from sqlalchemy.orm import Session
-from jwt.jwt_utils import get_current_user, create_access_token
+from jwt.jwt_utils import get_current_user_optional, create_access_token
 
 
 from crud import crud
@@ -60,8 +59,6 @@ models.Base.metadata.create_all(bind=engine)
 
 JWT_SECRET = os.environ.get("JWT_SECRET")
 JWT_ALGO = os.environ.get("JWT_ALGO")
-
-cookie_sec = APIKeyCookie(name="session")
 
 
 @app.post("/users/", response_model=schemas.User)
@@ -108,12 +105,21 @@ def read_user(user_id: int, db: Session = Depends(get_db)):
 
 
 @app.get("/", response_class=HTMLResponse)
-async def home(request: Request):
+async def home(
+    request: Request,
+    active_user: Optional[schemas.User] = Depends(get_current_user_optional),
+):
     """
     HomePage
+    Args:
+        - request: Request
+        - active_user: Optional[schemas.User] = Depends(get_current_user)
+
+    Returns:
+        - index.html
+        - Optional: active_user
     """
     # checks if user if logged in
-    active_user = get_current_user
     if active_user:
         return templates.TemplateResponse(
             "index.html", context={"request": request, "active_user": active_user}
@@ -219,8 +225,11 @@ async def login(
         # create access token
         # set the cookie and return it
         token = await create_access_token(data={"sub": email})
+        response = templates.TemplateResponse(
+            "index.html", context={"request": request}
+        )
         response.set_cookie("session", token)
-        return templates.TemplateResponse("index.html", context={"request": request})
+        return response
     # else provide error message
     else:
         context = {
