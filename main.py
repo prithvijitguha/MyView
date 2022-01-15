@@ -18,9 +18,8 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 from fastapi.staticfiles import StaticFiles
-from fastapi.security import APIKeyCookie
 from sqlalchemy.orm import Session
-from jwt.jwt_utils import get_current_user, create_access_token
+from jwt.jwt_utils import get_current_user_optional, create_access_token
 
 
 from crud import crud
@@ -60,8 +59,6 @@ models.Base.metadata.create_all(bind=engine)
 
 JWT_SECRET = os.environ.get("JWT_SECRET")
 JWT_ALGO = os.environ.get("JWT_ALGO")
-
-cookie_sec = APIKeyCookie(name="session")
 
 
 @app.post("/users/", response_model=schemas.User)
@@ -109,7 +106,8 @@ def read_user(user_id: int, db: Session = Depends(get_db)):
 
 @app.get("/", response_class=HTMLResponse)
 async def home(
-    request: Request, active_user: Optional[schemas.User] = Depends(get_current_user)
+    request: Request,
+    active_user: Optional[schemas.User] = Depends(get_current_user_optional),
 ):
     """
     HomePage

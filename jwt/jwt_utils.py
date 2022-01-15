@@ -32,7 +32,7 @@ ACCESS_TOKEN_EXPIRES = 30
 # path to get tokens
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/login")
 
-cookie_sec = APIKeyCookie(name="session")
+cookie_sec = APIKeyCookie(name="session", auto_error=False)
 
 
 async def create_access_token(data: dict, expires_delta: Optional[timedelta] = None):
@@ -57,7 +57,7 @@ async def create_access_token(data: dict, expires_delta: Optional[timedelta] = N
 
 
 async def get_current_user(
-    token: str = Depends(cookie_sec), db: Session = Depends(get_db)
+    token: Optional[str] = Depends(cookie_sec), db: Session = Depends(get_db)
 ):
     """
     check JWT of current user
@@ -75,6 +75,8 @@ async def get_current_user(
         detail="Could not validate credentials",
         headers={"WWW-Authenticate": "Bearer"},
     )
+    if not token:
+        return None
     try:
         payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
         email: str = payload.get("sub")
@@ -86,4 +88,18 @@ async def get_current_user(
     user = db.query(models.User).filter(models.User.email == token_data.email).first()
     if user is None:
         raise credentials_exception
+    return user
+
+
+def get_current_user_optional(
+    user: Optional[schemas.User] = Depends(get_current_user),
+) -> Optional[schemas.User]:
+    """
+    get current optional, not strict
+    Args:
+        - user: Optional[schemas.User] = Depends(get_current_user)
+
+    Returns:
+        - Optional[schemas.User]
+    """
     return user
