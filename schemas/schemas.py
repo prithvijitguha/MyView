@@ -61,7 +61,8 @@ class Video(BaseModel):
         - video_user_id: int
         - video_link: str
         - video_name: str
-        - original_video_quality: str
+        - video_height: int
+        - video_width: int
         - file_format: str
         - ts_upload: datetime
         - categories: Optional[str] = None
@@ -76,7 +77,8 @@ class Video(BaseModel):
     video_user_id: int
     video_link: str
     video_name: str
-    original_video_quality: str
+    video_height = int
+    video_width = int
     file_format: str
     ts_upload: datetime
     categories: Optional[str] = None

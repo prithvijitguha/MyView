@@ -59,7 +59,8 @@ class Video(Base):
         - video_user_id: int, non-nullable, foreign_key
         - video_link: string, non-nullable, unique
         - video_name: string, non-nullable,
-        - original_video_quality: string, non-nullable,
+        - video_height: int, non-nullable,
+        - video_width: int, non-nullable,
         - file_format: string, non-nullable,
         - ts_upload: datetime, non-nullable,
         - categories: string, nullable,
@@ -77,7 +78,8 @@ class Video(Base):
     video_user_id = Column(Integer, ForeignKey("users.user_id"))
     video_link = Column(String, unique=True)
     video_name = Column(String)
-    original_video_quality = Column(String)
+    video_height = Column(Integer)
+    video_width = Column(Integer)
     file_format = Column(String)
     ts_upload = Column(DateTime)
     categories = Column(String, nullable=True)
