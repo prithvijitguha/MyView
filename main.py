@@ -12,10 +12,10 @@ MyView all views saved here
 import os
 from typing import Optional
 
-from fastapi import FastAPI, Request, Depends, Response
+from fastapi import FastAPI, Request, Depends, Response, status
 from fastapi import HTTPException, File, UploadFile, Form
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import HTMLResponse
+from fastapi.responses import HTMLResponse, RedirectResponse
 from fastapi.templating import Jinja2Templates
 from fastapi.staticfiles import StaticFiles
 from sqlalchemy.orm import Session
@@ -223,13 +223,16 @@ async def login(
     # if username and password matches redirect to homepage
     if user_status:
         # create access token
-        # set the cookie and return it
         token = await create_access_token(data={"sub": email})
-        response = templates.TemplateResponse(
-            "index.html", context={"request": request}
-        )
+        # url for homepage
+        url = app.url_path_for("home")
+        # return url
+        response = RedirectResponse(url=url)
+        # set found status code
+        response.status_code = status.HTTP_302_FOUND
         response.set_cookie("session", token)
         return response
+
     # else provide error message
     else:
         context = {
