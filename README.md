@@ -29,36 +29,38 @@
 
 
 <!-- TABLE OF CONTENTS -->
-<details>
-  <summary>Table of Contents</summary>
-  <ol>
-    <li>
-      <a href="#about-the-project">About The Project</a>
-      <ul>
-        <li><a href="#built-with">Built With</a></li>
-      </ul>
-    </li>
-    <li>
-      <a href="#getting-started">Getting Started</a>
-      <ul>
-        <li><a href="#prerequisites">Prerequisites</a></li>
-        <li><a href="#installation">Installation</a></li>
-      </ul>
-    </li>
-    <li><a href="#usage">Usage</a></li>
-    <li><a href="#roadmap">Roadmap</a></li>
-    <li><a href="#contributing">Contributing</a></li>
-    <li><a href="#acknowledgments">Acknowledgments</a></li>
-  </ol>
-</details>
+
+<summary>Table of Contents</summary>
+<ol>
+  <li>
+    <a href="#about-the-project">About The Project</a>
+    <ul>
+      <li><a href="#built-with">Built With</a></li>
+    </ul>
+  </li>
+  <li>
+    <a href="#getting-started">Getting Started</a>
+    <ul>
+      <li><a href="#prerequisites">Prerequisites</a></li>
+      <li><a href="#installation">Installation</a></li>
+    </ul>
+  </li>
+  <li><a href="#usage">Usage</a></li>
+  <li><a href="#roadmap">Roadmap</a></li>
+  <li><a href="#contributing">Contributing</a></li>
+  <li><a href="#acknowledgments">Acknowledgments</a></li>
+</ol>
 
 
 
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
+**STATUS: Development**
+
+
 <a href="https://github.com/prithvijitguha/MyView">
-    <img src="static/assets/MyViewLogo.png" alt="Logo" width="80" height="80">
+    <img src="static/assets/MyViewFavicon.png" alt="Logo" width="80" height="80">
 </a>
 
 
@@ -81,6 +83,7 @@ MyView is an online video sharing platform currently in development using FastAP
 * [Javascript](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
 * [Bootstrap](https://getbootstrap.com/)
 * [JQuery](https://jquery.com)
+* [ReadTheDocs](https://readthedocs.org/)
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -98,12 +101,13 @@ To get started on this project. To get a local copy up and running follow these 
     python -m venv myview
     ```
 2. Activate virtual environment
-    linux:
+
+    Linux:
     ```sh
     source myview/bin/activate
     ```
 
-    windows:
+    Windows:
     ```sh
     myview/scripts/activate
     ```
@@ -175,7 +179,6 @@ Full contributing guide for [codebase](https://myview.readthedocs.io/en/latest/c
 <!-- ACKNOWLEDGMENTS -->
 ## Acknowledgments
 
-* [readthedocs](https://readthedocs.org/)
 * [FastApiTutorial](https://fastapi.tiangolo.com/tutorial/)
 * [emojipedia](https://emojipedia.org/)
 * [canva](https://www.canva.com/)
