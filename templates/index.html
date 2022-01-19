@@ -7,14 +7,9 @@
 <!--Add videos here-->
 <div class="container">
   <div class="row row-cols-3 mx-auto">
-    <div class="col mx-auto">
-      <video width="320" height="240" controls><source src="" title="W3Schools Free Online Web Tutorials" type="video/mp4"></video>
-    </div>
-    <div class="col mx-auto">Video</div>
-    <div class="col mx-auto">Video</div>
-    <div class="col mx-auto">Video</div>
-    <div class="col mx-auto">Video</div>
-    <div class="col mx-auto">Video</div>
+    {% for thumbnail in thumbnails  %}
+    <img src="{{ thumbnail }}" alt="..." class="img-thumbnail">
+    {% endfor %}
   </div>
 
 

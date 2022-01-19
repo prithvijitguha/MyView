@@ -120,12 +120,26 @@ async def home(
         - Optional: active_user
     """
     # checks if user if logged in
+    cloud_url = os.environ.get("cloud_url")
+    folder = os.environ.get("thumbnail_drive")
+
+    sample_thumbnail = f"{cloud_url}/{folder}/sample.jpg"
+    sample_thumbnail_list = [sample_thumbnail]
+
     if active_user:
         return templates.TemplateResponse(
-            "index.html", context={"request": request, "active_user": active_user}
+            "index.html",
+            context={
+                "request": request,
+                "active_user": active_user,
+                "thumbnails": sample_thumbnail_list,
+            },
         )
     else:
-        return templates.TemplateResponse("index.html", context={"request": request})
+        return templates.TemplateResponse(
+            "index.html",
+            context={"request": request, "thumbnails": sample_thumbnail_list},
+        )
 
 
 @app.get("/upload", response_class=HTMLResponse)
