@@ -4,11 +4,11 @@
 {{ super() }}
 {% endblock %}
 {% block content %}
-<!--Add videos here-->
+<!--Add Thumbnails here-->
 <div class="container">
   <div class="row row-cols-3 mx-auto">
-    {% for thumbnail in thumbnails  %}
-    <img src="{{ thumbnail }}" alt="..." class="img-thumbnail">
+    {% for thumbnail, video in video_dict.items()  %}
+    <a href="video"><img src="{{ thumbnail }}" alt="..." class="img-thumbnail"></a>
     {% endfor %}
   </div>
 

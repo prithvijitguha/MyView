@@ -119,26 +119,37 @@ async def home(
         - index.html
         - Optional: active_user
     """
+    # Get all top videos
+
+    # query videos for top 10 videos by views
+
+    # thumbnail sample
+    thumbnail_url = os.environ.get("cloud_url")
+    thumbnail_folder = os.environ.get("thumbnail_drive")
+    sample_thumbnail = f"{thumbnail_url}/{thumbnail_folder}/sample.jpg"
+
+    # video thumbnail
+    video_url = os.environ.get("cloud_url")
+    video_folder = os.environ.get("video_drive")
+    sample_video = f"{video_url}/{video_folder}/sample.mp4"
+
+    video_dict = {}
+    video_dict[sample_thumbnail] = sample_video
+
     # checks if user if logged in
-    cloud_url = os.environ.get("cloud_url")
-    folder = os.environ.get("thumbnail_drive")
-
-    sample_thumbnail = f"{cloud_url}/{folder}/sample.jpg"
-    sample_thumbnail_list = [sample_thumbnail]
-
     if active_user:
         return templates.TemplateResponse(
             "index.html",
             context={
                 "request": request,
                 "active_user": active_user,
-                "thumbnails": sample_thumbnail_list,
+                "video_dict": video_dict,
             },
         )
     else:
         return templates.TemplateResponse(
             "index.html",
-            context={"request": request, "thumbnails": sample_thumbnail_list},
+            context={"request": request, "video_dict": video_dict},
         )
 
 
@@ -191,12 +202,14 @@ async def upload_file(
         # upload to s3
         try:
             # upload video
+            # convert to bytes
             data = video_file.file._file
+            # get filename
             filename = video_file.filename
             bucket = os.environ.get("bucket_name")
             new_video_name = utils.create_video_name(filename)
             folder_name = os.environ.get("folder_name")
-            destination = f"{folder_name}/{new_video_name}"
+            destination = f"{folder_name}/{new_video_name}.mp4"
             s3_utils.upload_file(data, bucket, destination)
             # upload thumbnail
             # TODO
