@@ -123,6 +123,9 @@ async def home(
     # Get top videos
     # query top videos by views
     top_videos = crud.get_top_videos(db)
+    thumbnail_drive = os.environ.get("thumbnail_drive")
+    cloud_url = os.environ.get("cloud_url")
+    thumbnail_url = f"{cloud_url}/{thumbnail_drive}"
 
     return templates.TemplateResponse(
         "index.html",
@@ -130,6 +133,7 @@ async def home(
             "request": request,
             "active_user": active_user,
             "videos": top_videos,
+            "thumbnail_url": thumbnail_url,
         },
     )
 
@@ -148,14 +152,18 @@ def read_video(
     cloud_url = os.environ.get("cloud_url")
     folder_name = os.environ.get("folder_name")
     video_url = f"{cloud_url}/{folder_name}"
+    file_format = video.file_format
+    video_link = video.video_link
+    video_title = video.video_name
     return templates.TemplateResponse(
         "video.html",
         context={
             "request": request,
-            "video": video.video_link,
+            "video": video_link,
             "video_url": video_url,
-            "file_format": video.file_format,
+            "file_format": file_format,
             "active_user": active_user,
+            "video_title": video_title,
         },
     )
 
@@ -205,7 +213,7 @@ async def upload_file(
         - Status 200 if success, else 304 invalid type
     """
     # pylint: disable=too-many-locals
-    if video_file.content_type in ["video/mp4", "video/x-m4v", "video/*"]:
+    if video_file.content_type in ["video/mp4", "video/x-m4v", "video/mpeg4"]:
         # upload to s3
         try:
             # upload video
@@ -215,15 +223,17 @@ async def upload_file(
             filename = video_file.filename
             file_format = video_file.content_type
             # extract extension from file
-            add_ext = file_format[6:]
             bucket = os.environ.get("bucket_name")
-            hashed_video_name = utils.create_video_name(filename)
-            new_video_name = f"{hashed_video_name}.{add_ext}"
+            new_video_name = utils.create_video_name(filename)
             folder_name = os.environ.get("folder_name")
             destination = f"{folder_name}/{new_video_name}"
             s3_utils.upload_file(data, bucket, destination)
             # upload thumbnail
-            # TODO
+            thumbnail_drive = os.environ.get("thumbnail_drive")
+            thumbnail_data = thumbnail.file._file
+            thumbnail.filename = new_video_name
+            thumbnail_destination = f"{thumbnail_drive}/{thumbnail.filename}"
+            s3_utils.upload_file(thumbnail_data, bucket, thumbnail_destination)
         except Exception as e:
             print(f"Could not upload {filename}: {e}")
             return {"status": 124}

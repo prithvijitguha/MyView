@@ -49,7 +49,6 @@ function checkVideo(){
     }
   }
 
-
   function capture(){
     //function to capture thumbnail
     canvas = document.getElementById('thumbnailDisplay');
@@ -57,8 +56,8 @@ function checkVideo(){
     //get original video dimensions
     canvas.getContext('2d').drawImage(video, 0, 0, video.width, video.height)
     canvas_image = canvas.toDataURL('image/jpeg', 1.0)
+    //add video as source for display
     document.getElementById("thumbnailImage").setAttribute("src", canvas_image)
-    document.getElementById("inputVideoThumbnail").files[0] = canvas_image
   }
 
   function checkImage(){
@@ -83,12 +82,6 @@ function checkVideo(){
       //display alert
       console.log("invalid file type, input reset")
     }
-    else {
-      //read image
-      $("#thumbnailImage").attr("src", URL.createObjectURL(image_file))
-      //display image
-    }
-
   }
 
 

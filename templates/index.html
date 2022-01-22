@@ -8,18 +8,8 @@
 <div class="container">
   <div class="row row-cols-3 mx-auto">
     {% for video in videos %}
-    <a href="video/{{ video.video_link}}"><img src="" alt="..." class="img-thumbnail"></a>
+    <a href="video/{{ video.video_link}}"><img src="{{ thumbnail_url}}/{{ video.video_link }}" width="480" height="360" alt="..." class="img-thumbnail"></a>
     {% endfor %}
   </div>
-
-
-
-
-
-
-
-
-
-
 </div>
 {% endblock %}
