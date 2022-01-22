@@ -5,5 +5,7 @@
 {% endblock %}
 {% block content %}
 <!--Add videos here-->
-<video width="320" height="240" controls><source src="" title="" type="video/mp4"></video>
+<video width="720" height="480" controls autoplay>
+    <source src="{{ video_url }}/{{ video }}" title="" type="{{ file_format }}">
+</video>
 {% endblock %}
