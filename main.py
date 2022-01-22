@@ -123,20 +123,15 @@ async def home(
     # Get top videos
     # query top videos by views
     top_videos = crud.get_top_videos(db)
-    # checks if user if logged in
-    if active_user:
-        return templates.TemplateResponse(
-            "index.html",
-            context={
-                "request": request,
-                "active_user": active_user,
-                "videos": top_videos,
-            },
-        )
-    else:
-        return templates.TemplateResponse(
-            "index.html", context={"request": request, "videos": top_videos}
-        )
+
+    return templates.TemplateResponse(
+        "index.html",
+        context={
+            "request": request,
+            "active_user": active_user,
+            "videos": top_videos,
+        },
+    )
 
 
 @app.get("/video/{video_link}")
