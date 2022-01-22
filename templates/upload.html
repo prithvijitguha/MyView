@@ -12,7 +12,7 @@
         <h1 class="display-4 d-flex justify-content-center">Video</h1>
     <video id="demoVideo" width="480" height="320" poster="{{ url_for('static', path='/assets/stock.png') }}" controls><source src="" title="" type="video/mp4"></video>
         <div class="mb-3">
-            <input type="file" name="video_file" class="form-control" id="inputVideoFile" aria-describedby="inputGroupFileAddon04" aria-label="Upload" oninput="checkVideo()" accept="video/mp4,video/x-m4v,video/*">
+            <input required type="file" name="video_file" class="form-control" id="inputVideoFile" aria-describedby="inputGroupFileAddon04" aria-label="Upload" oninput="checkVideo()" accept="video/mp4,video/x-m4v, video/mpeg4">
         </div>
     <!--Canvas Display Keep Hidden-->
         <canvas id="thumbnailDisplay" width="480" height="320" style="display: none;"></canvas><br>
@@ -24,11 +24,13 @@
 
         <div class="mb-3 d-flex justify-content-center">
             <button type="button" id="thumbnailCapturebtn" disabled="true" class="btn btn-outline-primary" value="capture thumbnail" onclick="capture()">Capture Thumbnail</button>
+
+        </div>
+        <p class="h6">Save this thumbnail and upload it, if you like it!</p>
+        <div class="mb-3">
+            <input required type="file" name="thumbnail" class="form-control" id="inputVideoThumbnail" aria-describedby="videoThumbnail" aria-label="UploadThumbmnail" oninput="checkImage()" accept="image/png, image/gif, image/jpeg">
         </div>
 
-        <div class="mb-3">
-            <input type="file" name="thumbnail" class="form-control" id="inputVideoThumbnail" aria-describedby="videoThumbnail" aria-label="UploadThumbmnail" oninput="checkImage()" accept="image/png, image/gif, image/jpeg, image/*">
-        </div>
 
     <!--Video Name-->
         <div class="mb-3">
