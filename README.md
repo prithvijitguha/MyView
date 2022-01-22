@@ -147,8 +147,8 @@ To get started on this project. To get a local copy up and running follow these 
     - [x] Connect File Storage
     - [x] Setup Development Database
     - [x] Setup Project Templates
-    - [ ] Playing Video Function
-    - [ ] Homepage
+    - [x] Playing Video Function
+    - [x] Homepage
     - [ ] Comment Section
 - [ ] Production
     - [ ] Setup Production Database
