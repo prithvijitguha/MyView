@@ -292,6 +292,23 @@ def get_video(db: Session, video_id: int):
     return db.query(models.Video).filter(models.Video.video_id == video_id).first()
 
 
+def get_video_link(db: Session, video_link: str):
+    """
+    get video from video link
+    """
+    return db.query(models.Video).filter(models.Video.video_link == video_link).first()
+
+
+def get_top_videos(db: Session):
+    """
+    Get top videos ordered by
+    views
+
+    Gets the top 10 videos
+    """
+    return db.query(models.Video).order_by(models.Video.views).limit(10).all()
+
+
 # no update video
 
 # def delete video

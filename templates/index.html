@@ -7,8 +7,8 @@
 <!--Add Thumbnails here-->
 <div class="container">
   <div class="row row-cols-3 mx-auto">
-    {% for thumbnail, video in video_dict.items()  %}
-    <a href="video"><img src="{{ thumbnail }}" alt="..." class="img-thumbnail"></a>
+    {% for video in videos %}
+    <a href="video/{{ video.video_link}}"><img src="" alt="..." class="img-thumbnail"></a>
     {% endfor %}
   </div>
 

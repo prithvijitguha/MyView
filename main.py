@@ -108,6 +108,7 @@ def read_user(user_id: int, db: Session = Depends(get_db)):
 async def home(
     request: Request,
     active_user: Optional[schemas.User] = Depends(get_current_user_optional),
+    db: Session = Depends(get_db),
 ):
     """
     HomePage
@@ -119,23 +120,9 @@ async def home(
         - index.html
         - Optional: active_user
     """
-    # Get all top videos
-
-    # query videos for top 10 videos by views
-
-    # thumbnail sample
-    thumbnail_url = os.environ.get("cloud_url")
-    thumbnail_folder = os.environ.get("thumbnail_drive")
-    sample_thumbnail = f"{thumbnail_url}/{thumbnail_folder}/sample.jpg"
-
-    # video thumbnail
-    video_url = os.environ.get("cloud_url")
-    video_folder = os.environ.get("video_drive")
-    sample_video = f"{video_url}/{video_folder}/sample.mp4"
-
-    video_dict = {}
-    video_dict[sample_thumbnail] = sample_video
-
+    # Get top videos
+    # query top videos by views
+    top_videos = crud.get_top_videos(db)
     # checks if user if logged in
     if active_user:
         return templates.TemplateResponse(
@@ -143,14 +130,39 @@ async def home(
             context={
                 "request": request,
                 "active_user": active_user,
-                "video_dict": video_dict,
+                "videos": top_videos,
             },
         )
     else:
         return templates.TemplateResponse(
-            "index.html",
-            context={"request": request, "video_dict": video_dict},
+            "index.html", context={"request": request, "videos": top_videos}
         )
+
+
+@app.get("/video/{video_link}")
+def read_video(
+    request: Request,
+    video_link: str,
+    db: Session = Depends(get_db),
+    active_user: Optional[schemas.User] = Depends(get_current_user_optional),
+):
+    """
+    Serves Video link
+    """
+    video = crud.get_video_link(db, video_link)
+    cloud_url = os.environ.get("cloud_url")
+    folder_name = os.environ.get("folder_name")
+    video_url = f"{cloud_url}/{folder_name}"
+    return templates.TemplateResponse(
+        "video.html",
+        context={
+            "request": request,
+            "video": video.video_link,
+            "video_url": video_url,
+            "file_format": video.file_format,
+            "active_user": active_user,
+        },
+    )
 
 
 @app.get("/upload", response_class=HTMLResponse)
@@ -206,10 +218,14 @@ async def upload_file(
             data = video_file.file._file
             # get filename
             filename = video_file.filename
+            file_format = video_file.content_type
+            # extract extension from file
+            add_ext = file_format[6:]
             bucket = os.environ.get("bucket_name")
-            new_video_name = utils.create_video_name(filename)
+            hashed_video_name = utils.create_video_name(filename)
+            new_video_name = f"{hashed_video_name}.{add_ext}"
             folder_name = os.environ.get("folder_name")
-            destination = f"{folder_name}/{new_video_name}.mp4"
+            destination = f"{folder_name}/{new_video_name}"
             s3_utils.upload_file(data, bucket, destination)
             # upload thumbnail
             # TODO
@@ -221,7 +237,6 @@ async def upload_file(
             # create instance of video schemas
             # add parameters
             user_id = crud.get_user_id(db, active_user.username)
-            file_format = video_file.content_type
             video = schemas.Video(
                 video_user_id=user_id,
                 video_link=new_video_name,
