@@ -8,22 +8,23 @@
 <link rel="stylesheet" href="{{ url_for('static', path='/index.css') }}">
 
 <!--Add Thumbnails here-->
-<div class="container-fluid">
-  <div class="row mx-auto">
+<div class="container mx-auto">
+  <div class="row row-cols-5 mx-auto">
    {% for video in videos %}
-   <div class="col">
-    <a href="video/{{ video.video_link}}"><img class="videoThumbnail"src="{{ thumbnail_url}}/{{ video.video_link }}" alt="..."></a>
+   <div class="mx-auto">
+    <a href="video/{{ video.video_link}}"><img class="img-fluid videoThumbnail" src="{{ thumbnail_url}}/{{ video.video_link }}" alt="thumbnail"></a>
         <br><br>
+          <!--profilepicture flag present-->
           {% if get_profile(video.video_username)%}
             <img class="profilePicture" src="{{ profile_picture_url}}/{{ video.video_username }}"
-            width="30" height="30" alt="..." >
+            width="30" height="30" alt="profile-picture" >
           {% else %}
             <img class="profilePicture" src="{{ url_for('static', path='/assets/default_picture.jpg') }}"
-            width="30" height="30" alt="..." >
+            width="30" height="30" alt="profile-picture" >
           {% endif %}
-          <h6>{{ video.video_name }}</h6>
-          <p>{{ video.video_username }}</p>
-          <p><strong>{{ video.views }} Views</strong></p>
+          <h6 class="videoName w-100">{{ video.video_name }}</h6>
+          <p class="videoUsername">{{ video.video_username }}</p>
+          <strong class="viewCount">{{ video.views }} views</strong>
     </div>
     {% endfor %}
   </div>
