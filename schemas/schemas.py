@@ -41,7 +41,6 @@ class User(UserCreate):
     Attributes:
         - user_id: int
         - ts_joined: datetime
-        - profile_picture: bool
     """
 
     user_id: int
