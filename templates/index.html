@@ -9,15 +9,17 @@
   <div class="row row-cols-3 mx-auto">
     {% for video in videos %}
     <a href="video/{{ video.video_link}}"><img src="{{ thumbnail_url}}/{{ video.video_link }}" width="480" height="360" alt="..." class="img-thumbnail"></a>
-      <div>
-        {% if get_profile(video.video_username) == true %}
-          <img src="{{ profile_picture_url}}/{{ video.video_username }}"
-          width="40" height="40" alt="..." class="img-thumbnail">
-        {% else %}
-          <img src="{{ url_for('static', path='/assets/default_picture.jpg') }}"
-          width="40" height="40" alt="..." class="img-thumbnail">
-        {% endif %}
-      </div>
+        <div>
+          {% if get_profile(video.video_username) == true %}
+            <img src="{{ profile_picture_url}}/{{ video.video_username }}"
+            width="40" height="40" alt="..." class="img-thumbnail">
+          {% else %}
+            <img src="{{ url_for('static', path='/assets/default_picture.jpg') }}"
+            width="40" height="40" alt="..." class="img-thumbnail">
+          {% endif %}
+          {{ video.video_name }}
+
+        </div>
     {% endfor %}
   </div>
 </div>
