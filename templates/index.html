@@ -8,17 +8,18 @@
 <link rel="stylesheet" href="{{ url_for('static', path='/index.css') }}">
 
 <!--Add Thumbnails here-->
-<div class="container">
-  <div class="row row-cols-3 mx-auto">
+<div class="container-fluid">
+  <div class="row mx-auto">
    {% for video in videos %}
    <div class="col">
-    <a href="video/{{ video.video_link}}"><img src="{{ thumbnail_url}}/{{ video.video_link }}" width="480" height="360" alt="..." class="img-thumbnail"></a>
+    <a href="video/{{ video.video_link}}"><img class="videoThumbnail"src="{{ thumbnail_url}}/{{ video.video_link }}" alt="..."></a>
+        <br><br>
           {% if get_profile(video.video_username)%}
             <img class="profilePicture" src="{{ profile_picture_url}}/{{ video.video_username }}"
-            width="30" height="30" alt="..." class="img-thumbnail">
+            width="30" height="30" alt="..." >
           {% else %}
             <img class="profilePicture" src="{{ url_for('static', path='/assets/default_picture.jpg') }}"
-            width="30" height="30" alt="..." class="img-thumbnail">
+            width="30" height="30" alt="..." >
           {% endif %}
           <h6>{{ video.video_name }}</h6>
           <p>{{ video.video_username }}</p>
