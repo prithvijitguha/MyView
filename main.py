@@ -132,6 +132,11 @@ async def home(
     profile_picture_url = f"{cloud_url}/{profile_folder}"
 
     def get_profile(username):
+        """
+        Function to get
+        bool of profile_picture of
+        User
+        """
         return (
             db.query(models.User)
             .filter(models.User.username == username)
