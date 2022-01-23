@@ -4,7 +4,7 @@
 {{ super() }}
 {% endblock %}
 {% block content %}
-<form class="mx-auto w-25" action="/register" id="registerForm"method="POST" onsubmit="return validateForm()">
+<form class="mx-auto w-25" action="/register" id="registerForm" method="POST" enctype="multipart/form-data" onsubmit="return validateForm()">
   <div class="form-group">
     <input required placeholder="username" name="username" type="username" autocomplete="off"  class="form-control" id="rregisterInputEmail1" aria-describedby="usernameRegister"><br>
     <input required placeholder="username@domain.com" name="email" type="email" autocomplete="off"  class="form-control" id="registerInputEmail1" aria-describedby="emailRegister"><br>
@@ -14,7 +14,14 @@
       <label class="form-check-label" for="flexCheckIndeterminate">
         Show Password
       </label>
-
+    <br>
+    <br>
+    <div class="input-group">
+      <label class="input-group-text" for="inputProfilePicture">Profile Picture</label>
+      <input type="file" class="form-control" name="profile_picture" id="inputProfilePicture" accept="image/png, image/jpg, image/jpeg">
+    </div>
+    <br>
+    <br>
 
     <button type="submit" class="btn btn-primary">Submit</button>
   </div>

@@ -128,6 +128,7 @@ def create_user(db: Session, user: schemas.UserCreate):
         - user_id: int, non-nullable, unique
         - username: str, non-nullable, unique
         - email: str, non-nullable, unique
+        - profile_picture: bool
         - ts_joined: datetime, non-nullable
 
     models.UserHashed attributes:
@@ -146,7 +147,12 @@ def create_user(db: Session, user: schemas.UserCreate):
     # generate timestamp
     timestamp = get_timestamp_now()
     # create model for User
-    db_user = models.User(username=user.username, email=user.email, ts_joined=timestamp)
+    db_user = models.User(
+        username=user.username,
+        email=user.email,
+        profile_picture=user.profile_picture,
+        ts_joined=timestamp,
+    )
     # create model for UserHashed
     db_user_hashed = models.UserHashed(
         user_email=user.email, password_hash=hashed_password, ts_created=timestamp
@@ -258,7 +264,7 @@ def add_video(db: Session, video: schemas.Video):
         - db_video object
     """
     db_video = models.Video(
-        video_user_id=video.video_user_id,
+        video_username=video.video_username,
         video_link=video.video_link,
         video_name=video.video_name,
         video_height=video.video_height,
