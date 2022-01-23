@@ -20,7 +20,9 @@
             <img class="profilePicture" src="{{ url_for('static', path='/assets/default_picture.jpg') }}"
             width="30" height="30" alt="..." class="img-thumbnail">
           {% endif %}
-          <h4>{{ video.video_name }}</h4>
+          <h6>{{ video.video_name }}</h6>
+          <p>{{ video.video_username }}</p>
+          <p><strong>{{ video.views }} Views</strong></p>
     </div>
     {% endfor %}
   </div>
