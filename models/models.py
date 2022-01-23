@@ -4,7 +4,7 @@
 # pylint: disable=too-few-public-methods
 
 from sqlalchemy import Column, ForeignKey
-from sqlalchemy.sql.sqltypes import Integer, String, DateTime, Text
+from sqlalchemy.sql.sqltypes import Integer, String, DateTime, Text, Boolean
 
 from db.database import Base
 
@@ -16,6 +16,7 @@ class User(Base):
         - user_id: int, non-nullable, unique
         - username: str, non-nullable, unique
         - email: str, non-nullable, unique
+        - profile_picture: bool, nullable
         - ts_joined: datetime, non-nullable
 
     Relationships:
@@ -26,6 +27,7 @@ class User(Base):
     user_id = Column(Integer, primary_key=True, index=True)
     username = Column(String, unique=True, index=True)
     email = Column(String, unique=True, index=True)
+    profile_picture = Column(Boolean, default=False)
     ts_joined = Column(DateTime)
 
 
@@ -56,7 +58,7 @@ class Video(Base):
     tablename: video_library
     Attributes:
         - video_id: int, non-nullable, primary_key
-        - video_user_id: int, non-nullable, foreign_key
+        - video_username: str, non-nullable, foreign_key
         - video_link: string, non-nullable, unique
         - video_name: string, non-nullable,
         - video_height: int, non-nullable,
@@ -75,7 +77,7 @@ class Video(Base):
     __tablename__ = "video_library"
 
     video_id = Column(Integer, primary_key=True, index=True)
-    video_user_id = Column(Integer, ForeignKey("users.user_id"))
+    video_username = Column(String, ForeignKey("users.username"))
     video_link = Column(String, unique=True)
     video_name = Column(String)
     video_height = Column(Integer)

@@ -16,15 +16,18 @@ class UserBase(BaseModel):
     Attribute:
         - username: str
         - email: str
+        - profile_picture: bool
     """
 
     username: str
     email: str
+    profile_picture: bool
 
 
 class UserCreate(UserBase):
     """
-    UserCreate password
+    UserCreate password.
+    Inherits from UserBase
     Attributes:
         -password: str
     """
@@ -38,6 +41,7 @@ class User(UserCreate):
     Attributes:
         - user_id: int
         - ts_joined: datetime
+        - profile_picture: bool
     """
 
     user_id: int
@@ -72,7 +76,7 @@ class Video(BaseModel):
         - no_dislikes: int
     """
 
-    video_user_id: int
+    video_username: str
     video_link: str
     video_name: str
     video_height: int

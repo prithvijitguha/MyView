@@ -8,6 +8,8 @@ MyView all views saved here
 # pylint: disable=no-else-return
 # pylint: disable=broad-except
 # pylint: disable=using-constant-test
+# pylint: disable=too-many-arguments
+# pylint: disable=too-many-locals
 
 import os
 from typing import Optional
@@ -126,6 +128,16 @@ async def home(
     thumbnail_drive = os.environ.get("thumbnail_drive")
     cloud_url = os.environ.get("cloud_url")
     thumbnail_url = f"{cloud_url}/{thumbnail_drive}"
+    profile_folder = os.environ.get("profile_folder")
+    profile_picture_url = f"{cloud_url}/{profile_folder}"
+
+    def get_profile(username):
+        return (
+            db.query(models.User)
+            .filter(models.User.username == username)
+            .first()
+            .profile_picture
+        )
 
     return templates.TemplateResponse(
         "index.html",
@@ -134,6 +146,8 @@ async def home(
             "active_user": active_user,
             "videos": top_videos,
             "thumbnail_url": thumbnail_url,
+            "profile_picture_url": profile_picture_url,
+            "get_profile": get_profile,
         },
     )
 
@@ -241,9 +255,9 @@ async def upload_file(
         try:
             # create instance of video schemas
             # add parameters
-            user_id = crud.get_user_id(db, active_user.username)
+            username = active_user.username
             video = schemas.Video(
-                video_user_id=user_id,
+                video_username=username,
                 video_link=new_video_name,
                 video_name=videoName,
                 video_height=videoHeight,
@@ -338,25 +352,40 @@ async def register(
     request: Request,
     username: str = Form(...),
     password: str = Form(...),
+    profile_picture: UploadFile = File(None),
     email: str = Form(...),
     db: Session = Depends(get_db),
 ):
     """
     Regiser Post Page
     Args:
-        - request: Request,
-        - username: str = Form(...),
-        - password: str = Form(...),
-        - email: str = Form(...),
-        - db: Session = Depends(get_db),
+        - request: Request
+        - username: str = Form(...)
+        - password: str = Form(...)
+        - profile_picture: UploadFile = File(None)
+        - email: str = Form(...)
+        - db: Session = Depends(get_db)
 
     Returns:
         - register.html: if name already in use
         - login.html: if successly registered
 
     """
+    profile_bool = False
+    # if profile picture is present then upload
+    if profile_picture.content_type in ["image/jpeg", "image/jpg", "image/png"]:
+        bucket = os.environ.get("bucket_name")
+        profile_folder = os.environ.get("profile_folder")
+        profile_pic = profile_picture.file._file
+        new_profile_name = username
+        destination = f"{profile_folder}/{new_profile_name}"
+        s3_utils.upload_file(profile_pic, bucket, destination)
+        profile_bool = True
+    # otherwise none
     # get the details
-    user = schemas.UserCreate(username=username, email=email, password=password)
+    user = schemas.UserCreate(
+        username=username, email=email, password=password, profile_picture=profile_bool
+    )
     # first check if user exists
     # #if user exists return error
     username_check = (
@@ -378,7 +407,6 @@ async def register(
         "message": "Successfully registered",
         "tag": "success",
     }
-
     return templates.TemplateResponse("login.html", context=success_context)
 
 
