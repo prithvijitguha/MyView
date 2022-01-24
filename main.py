@@ -166,6 +166,15 @@ def read_video(
 ):
     """
     Serves Video link
+    Increments view by 1
+    Args:
+        -request: Request,
+        - video_link: str,
+        - db: Session = Depends(get_db),
+        - active_user: Optional[schemas.User] = Depends(get_current_user_optional),
+
+    Returns:
+        - video.html template with context
     """
     video = crud.get_video_link(db, video_link)
     cloud_url = os.environ.get("cloud_url")
@@ -174,6 +183,9 @@ def read_video(
     file_format = video.file_format
     video_link = video.video_link
     video_title = video.video_name
+    # increment the view
+    crud.increase_view(db, video.video_id)
+
     return templates.TemplateResponse(
         "video.html",
         context={
