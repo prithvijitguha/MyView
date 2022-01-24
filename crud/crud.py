@@ -285,6 +285,29 @@ def add_video(db: Session, video: schemas.Video):
     return db_video
 
 
+# increment view by one
+def increase_view(db: Session, video_int: int):
+    """
+    Increases the value of view of a
+    video by 1 int
+
+    Args:
+        - db
+        - video_int
+
+    Returns:
+        - None
+    """
+    # get the video
+    video = get_video(db, video_int)
+    # incease by 1
+    video.views += 1
+    # commit to database
+    db.add(video)
+    db.commit()
+    db.refresh(video)
+
+
 # def get video
 def get_video(db: Session, video_id: int):
     """
@@ -312,7 +335,7 @@ def get_top_videos(db: Session):
 
     Gets the top 10 videos
     """
-    return db.query(models.Video).order_by(models.Video.views).limit(10).all()
+    return db.query(models.Video).order_by(models.Video.views.desc()).limit(10).all()
 
 
 # no update video
