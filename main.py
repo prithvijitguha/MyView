@@ -436,3 +436,52 @@ def logout(response: Response, request: Request):
     response = templates.TemplateResponse("index.html", context=success_context)
     response.delete_cookie("session")
     return response
+
+
+@app.get("/search")
+def search_video(search_query: str, request: Request, db: Session = Depends(get_db)):
+    """
+    Search Video
+    Args:
+        - search_query
+        - Depends(get_db)
+
+    Returns:
+        - queried objects
+    """
+    query_videos = (
+        db.query(models.Video)
+        .filter(models.Video.video_name.contains(search_query))
+        .limit(10)
+        .all()
+    )
+
+    thumbnail_drive = os.environ.get("thumbnail_drive")
+    cloud_url = os.environ.get("cloud_url")
+    thumbnail_url = f"{cloud_url}/{thumbnail_drive}"
+    profile_folder = os.environ.get("profile_folder")
+    profile_picture_url = f"{cloud_url}/{profile_folder}"
+
+    def get_profile(username):
+        """
+        Function to get
+        bool of profile_picture of
+        User
+        """
+        return (
+            db.query(models.User)
+            .filter(models.User.username == username)
+            .first()
+            .profile_picture
+        )
+
+    return templates.TemplateResponse(
+        "results.html",
+        context={
+            "request": request,
+            "videos": query_videos,
+            "get_profile": get_profile,
+            "profile_picture_url": profile_picture_url,
+            "thumbnail_url": thumbnail_url,
+        },
+    )

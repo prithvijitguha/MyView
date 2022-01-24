@@ -1,0 +1,14 @@
+.profilePicture {
+    border-radius: 50%;
+}
+
+.videoThumbnail {
+    width: 30%;
+    height: 50%;
+    transition: transform .2s;
+}
+
+.videoThumbnail:hover {
+    transform: scale(1.5);
+    transition-delay:0.9s;
+}
