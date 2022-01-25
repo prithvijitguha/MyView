@@ -308,6 +308,57 @@ def increase_view(db: Session, video_int: int):
     db.refresh(video)
 
 
+def video_like(db: Session, video_int: str):
+    """Adds a like to video"""
+    # query the database for video
+    video = get_video(db, video_int)
+    # increment like counter
+    video.no_likes += 1
+    # commit to database
+    db.add(video)
+    db.commit()
+    db.refresh(video)
+
+
+def video_unlike(db: Session, video_int: str):
+    """
+    Removes a like from
+    a video
+    """
+    # query the database for video
+    video = get_video(db, video_int)
+    # decrement like counter
+    video.no_likes -= 1
+    # commit to database
+    db.add(video)
+    db.commit()
+    db.refresh(video)
+
+
+def video_dislike(db: Session, video_int: str):
+    """Adds a dislike to video"""
+    # query the database for video
+    video = get_video(db, video_int)
+    # increment dislike counter
+    video.no_dislikes += 1
+    # commit to database
+    db.add(video)
+    db.commit()
+    db.refresh(video)
+
+
+def video_undislike(db: Session, video_int: str):
+    """Adds a dislike to video"""
+    # query the database for video
+    video = get_video(db, video_int)
+    # decrement dislike counter
+    video.no_dislikes -= 1
+    # commit to database
+    db.add(video)
+    db.commit()
+    db.refresh(video)
+
+
 # def get video
 def get_video(db: Session, video_id: int):
     """
@@ -337,8 +388,6 @@ def get_top_videos(db: Session):
     """
     return db.query(models.Video).order_by(models.Video.views.desc()).limit(10).all()
 
-
-# no update video
 
 # def delete video
 def delete_video(db: Session, video_id: int):
