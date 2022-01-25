@@ -13,9 +13,13 @@
 <br>
 <h3>{{ video.video_name }}</h3>
 <h5>{{ video.views }} views </h5>
-<div class="like_dislike">
-    <button type="button" class="btn btn-outline-light">👍</button>
-    <button type="button" class="btn btn-outline-light">👎</button>
+<!--Like and Dislike Buttons-->
+<div class="btn-group" role="group" aria-label="Basic checkbox toggle button group">
+    <input type="checkbox" class="btn-check" id="btncheck1" autocomplete="off">
+    <label class="btn btn-outline-primary" for="btncheck1">👍</label>
+
+    <input type="checkbox" class="btn-check" id="btncheck2" autocomplete="off">
+    <label class="btn btn-outline-primary" for="btncheck2">👎</label>
 </div>
 <p>{{ video.description }}</p>
 
