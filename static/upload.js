@@ -91,7 +91,9 @@ function checkVideo(){
     //capture first image as thumbnail
     capture()
     //autofill video name
-    document.getElementById("inputVideoName").value = video_file.name;
+    trimmed_name = video_file.name.split('.').slice(0, -1).join('.')
+    //durationdocument.getElementById("inputVideoName").value = video_file.name;
+    document.getElementById("inputVideoName").value = trimmed_name;
     //autofill length
     video = document.getElementById("demoVideo")
     videoLength = Math.round(video.duration)
