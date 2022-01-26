@@ -133,3 +133,24 @@ class VideoViews(Base):
     video_view_id = Column(Integer, primary_key=True, index=True)
     video_id = Column(Integer, ForeignKey("video_library.video_id"))
     user_id = Column(Integer, ForeignKey("users.user_id"))
+
+
+class UserLikesDislikes(Base):
+    """ "
+    Tracks all user likes
+
+    Tablename: user_likes_dislikes
+
+    Attributes:
+        - like_id: int
+        - user_id: int
+        - video_id: int
+        - like_dislike: Bool
+    """
+
+    __tablename__ = "user_likes_dislikes"
+
+    like_id = Column(Integer, primary_key=True, index=True)
+    like_user_id = Column(Integer, ForeignKey("users.user_id"))
+    like_video_id = Column(Integer, ForeignKey("video_library.video_id"))
+    like_dislike = Column(Boolean)
