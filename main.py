@@ -182,6 +182,9 @@ def read_video(
     video_url = f"{cloud_url}/{folder_name}"
     crud.increase_view(db, video.video_id, active_user)
 
+    # get all comments
+    comments = crud.get_comments(db, video_id=video.video_id)
+
     return templates.TemplateResponse(
         "video.html",
         context={
@@ -190,6 +193,7 @@ def read_video(
             "active_user": active_user,
             "video": video,
             "video_link": video_link,
+            "comments": comments,
         },
     )
 
@@ -528,5 +532,24 @@ async def dislike_video(
     data = await request.json()
     result = crud.video_dislike(
         db, video_int=data["video_id"], user_id=active_user.user_id
+    )
+    return result
+
+
+@app.post("/comment/add")
+async def add_comment(
+    request: Request,
+    active_user: Optional[schemas.User] = Depends(get_current_user_optional),
+    db: Session = Depends(get_db),
+):
+    """
+    Comment url to add comments
+    """
+    if not active_user:
+        # TODO replace with redirect
+        return {"Error": "Not logged in"}
+    data = await request.json()
+    result = crud.create_comment(
+        db, data["comment_data"], data["video_id"], active_user.user_id
     )
     return result
