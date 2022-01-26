@@ -1,26 +1,60 @@
 function like_unlike() {
     like_button =  document.getElementById("likeButton")
-    //if like value is true
+    dislike_button = document.getElementById("dislikeButton")
+    video_id = document.getElementById("video_id_hidden").innerHTML
+    //check the checked property of dislike button
+    if (dislike_button.checked == true) {
+        //set it to false
+        dislike_button.checked = false
+    }
 
-    //change value to false
+    const data = {
+        "video_id": video_id,
+        };
 
-    //if value is false
-
-    //change value to true
-
-    //fetch request to update value in video
+    fetch('/like', {
+    method: 'POST',
+    headers: {
+        'Content-Type': 'application/json', 'Accept': 'application/json'
+    },
+    body: JSON.stringify(data),
+    })
+    .then(response => response.json())
+    .then(data => {
+    console.log('Success:', data);
+    })
+    .catch((error) => {
+    console.error('Error:', error);
+    });
 }
 
 
 function dislike_undislike() {
     dislike_button =  document.getElementById("dislikeButton")
-    //if like value is true
+    like_button = document.getElementById("likeButton")
+    video_id = document.getElementById("video_id_hidden").innerHTML
+    //check the checked property of like button
+    if (like_button.checked == true) {
+        //set it to false
+        like_button.checked = false
+    }
 
-    //change value to false
+    const data = {
+        "video_id": video_id,
+        };
 
-    //if value is false
-
-    //change value to true
-
-    //fetch request to update value in video
+    fetch('/dislike', {
+    method: 'POST',
+    headers: {
+        'Content-Type': 'application/json', 'Accept': 'application/json'
+    },
+    body: JSON.stringify(data),
+    })
+    .then(response => response.json())
+    .then(data => {
+    console.log('Success:', data);
+    })
+    .catch((error) => {
+    console.error('Error:', error);
+    });
 }
