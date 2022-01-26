@@ -318,55 +318,91 @@ def increase_view(db: Session, video_int: int, active_user: schemas.User):
     db.refresh(video)
 
 
-def video_like(db: Session, video_int: str):
+def check_like_dislike(db: Session, video_id: str, user_id: int):
+    """Check if user has liked or disliked
+    the video before
+    """
+    like_model = (
+        db.query(models.UserLikesDislikes)
+        .filter(
+            models.UserLikesDislikes.like_user_id == user_id,
+            models.UserLikesDislikes.like_video_id == video_id,
+        )
+        .first()
+    )
+    return like_model
+
+
+def video_like(db: Session, video_int: str, user_id: int):
     """Adds a like to video"""
     # query the database for video
     video = get_video(db, video_int)
+    user = get_user(db, user_id)
+    # check if user has like before
+    # check if entry is dislike
+    like_entry = check_like_dislike(db, video.video_id, user.user_id)
+    # if user already liked before
+    if like_entry.like_dislike is True:
+        return None
+    # if user has disliked before
+    if like_entry.like_dislike is False:
+        like_entry.like_dislike = True
+        # reduce dislikes by 1
+        video.no_dislikes -= 1
+        db.add(like_entry)
+        db.commit()
+        db.refresh(like_entry)
+    # if not liked before
+    else:
+        like_model = models.UserLikesDislikes(
+            like_user_id=user.user_id, like_video_id=video.video_id, like_dislike=True
+        )
+        db.add(like_model)
+        db.commit()
+        db.refresh(like_model)
     # increment like counter
     video.no_likes += 1
     # commit to database
     db.add(video)
     db.commit()
     db.refresh(video)
+    return {"status": 200}
 
 
-def video_unlike(db: Session, video_int: str):
-    """
-    Removes a like from
-    a video
-    """
+def video_dislike(db: Session, video_int: str, user_id: int):
+    """Adds a like to video"""
     # query the database for video
     video = get_video(db, video_int)
-    # decrement like counter
-    video.no_likes -= 1
-    # commit to database
-    db.add(video)
-    db.commit()
-    db.refresh(video)
-
-
-def video_dislike(db: Session, video_int: str):
-    """Adds a dislike to video"""
-    # query the database for video
-    video = get_video(db, video_int)
-    # increment dislike counter
+    user = get_user(db, user_id)
+    # check if user has dislike before
+    # check like status
+    like_entry = check_like_dislike(db, video.video_id, user.user_id)
+    # if user already liked before
+    if like_entry.like_dislike is False:
+        return None
+    # if user has liked before
+    if like_entry.like_dislike is True:
+        like_entry.like_dislike = False
+        # reduce likes by 1
+        video.no_likes -= 1
+        db.add(like_entry)
+        db.commit()
+        db.refresh(like_entry)
+    # if not disliked before
+    else:
+        like_model = models.UserLikesDislikes(
+            like_user_id=user.user_id, like_video_id=video.video_id, like_dislike=False
+        )
+        db.add(like_model)
+        db.commit()
+        db.refresh(like_model)
+    # increment like counter
     video.no_dislikes += 1
     # commit to database
     db.add(video)
     db.commit()
     db.refresh(video)
-
-
-def video_undislike(db: Session, video_int: str):
-    """Adds a dislike to video"""
-    # query the database for video
-    video = get_video(db, video_int)
-    # decrement dislike counter
-    video.no_dislikes -= 1
-    # commit to database
-    db.add(video)
-    db.commit()
-    db.refresh(video)
+    return {"status": 200}
 
 
 # def get video
