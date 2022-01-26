@@ -492,3 +492,35 @@ def search_video(search_query: str, request: Request, db: Session = Depends(get_
             "thumbnail_url": thumbnail_url,
         },
     )
+
+
+@app.post("/like")
+async def like_video(
+    request: Request,
+    active_user: Optional[schemas.User] = Depends(get_current_user_optional),
+    db: Session = Depends(get_db),
+):
+    """
+    like url
+    """
+    data = await request.json()
+    result = crud.video_like(
+        db, video_int=data["video_id"], user_id=active_user.user_id
+    )
+    return result
+
+
+@app.post("/dislike")
+async def dislike_video(
+    request: Request,
+    active_user: Optional[schemas.User] = Depends(get_current_user_optional),
+    db: Session = Depends(get_db),
+):
+    """
+    dislike url
+    """
+    data = await request.json()
+    result = crud.video_dislike(
+        db, video_int=data["video_id"], user_id=active_user.user_id
+    )
+    return result

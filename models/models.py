@@ -142,10 +142,10 @@ class UserLikesDislikes(Base):
     Tablename: user_likes_dislikes
 
     Attributes:
-        - like_id: int
-        - user_id: int
-        - video_id: int
-        - like_dislike: Bool
+        - like_id
+        - like_user_id
+        - like_video_id
+        - like_dislike
     """
 
     __tablename__ = "user_likes_dislikes"

@@ -342,10 +342,10 @@ def video_like(db: Session, video_int: str, user_id: int):
     # check if entry is dislike
     like_entry = check_like_dislike(db, video.video_id, user.user_id)
     # if user already liked before
-    if like_entry.like_dislike is True:
+    if like_entry and like_entry.like_dislike is True:
         return None
     # if user has disliked before
-    if like_entry.like_dislike is False:
+    if like_entry and like_entry.like_dislike is False:
         like_entry.like_dislike = True
         # reduce dislikes by 1
         video.no_dislikes -= 1
@@ -378,10 +378,10 @@ def video_dislike(db: Session, video_int: str, user_id: int):
     # check like status
     like_entry = check_like_dislike(db, video.video_id, user.user_id)
     # if user already liked before
-    if like_entry.like_dislike is False:
+    if like_entry and like_entry.like_dislike is False:
         return None
     # if user has liked before
-    if like_entry.like_dislike is True:
+    if like_entry and like_entry.like_dislike is True:
         like_entry.like_dislike = False
         # reduce likes by 1
         video.no_likes -= 1
