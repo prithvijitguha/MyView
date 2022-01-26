@@ -503,6 +503,9 @@ async def like_video(
     """
     like url
     """
+    if not active_user:
+        # TODO replace with redirect
+        return {"Error": "Not logged in"}
     data = await request.json()
     result = crud.video_like(
         db, video_int=data["video_id"], user_id=active_user.user_id
@@ -519,6 +522,9 @@ async def dislike_video(
     """
     dislike url
     """
+    if not active_user:
+        # TODO replace with redirect
+        return {"Error": "Not logged in"}
     data = await request.json()
     result = crud.video_dislike(
         db, video_int=data["video_id"], user_id=active_user.user_id
