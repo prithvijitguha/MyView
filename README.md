@@ -149,7 +149,7 @@ To get started on this project. To get a local copy up and running follow these 
     - [x] Playing Video Function
     - [x] Homepage
     - [x] Comment Section
-- [x] Staging
+- [ ] Staging
     - [ ] Style Improvement:
         - [ ] Video Page
         - [ ] Homepage
