@@ -4,6 +4,8 @@
 {{ super() }}
 {% endblock %}
 {% block content %}
+<!--Javascript link-->
+<script src="{{ url_for('static', path='/video.js') }}"></script>
 <!--Add videos here-->
 <div class="container">
 <video tabindex="-1" width="720" height="480" controls autoplay>
@@ -15,13 +17,14 @@
 <h5>{{ video.views }} views </h5>
 <!--Like and Dislike Buttons-->
 <div class="btn-group" role="group" aria-label="Basic checkbox toggle button group">
-    <input type="checkbox" class="btn-check" id="btncheck1" autocomplete="off">
-    <label class="btn btn-outline-primary" for="btncheck1">👍</label>
+    <input type="checkbox" class="btn-check" id="likeButton" autocomplete="off">
+    <label class="btn btn-outline-primary" for="likeButton">👍</label>
 
-    <input type="checkbox" class="btn-check" id="btncheck2" autocomplete="off">
-    <label class="btn btn-outline-primary" for="btncheck2">👎</label>
+    <input type="checkbox" class="btn-check" id="dislikeButton" autocomplete="off">
+    <label class="btn btn-outline-primary" for="dislikeButton">👎</label>
 </div>
+{% if video.description %}
 <p>{{ video.description }}</p>
-
+{% endif %}
 </div>
 {% endblock %}
