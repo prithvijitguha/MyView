@@ -140,7 +140,7 @@ To get started on this project. To get a local copy up and running follow these 
 - [x] Basic Front End
 - [x] Azure Pipelines
 - [x] Github Actions
-- [ ] Development
+- [x] Development
     - [x] Login
     - [x] Upload Video
     - [x] Connect File Storage
@@ -148,7 +148,12 @@ To get started on this project. To get a local copy up and running follow these 
     - [x] Setup Project Templates
     - [x] Playing Video Function
     - [x] Homepage
-    - [ ] Comment Section
+    - [x] Comment Section
+- [x] Staging
+    - [ ] Style Improvement:
+        - [ ] Video Page
+        - [ ] Homepage
+        - [ ] Upload
 - [ ] Production
     - [ ] Setup Production Database
     - [ ] Production Server
