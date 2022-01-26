@@ -5,6 +5,7 @@
 
 from sqlalchemy import Column, ForeignKey
 from sqlalchemy.sql.sqltypes import Integer, String, DateTime, Text, Boolean
+from sqlalchemy.orm import relationship
 
 from db.database import Base
 
@@ -29,6 +30,8 @@ class User(Base):
     email = Column(String, unique=True, index=True)
     profile_picture = Column(Boolean, default=False)
     ts_joined = Column(DateTime)
+
+    uploaded = relationship("Video", back_populates="user")
 
 
 class UserHashed(Base):
@@ -91,6 +94,8 @@ class Video(Base):
     no_likes = Column(Integer)
     no_dislikes = Column(Integer)
 
+    user = relationship("User", back_populates="uploaded")
+
 
 class Comment(Base):
     """
@@ -112,3 +117,19 @@ class Comment(Base):
     comment_video_id = Column(Integer, ForeignKey("video_library.video_id"))
     comment_content = Column(Text)
     ts_comment = Column(DateTime)
+
+
+class VideoViews(Base):
+    """
+    Tracks all user views
+    tablename: video_views
+    Attributes:
+        - video_view_id
+        - video_id
+        - user_id
+    """
+
+    __tablename__ = "video_views"
+    video_view_id = Column(Integer, primary_key=True, index=True)
+    video_id = Column(Integer, ForeignKey("video_library.video_id"))
+    user_id = Column(Integer, ForeignKey("users.user_id"))

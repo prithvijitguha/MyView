@@ -180,7 +180,7 @@ def read_video(
     cloud_url = os.environ.get("cloud_url")
     folder_name = os.environ.get("folder_name")
     video_url = f"{cloud_url}/{folder_name}"
-    crud.increase_view(db, video.video_id)
+    crud.increase_view(db, video.video_id, active_user)
 
     return templates.TemplateResponse(
         "video.html",

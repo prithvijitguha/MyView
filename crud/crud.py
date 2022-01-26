@@ -286,7 +286,7 @@ def add_video(db: Session, video: schemas.Video):
 
 
 # increment view by one
-def increase_view(db: Session, video_int: int):
+def increase_view(db: Session, video_int: int, active_user: schemas.User):
     """
     Increases the value of view of a
     video by 1 int
@@ -300,6 +300,16 @@ def increase_view(db: Session, video_int: int):
     """
     # get the video
     video = get_video(db, video_int)
+    if active_user:
+        user = (
+            db.query(models.User)
+            .filter(models.User.user_id == active_user.user_id)
+            .first()
+        )
+        video_view = models.VideoViews(video_id=video.video_id, user_id=user.user_id)
+        db.add(video_view)
+        db.commit()
+        db.refresh(video_view)
     # incease by 1
     video.views += 1
     # commit to database
