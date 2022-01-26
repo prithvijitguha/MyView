@@ -459,7 +459,7 @@ def delete_video(db: Session, video_id: int):
 
 
 # def create comment
-def create_comment(db: Session, comment: schemas.Comment):
+def create_comment(db: Session, comment: str, video_id: int, user_id: int):
     """
     Adds comment to `comments` table
     Adds to Comment model.
@@ -477,10 +477,10 @@ def create_comment(db: Session, comment: schemas.Comment):
         - session object
     """
     db_comment = models.Comment(
-        comment_user_id == comment.comment_user_id,
-        comment_video_id == comment.comment_video_id,
-        comment_content == comment.comment_content,
-        ts_comment == get_timestamp_now(),
+        comment_user_id=user_id,
+        comment_video_id=video_id,
+        comment_content=comment,
+        ts_comment=get_timestamp_now(),
     )
 
     db.add(db_comment)
@@ -500,7 +500,11 @@ def get_comments(db: Session, video_id: int):
     Returns:
         - Session object all
     """
-    return db.query(models.Comment(comment_video_id == video_id)).all()
+    return (
+        db.query(models.Comment)
+        .filter(models.Comment.comment_video_id == video_id)
+        .all()
+    )
 
 
 # def change comment
@@ -514,7 +518,11 @@ def update_comment(db: Session, req_comment_id: int, new_content: str):
     Returns:
         - Session object
     """
-    db_comment = db.query(models.Comment(comment_id == req_comment_id)).first()
+    db_comment = (
+        db.query(models.Comment)
+        .filter(models.Comment.comment_id == req_comment_id)
+        .first()
+    )
     db_comment.comment_content = new_content
     db.add(db_comment)
     db.commit()

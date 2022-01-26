@@ -22,12 +22,28 @@
 
     <input type="radio" class="btn-check" name="btnradio" autocomplete="off">
     <label class="btn btn-outline-primary" id="dislikeButton" onclick="dislike_undislike()"for="btnradio2">👎</label>
-</div>
+</div><br><br>
 
 
 {% if video.description %}
 <p>{{ video.description }}</p>
 {% endif %}
+
+<div class="input-group">
+    <span class="input-group-text">
+
+    </span>
+    <textarea placeholder="Add a public comment" id="commentBox" class="form-control" aria-label="With textarea"></textarea>
+    <button onclick="submitComment()">comment</button>
+</div>
+{% for comment in comments %}
+<div class="individual_comment">
+    <h4>{{ comment.comment_content }}</h4>
+    <h4>{{ comment.ts_comment }}</h4>
+</div>
+{% endfor %}
+
+
 <p id="video_id_hidden" style="display: none;">{{ video.video_id }}</p>
 </div>
 {% endblock %}
