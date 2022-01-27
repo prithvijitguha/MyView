@@ -1,0 +1,12 @@
+name: Assign
+on:
+  issue_comment:
+    types: created
+
+jobs:
+  issue_assign:
+    runs-on: ubuntu-latest
+    steps:
+    - if: github.event.comment.body == 'take'
+      run: |
+        echo "Assigning issue ${{ github.event.issue.number }} to ${{ github.event.comment.user.login }}"
