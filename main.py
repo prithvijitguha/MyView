@@ -126,6 +126,8 @@ async def home(
     """
     # Get top videos
     # query top videos by views
+    if active_user:
+        active_user.username = escape(active_user.username)
 
     top_videos = crud.get_top_videos(db)
     thumbnail_drive = os.environ.get("thumbnail_drive")
@@ -150,6 +152,7 @@ async def home(
     return templates.TemplateResponse(
         "index.html",
         context={
+            # "request": request,
             "request": request,
             "active_user": active_user,
             "videos": top_videos,
@@ -179,6 +182,10 @@ def read_video(
     Returns:
         - video.html template with context
     """
+    # santize
+    if active_user:
+        active_user.username = escape(active_user.username)
+
     video = crud.get_video_link(db, video_link)
     cloud_url = os.environ.get("cloud_url")
     folder_name = os.environ.get("folder_name")
@@ -217,6 +224,9 @@ async def upload_page(
         # set found status code
         response.status_code = status.HTTP_302_FOUND
         return response
+
+    active_user.username = escape(active_user.username)
+
     return templates.TemplateResponse(
         "upload.html", context={"request": request, "active_user": active_user}
     )
@@ -535,6 +545,7 @@ async def like_video(
 
     # sanitize input
     video_id = escape(data["video_id"])
+    active_user.username = escape(active_user.username)
 
     result = crud.video_like(db, video_int=video_id, user_id=active_user.user_id)
     return result
@@ -556,6 +567,7 @@ async def dislike_video(
 
     # sanitize input
     video_id = escape(data["video_id"])
+    active_user.username = escape(active_user.username)
 
     result = crud.video_dislike(db, video_int=video_id, user_id=active_user.user_id)
     return result
@@ -574,7 +586,11 @@ async def add_comment(
         # TODO replace with redirect
         return {"Error": "Not logged in"}
     data = await request.json()
+
+    # sanitize input
     comment_data = escape(data["comment_data"])
     video_id = escape(data["video_id"])
+    active_user.username = escape(active_user.username)
+
     result = crud.create_comment(db, comment_data, video_id, active_user.user_id)
     return result
