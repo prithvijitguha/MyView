@@ -12,6 +12,8 @@ MyView all views saved here
 # pylint: disable=too-many-locals
 
 import os
+
+from html import escape
 from typing import Optional
 
 from fastapi import FastAPI, Request, Depends, Response, status
@@ -124,6 +126,9 @@ async def home(
     """
     # Get top videos
     # query top videos by views
+    if active_user:
+        active_user.username = escape(active_user.username)
+
     top_videos = crud.get_top_videos(db)
     thumbnail_drive = os.environ.get("thumbnail_drive")
     cloud_url = os.environ.get("cloud_url")
@@ -147,6 +152,7 @@ async def home(
     return templates.TemplateResponse(
         "index.html",
         context={
+            # "request": request,
             "request": request,
             "active_user": active_user,
             "videos": top_videos,
@@ -176,6 +182,10 @@ def read_video(
     Returns:
         - video.html template with context
     """
+    # santize
+    if active_user:
+        active_user.username = escape(active_user.username)
+
     video = crud.get_video_link(db, video_link)
     cloud_url = os.environ.get("cloud_url")
     folder_name = os.environ.get("folder_name")
@@ -214,6 +224,9 @@ async def upload_page(
         # set found status code
         response.status_code = status.HTTP_302_FOUND
         return response
+
+    active_user.username = escape(active_user.username)
+
     return templates.TemplateResponse(
         "upload.html", context={"request": request, "active_user": active_user}
     )
@@ -222,6 +235,7 @@ async def upload_page(
 @app.post("/upload_file")
 async def upload_file(
     # pylint: disable=too-many-arguments
+    # pylint: disable=too-many-locals
     video_file: UploadFile = File(...),
     videoName: str = Form(...),
     videoLength: str = Form(...),
@@ -242,6 +256,15 @@ async def upload_file(
     Returns:
         - Status 200 if success, else 304 invalid type
     """
+    # sanitize input
+    video_file = escape(video_file)
+    videoName = escape(videoName)
+    videoLength = escape(videoLength)
+    videoHeight = escape(videoHeight)
+    videoWidth = escape(videoWidth)
+    videoDescription = escape(videoDescription)
+    videoCategories = escape(videoCategories)
+
     # pylint: disable=too-many-locals
     if video_file.content_type in ["video/mp4", "video/x-m4v", "video/mpeg4"]:
         # upload to s3
@@ -387,6 +410,11 @@ async def register(
         - login.html: if successly registered
 
     """
+    # sanitize input
+    username = escape(username)
+    password = escape(password)
+    email = escape(email)
+
     profile_bool = False
     # if profile picture is present then upload
     if profile_picture.content_type in ["image/jpeg", "image/jpg", "image/png"]:
@@ -460,6 +488,9 @@ def search_video(search_query: str, request: Request, db: Session = Depends(get_
     Returns:
         - queried objects
     """
+    # sanitize input
+    search_query = escape(search_query)
+
     query_videos = (
         db.query(models.Video)
         .filter(models.Video.video_name.contains(search_query))
@@ -511,9 +542,12 @@ async def like_video(
         # TODO replace with redirect
         return {"Error": "Not logged in"}
     data = await request.json()
-    result = crud.video_like(
-        db, video_int=data["video_id"], user_id=active_user.user_id
-    )
+
+    # sanitize input
+    video_id = escape(data["video_id"])
+    active_user.username = escape(active_user.username)
+
+    result = crud.video_like(db, video_int=video_id, user_id=active_user.user_id)
     return result
 
 
@@ -530,9 +564,12 @@ async def dislike_video(
         # TODO replace with redirect
         return {"Error": "Not logged in"}
     data = await request.json()
-    result = crud.video_dislike(
-        db, video_int=data["video_id"], user_id=active_user.user_id
-    )
+
+    # sanitize input
+    video_id = escape(data["video_id"])
+    active_user.username = escape(active_user.username)
+
+    result = crud.video_dislike(db, video_int=video_id, user_id=active_user.user_id)
     return result
 
 
@@ -549,7 +586,11 @@ async def add_comment(
         # TODO replace with redirect
         return {"Error": "Not logged in"}
     data = await request.json()
-    result = crud.create_comment(
-        db, data["comment_data"], data["video_id"], active_user.user_id
-    )
+
+    # sanitize input
+    comment_data = escape(data["comment_data"])
+    video_id = escape(data["video_id"])
+    active_user.username = escape(active_user.username)
+
+    result = crud.create_comment(db, comment_data, video_id, active_user.user_id)
     return result
