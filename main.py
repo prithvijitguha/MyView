@@ -182,7 +182,7 @@ def read_video(
     Returns:
         - video.html template with context
     """
-    # santize
+    # sanitize
     if active_user:
         active_user.username = escape(active_user.username)
 
@@ -195,6 +195,24 @@ def read_video(
     # get all comments
     comments = crud.get_comments(db, video_id=video.video_id)
 
+    # get username
+    def get_username(user_id):
+        return crud.get_username(db, user_id)
+
+    # get profile picture
+    def get_profile(username):
+        """
+        Function to get
+        bool of profile_picture of
+        User
+        """
+        return (
+            db.query(models.User)
+            .filter(models.User.username == username)
+            .first()
+            .profile_picture
+        )
+
     return templates.TemplateResponse(
         "video.html",
         context={
@@ -204,6 +222,8 @@ def read_video(
             "video": video,
             "video_link": video_link,
             "comments": comments,
+            "get_profile": get_profile,
+            "get_username": get_username,
         },
     )
 

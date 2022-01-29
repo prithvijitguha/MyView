@@ -1,6 +1,8 @@
 #Python generated
 __pycache__/
 
+#env
+*.ps1
 
 #pytest
 .pytest_cache

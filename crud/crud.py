@@ -180,6 +180,11 @@ def get_user(db: Session, user_id: int):
     return db.query(models.User).filter(models.User.user_id == user_id).first()
 
 
+def get_username(db: Session, user_id: int):
+    """get username from user_id"""
+    return db.query(models.User).filter(models.User.user_id == user_id).first().username
+
+
 def get_user_by_email(db: Session, email: str):
     """get user from table `users`
     by email
