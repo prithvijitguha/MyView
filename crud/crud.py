@@ -508,6 +508,7 @@ def get_comments(db: Session, video_id: int):
     return (
         db.query(models.Comment)
         .filter(models.Comment.comment_video_id == video_id)
+        .limit(10)
         .all()
     )
 
