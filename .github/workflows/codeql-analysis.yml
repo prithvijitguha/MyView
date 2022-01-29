@@ -19,8 +19,8 @@ on:
       - '**/*.rst'
       - '**/*.yml'
       - '**/*.md'
-    # The branches below must be a subset of the branches above
     branches: [ master ]
+    # The branches below must be a subset of the branches above
   schedule:
     - cron: '36 23 * * 1'
 
