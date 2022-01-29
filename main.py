@@ -33,6 +33,8 @@ from media import s3_utils
 from db.database import get_db, engine
 from utils import utils
 
+print("HELLO WORLD")
+
 models.Base.metadata.create_all(bind=engine)
 
 app = FastAPI()
