@@ -19,6 +19,7 @@ cryptography==36.0.1
 distlib==0.3.4
 dnspython==2.1.0
 docutils==0.17.1
+dparse==0.5.1
 ecdsa==0.17.0
 email-validator==1.1.3
 fastapi==0.70.1
@@ -71,6 +72,7 @@ six==1.16.0
 sniffio==1.2.0
 snowballstemmer==2.2.0
 Sphinx==4.3.2
+sphinx-rtd-theme==1.0.0
 sphinxcontrib-applehelp==1.0.2
 sphinxcontrib-devhelp==1.0.2
 sphinxcontrib-htmlhelp==2.0.0
