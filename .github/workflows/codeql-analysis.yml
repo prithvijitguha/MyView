@@ -16,6 +16,10 @@ on:
     branches: [ master, master_protection ]
   pull_request:
     branches: [ master ]
+    paths-ignore:
+      - '**/*.rst'
+      - '**/*.yml'
+      - '**/*.md'
     # The branches below must be a subset of the branches above
   schedule:
     - cron: '36 23 * * 1'
