@@ -15,10 +15,6 @@ on:
   push:
     branches: [ master, master_protection ]
   pull_request:
-    paths-ignore:
-      - '**/*.rst'
-      - '**/*.yml'
-      - '**/*.md'
     branches: [ master ]
     # The branches below must be a subset of the branches above
   schedule:
