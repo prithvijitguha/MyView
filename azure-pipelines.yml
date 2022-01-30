@@ -27,15 +27,16 @@ strategy:
     Python39:
       python.version: '3.9'
 
-env:
-    ACCESS_TOKEN_EXPIRES: $(ACCESS_TOKEN_EXPIRES)
-    JWT_ALGO: $(JWT_ALGO)
-    JWT_SECRET: $(JWT_SECRET)
+
 
 steps:
 - task: UsePythonVersion@0
   inputs:
     versionSpec: '$(python.version)'
+  env:
+    ACCESS_TOKEN_EXPIRES: $(ACCESS_TOKEN_EXPIRES)
+    JWT_ALGO: $(JWT_ALGO)
+    JWT_SECRET: $(JWT_SECRET)
   displayName: 'Use Python $(python.version)'
 
 - script: |
