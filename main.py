@@ -277,13 +277,8 @@ async def upload_file(
         - Status 200 if success, else 304 invalid type
     """
     # sanitize input
-    video_file = escape(video_file)
     videoName = escape(videoName)
     videoLength = escape(videoLength)
-    videoHeight = escape(videoHeight)
-    videoWidth = escape(videoWidth)
-    videoDescription = escape(videoDescription)
-    videoCategories = escape(videoCategories)
 
     # pylint: disable=too-many-locals
     if video_file.content_type in ["video/mp4", "video/x-m4v", "video/mpeg4"]:
