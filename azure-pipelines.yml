@@ -33,7 +33,6 @@ steps:
 - task: UsePythonVersion@0
   inputs:
     versionSpec: '$(python.version)'
-  env:
     ACCESS_TOKEN_EXPIRES: $(ACCESS_TOKEN_EXPIRES)
     JWT_ALGO: $(JWT_ALGO)
     JWT_SECRET: $(JWT_SECRET)
