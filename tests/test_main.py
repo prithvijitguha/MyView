@@ -49,21 +49,39 @@ def test_upload_page():
     assert response.status_code == 200
 
 
-# def test_create_user():
-#     """testing the create user function """
-#     response = client.post(
-#         "/register",
-#         json={"email": "deadpool@example.com", "username":
-# "deadpool", "password": "chimichangas4life"},
-#     )
+def test_register():
+    """testing the create user function"""
 
-#     assert response.status_code == 200, response.text
-#     data = response.json()
-#     assert data["email"] == "deadpool@example.com"
-#     assert "id" in data
-#     user_id = data["id"]
-#     response = client.get(f"/users/{user_id}")
-#     assert response.status_code == 200, response.text
-#     data = response.json()
-#     assert data["email"] == "deadpool@example.com"
-#     assert data["id"] == user_id
+    response = client.get("/register")
+    assert response.status_code == 200, response.template
+
+    response = client.post(
+        "/register",
+        data={
+            "username": "test4",
+            "email": "test4@example.com",
+            "password": "test",
+            "reconfirmPassword": "test",
+            "profile_picture": None,
+        },
+    )
+
+    assert response.status_code == 200, response.template
+
+
+def test_login():
+    """
+    Test login
+    """
+    response = client.get("/login")
+    assert response.status_code == 200, response.template
+
+    response = client.post(
+        "/login",
+        data={
+            "email": "test4@example.com",
+            "password": "test",
+        },
+    )
+
+    assert response.status_code == 302

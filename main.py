@@ -437,7 +437,11 @@ async def register(
 
     profile_bool = False
     # if profile picture is present then upload
-    if profile_picture.content_type in ["image/jpeg", "image/jpg", "image/png"]:
+    if profile_picture and profile_picture.content_type in [
+        "image/jpeg",
+        "image/jpg",
+        "image/png",
+    ]:
         bucket = os.environ.get("bucket_name")
         profile_folder = os.environ.get("profile_folder")
         profile_pic = profile_picture.file._file
