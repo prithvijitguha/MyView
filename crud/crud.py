@@ -315,6 +315,12 @@ def increase_view(db: Session, video_int: int, active_user: schemas.User):
         db.add(video_view)
         db.commit()
         db.refresh(video_view)
+    # record unknown user views also
+    else:
+        video_view = models.VideoViews(video_id=video.video_id, user_id=None)
+        db.add(video_view)
+        db.commit()
+        db.refresh(video_view)
     # incease by 1
     video.views += 1
     # commit to database
