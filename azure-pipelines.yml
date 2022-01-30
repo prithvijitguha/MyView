@@ -34,9 +34,9 @@ steps:
   inputs:
     versionSpec: '$(python.version)'
   env:
-    ACCESS_TOKEN_EXPIRES: $(ACCESS_TOKEN_EXPIRES)
-    JWT_ALGO: $(JWT_ALGO)
-    JWT_SECRET: $(JWT_SECRET)
+    ACCESS_TOKEN_EXPIRES: $(SECRET_ACCESS_TOKEN_EXPIRES)
+    JWT_ALGO: $(SECRET_JWT_ALGO)
+    JWT_SECRET: $(SECRET_JWT_SECRET)
   displayName: 'Use Python $(python.version)'
 
 - script: |
