@@ -27,6 +27,11 @@ strategy:
     Python39:
       python.version: '3.9'
 
+env:
+    ACCESS_TOKEN_EXPIRES: $(ACCESS_TOKEN_EXPIRES)
+    JWT_ALGO: $(JWT_ALGO)
+    JWT_SECRET: $(JWT_SECRET)
+
 steps:
 - task: UsePythonVersion@0
   inputs:
@@ -38,10 +43,10 @@ steps:
     pip install -r requirements.txt
   displayName: 'Install dependencies'
 
-# - script: |
-#     pip install pytest pytest-azurepipelines
-#     python -m pytest tests/
-#   displayName: 'pytest'
+- script: |
+    pip install pytest pytest-azurepipelines
+    python -m pytest tests/
+  displayName: 'pytest'
 
 - script: |
     safety check -r requirements.txt
