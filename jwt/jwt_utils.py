@@ -27,7 +27,7 @@ from schemas import schemas
 load_dotenv()
 SECRET_KEY = os.environ.get("JWT_SECRET")
 ALGORITHM = os.environ.get("JWT_ALGO")
-ACCESS_TOKEN_EXPIRES = 60
+ACCESS_TOKEN_EXPIRES = int(os.environ.get("ACCESS_TOKEN_EXPIRES"))
 
 # path to get tokens
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/login")
