@@ -111,7 +111,7 @@ def read_user(user_id: int, db: Session = Depends(get_db)):
 @app.get("/", response_class=HTMLResponse)
 async def home(
     request: Request,
-    active_user: Optional[schemas.User] = Depends(get_current_user_optional),
+    active_user: Optional[schemas.UserBase] = Depends(get_current_user_optional),
     db: Session = Depends(get_db),
 ):
     """
@@ -128,6 +128,7 @@ async def home(
     # query top videos by views
     if active_user:
         active_user.username = escape(active_user.username)
+        active_user.email = escape(active_user.email)
 
     top_videos = crud.get_top_videos(db)
     thumbnail_drive = os.environ.get("thumbnail_drive")
