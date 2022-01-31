@@ -30,3 +30,10 @@ def sanitize_active_user(active_user):
     active_user.username = escape(active_user.username)
     active_user.email = escape(active_user.email)
     return active_user
+
+
+def sanitize_request(request):
+    """sanitize request"""
+    # iterate through dict values
+    # TODO add sanitization
+    return request

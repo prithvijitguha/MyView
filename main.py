@@ -138,6 +138,8 @@ async def home(
     profile_folder = os.environ.get("profile_folder")
     profile_picture_url = f"{cloud_url}/{profile_folder}"
 
+    request = utils.sanitize_request(request)
+
     def get_profile(username):
         """
         Function to get
