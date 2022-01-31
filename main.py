@@ -136,6 +136,11 @@ async def home(
     profile_folder = os.environ.get("profile_folder")
     profile_picture_url = f"{cloud_url}/{profile_folder}"
 
+    # sanitize request
+    body_data = await request.body()
+    if body_data:
+        request.body = escape(body_data)
+
     def get_profile(username):
         """
         Function to get
@@ -279,6 +284,10 @@ async def upload_file(
     # sanitize input
     videoName = escape(videoName)
     videoLength = escape(videoLength)
+    if videoDescription:
+        videoDescription = escape(videoDescription)
+    if videoCategories:
+        videoCategories = escape(videoCategories)
 
     # pylint: disable=too-many-locals
     if video_file.content_type in ["video/mp4", "video/x-m4v", "video/mpeg4"]:
