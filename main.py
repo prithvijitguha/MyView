@@ -11,6 +11,7 @@ MyView all views saved here
 # pylint: disable=too-many-arguments
 # pylint: disable=too-many-locals
 
+
 import os
 
 from html import escape
@@ -111,7 +112,7 @@ def read_user(user_id: int, db: Session = Depends(get_db)):
 @app.get("/", response_class=HTMLResponse)
 async def home(
     request: Request,
-    active_user: Optional[schemas.User] = Depends(get_current_user_optional),
+    active_user: Optional[schemas.UserBase] = Depends(get_current_user_optional),
     db: Session = Depends(get_db),
 ):
     """
@@ -126,8 +127,9 @@ async def home(
     """
     # Get top videos
     # query top videos by views
+    # sanitize active_user
     if active_user:
-        active_user.username = escape(active_user.username)
+        active_user = utils.sanitize_active_user(active_user)
 
     top_videos = crud.get_top_videos(db)
     thumbnail_drive = os.environ.get("thumbnail_drive")
@@ -135,6 +137,8 @@ async def home(
     thumbnail_url = f"{cloud_url}/{thumbnail_drive}"
     profile_folder = os.environ.get("profile_folder")
     profile_picture_url = f"{cloud_url}/{profile_folder}"
+
+    request = utils.sanitize_request(request)
 
     def get_profile(username):
         """
@@ -149,17 +153,18 @@ async def home(
             .profile_picture
         )
 
+    context = {
+        "request": request,
+        "active_user": active_user,
+        "videos": top_videos,
+        "thumbnail_url": thumbnail_url,
+        "profile_picture_url": profile_picture_url,
+        "get_profile": get_profile,
+    }
+
     return templates.TemplateResponse(
         "index.html",
-        context={
-            # "request": request,
-            "request": request,
-            "active_user": active_user,
-            "videos": top_videos,
-            "thumbnail_url": thumbnail_url,
-            "profile_picture_url": profile_picture_url,
-            "get_profile": get_profile,
-        },
+        context=context,
     )
 
 
@@ -245,7 +250,8 @@ async def upload_page(
         response.status_code = status.HTTP_302_FOUND
         return response
 
-    active_user.username = escape(active_user.username)
+    # sanitize active_user
+    active_user = utils.sanitize_active_user(active_user)
 
     return templates.TemplateResponse(
         "upload.html", context={"request": request, "active_user": active_user}
@@ -279,6 +285,10 @@ async def upload_file(
     # sanitize input
     videoName = escape(videoName)
     videoLength = escape(videoLength)
+    if videoDescription:
+        videoDescription = escape(videoDescription)
+    if videoCategories:
+        videoCategories = escape(videoCategories)
 
     # pylint: disable=too-many-locals
     if video_file.content_type in ["video/mp4", "video/x-m4v", "video/mpeg4"]:
@@ -609,7 +619,9 @@ async def add_comment(
     # sanitize input
     comment_data = escape(data["comment_data"])
     video_id = escape(data["video_id"])
-    active_user.username = escape(active_user.username)
+    # sanitize active_user
+    if active_user:
+        active_user = utils.sanitize_active_user(active_user)
 
     result = crud.create_comment(db, comment_data, video_id, active_user.user_id)
     return result
