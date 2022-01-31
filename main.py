@@ -11,6 +11,7 @@ MyView all views saved here
 # pylint: disable=too-many-arguments
 # pylint: disable=too-many-locals
 
+
 import os
 
 from html import escape
@@ -126,9 +127,9 @@ async def home(
     """
     # Get top videos
     # query top videos by views
+    # sanitize active_user
     if active_user:
-        active_user.username = escape(active_user.username)
-        active_user.email = escape(active_user.email)
+        active_user = utils.sanitize_active_user(active_user)
 
     top_videos = crud.get_top_videos(db)
     thumbnail_drive = os.environ.get("thumbnail_drive")
@@ -247,7 +248,8 @@ async def upload_page(
         response.status_code = status.HTTP_302_FOUND
         return response
 
-    active_user.username = escape(active_user.username)
+    # sanitize active_user
+    active_user = utils.sanitize_active_user(active_user)
 
     return templates.TemplateResponse(
         "upload.html", context={"request": request, "active_user": active_user}
@@ -615,7 +617,9 @@ async def add_comment(
     # sanitize input
     comment_data = escape(data["comment_data"])
     video_id = escape(data["video_id"])
-    active_user.username = escape(active_user.username)
+    # sanitize active_user
+    if active_user:
+        active_user = utils.sanitize_active_user(active_user)
 
     result = crud.create_comment(db, comment_data, video_id, active_user.user_id)
     return result

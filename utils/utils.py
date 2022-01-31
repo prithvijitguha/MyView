@@ -3,6 +3,8 @@
 import hashlib
 import os
 
+from html import escape
+
 
 def create_video_name(video_name: str):
     """
@@ -19,3 +21,12 @@ def create_video_name(video_name: str):
     hash_object = hashlib.pbkdf2_hmac("sha256", byte_string, salt, 10000)
     hashed_video = hash_object.hex()
     return hashed_video
+
+
+def sanitize_active_user(active_user):
+    """
+    sanitize active_user object
+    """
+    active_user.username = escape(active_user.username)
+    active_user.email = escape(active_user.email)
+    return active_user
