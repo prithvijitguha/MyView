@@ -44,13 +44,13 @@ steps:
     pip install -r requirements.txt
   displayName: 'Install dependencies'
 
-# - script: |
-#     $env:ACCESS_TOKEN_EXPIRES
-#     $env:JWT_ALGO
-#     $env:JWT_SECRET
-#     pip install pytest pytest-azurepipelines
-#     python -m pytest tests/
-#   displayName: 'pytest'
+- script: |
+    $env:SECRET_ACCESS_TOKEN_EXPIRES
+    $env:SECRET_JWT_ALGO
+    $env:SECRET_JWT_SECRET
+    pip install pytest pytest-azurepipelines
+    python -m pytest tests/
+  displayName: 'pytest'
 
 - script: |
     safety check -r requirements.txt
