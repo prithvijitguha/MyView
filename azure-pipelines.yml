@@ -45,9 +45,9 @@ steps:
   displayName: 'Install dependencies'
 
 - script: |
-    $env:SECRET_ACCESS_TOKEN_EXPIRES
-    $env:SECRET_JWT_ALGO
-    $env:SECRET_JWT_SECRET
+    $ACCESS_TOKEN_EXPIRES
+    $JWT_ALGO
+    $JWT_SECRET
     pip install pytest pytest-azurepipelines
     python -m pytest tests/
   displayName: 'pytest'
