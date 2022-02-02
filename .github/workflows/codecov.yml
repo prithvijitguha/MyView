@@ -4,18 +4,22 @@ on:
   push:
     branches: [ master, master_protection ]
     paths-ignore:
-      - '**/.rst'
-      - '**/.jpg'
-      - '**/.png'
-      - '**/.md'
-      - '**/.yml'
+      - "docs/**"
+      - "readme.md"
+      - "**/.rst"
+      - "**/.jpg"
+      - "**/.png"
+      - "**/.md"
+      - "**/.yml"
   pull_request:
     paths-ignore:
-      - '**/.rst'
-      - '**/.jpg'
-      - '**/.png'
-      - '**/.md'
-      - '**/.yml'
+      - "docs/**"
+      - "readme.md"
+      - "**/.rst"
+      - "**/.jpg"
+      - "**/.png"
+      - "**/.md"
+      - "**/.yml"
 
 jobs:
   run:

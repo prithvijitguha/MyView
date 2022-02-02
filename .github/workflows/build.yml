@@ -3,19 +3,23 @@ name: Build and Test
 on:
   push:
     paths-ignore:
-      - '**/.rst'
-      - '**/.jpg'
-      - '**/.png'
-      - '**/.md'
-      - '**/.yml'
+      - "docs/**"
+      - "readme.md"
+      - "**/.rst"
+      - "**/.jpg"
+      - "**/.png"
+      - "**/.md"
+      - "**/.yml"
     branches: [ master ]
   pull_request:
     paths-ignore:
-      - '**/.rst'
-      - '**/.jpg'
-      - '**/.png'
-      - '**/.md'
-      - '**/.yml'
+      - "docs/**"
+      - "readme.md"
+      - "**/.rst"
+      - "**/.jpg"
+      - "**/.png"
+      - "**/.md"
+      - "**/.yml"
 
 jobs:
   build:
