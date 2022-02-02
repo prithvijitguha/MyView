@@ -16,7 +16,6 @@ on:
       - '**/.png'
       - '**/.md'
       - '**/.yml'
-    branches: [ master ]
 
 jobs:
   build:

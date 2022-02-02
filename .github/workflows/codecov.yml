@@ -10,7 +10,6 @@ on:
       - '**/.md'
       - '**/.yml'
   pull_request:
-    branches: [ master ]
     paths-ignore:
       - '**/.rst'
       - '**/.jpg'
