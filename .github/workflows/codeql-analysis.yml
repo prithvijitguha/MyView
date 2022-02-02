@@ -14,12 +14,20 @@ name: "CodeQL"
 on:
   push:
     branches: [ master, master_protection ]
+    paths-ignore:
+      - '**/.rst'
+      - '**/.jpg'
+      - '**/.png'
+      - '**/.md'
+      - '**/.yml'
   pull_request:
     branches: [ master ]
     paths-ignore:
       - '**/.rst'
-      - '**/.yml'
+      - '**/.jpg'
+      - '**/.png'
       - '**/.md'
+      - '**/.yml'
     # The branches below must be a subset of the branches above
   schedule:
     - cron: '36 23 * * 1'

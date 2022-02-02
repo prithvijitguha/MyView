@@ -1,5 +1,23 @@
-name: Workflow for Codecov example-python
-on: [push, pull_request]
+name: Code Coverage
+
+on:
+  push:
+    branches: [ master, master_protection ]
+    paths-ignore:
+      - '**/.rst'
+      - '**/.jpg'
+      - '**/.png'
+      - '**/.md'
+      - '**/.yml'
+  pull_request:
+    branches: [ master ]
+    paths-ignore:
+      - '**/.rst'
+      - '**/.jpg'
+      - '**/.png'
+      - '**/.md'
+      - '**/.yml'
+
 jobs:
   run:
     runs-on: ubuntu-latest

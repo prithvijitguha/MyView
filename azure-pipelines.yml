@@ -9,10 +9,11 @@ trigger:
     - master
   paths:
     exclude:
-    - 'docs/*'
-    - 'static/assets/'
-    - 'README.md'
-    - '**/*.md'
+    - '**/.rst'
+    - '**/.jpg'
+    - '**/.png'
+    - '**/.md'
+    - '**/.yml'
 
 pr:
   autoCancel: true

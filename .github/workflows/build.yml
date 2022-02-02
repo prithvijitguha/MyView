@@ -3,17 +3,19 @@ name: Build and Test
 on:
   push:
     paths-ignore:
-      - 'docs/**'
-      - 'static/assets/**'
-      - 'README.md'
-      - '**/*.md'
+      - '**/.rst'
+      - '**/.jpg'
+      - '**/.png'
+      - '**/.md'
+      - '**/.yml'
     branches: [ master ]
   pull_request:
     paths-ignore:
-      - 'docs/**'
-      - 'static/assets/**'
-      - 'README.md'
-      - '**/*.md'
+      - '**/.rst'
+      - '**/.jpg'
+      - '**/.png'
+      - '**/.md'
+      - '**/.yml'
     branches: [ master ]
 
 jobs:
@@ -40,13 +42,6 @@ jobs:
         black .
         flake8 .
         pylint main.py crud db jwt media models schemas tests
-    - name: Run Tests
-      env:
-        JWT_ALGO: ${{ secrets.JWT_ALGO }}
-        JWT_SECRET: ${{ secrets.JWT_SECRET }}
-        ACCESS_TOKEN_EXPIRES: ${{ secrets.ACCESS_TOKEN_EXPIRES }}
-      run: |
-        python -m pytest tests/
     - name: Dependency Check Safety
       run: |
         safety check -r requirements.txt
