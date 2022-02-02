@@ -26,6 +26,7 @@ Contents
    architecture
    modules
    data_models
+   issue_tracking
    contributing_guide_code
    contributing_guide_docs
    front_end_prototype
