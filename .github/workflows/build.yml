@@ -53,6 +53,7 @@ jobs:
         JWT_ALGO: ${{ secrets.JWT_ALGO }}
         JWT_SECRET: ${{ secrets.JWT_SECRET }}
         ACCESS_TOKEN_EXPIRES: ${{ secrets.ACCESS_TOKEN_EXPIRES }}
+        salt: ${{ secrets.SALT }}
       run: |
         coverage run -m pytest
         coverage xml
