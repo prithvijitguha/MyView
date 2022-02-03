@@ -37,6 +37,7 @@ on:
 
 jobs:
   analyze:
+    needs: build, test and codecov
     name: Analyze
     runs-on: ubuntu-latest
     permissions:
