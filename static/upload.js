@@ -7,6 +7,11 @@ function checkVideo(){
     file_type = video_file.type
     //if file type is not video
     //then create a message that tells the user invalid file type
+
+    //get file size
+    //convert to mb
+    const file_size = video_file.size/1000000
+
     if (!file_type.includes('video')) {
       input_value.value = ""
       //create element modal
@@ -23,7 +28,24 @@ function checkVideo(){
       console.log("invalid file type, input reset")
     }
 
+
+    if (file_size > 100) {
+      input_value.value = ""
+      //create element modal
+      addModal()
+      modal = document.getElementById("mainModal")
+      document.getElementById("mainModalTitle").innerHTML = "File Size Limit"
+      document.getElementById("mainModalBody").innerHTML = "File exceeds 100 MB"
+      $('#mainModal').modal({ show: false})
+      $('#mainModal').modal('show');
+      //delete element
+      $('#mainModal').remove()
+    }
+
+
+
     else {
+      //check file size
       //read video and play video in frame
       //get the frame element
       //video = document.getElementById("demoVideo")

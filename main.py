@@ -258,7 +258,7 @@ async def upload_page(
     )
 
 
-@app.post("/upload_file")
+@app.post("/upload_file", dependencies=[Depends(utils.valid_content_length)])
 async def upload_file(
     # pylint: disable=too-many-arguments
     # pylint: disable=too-many-locals
@@ -277,6 +277,7 @@ async def upload_file(
     """
     Upload file to s3
     Only accepts video file types.
+    Limit file uploads to 100 mb
     Args:
         - video_file: UploadFile
     Returns:
@@ -289,9 +290,19 @@ async def upload_file(
         videoDescription = escape(videoDescription)
     if videoCategories:
         videoCategories = escape(videoCategories)
-
+    real_file_size = 0
+    # check file size
+    while content := await video_file.read(1024):  # async read chunk
+        real_file_size += len(content)
+        # if file size exceeds 100mb
+        if real_file_size > 100:
+            raise HTTPException(
+                status_code=status.HTTP_413_REQUEST_ENTITY_TOO_LARGE,
+                detail="File Too Large",
+            )
     # pylint: disable=too-many-locals
     if video_file.content_type in ["video/mp4", "video/x-m4v", "video/mpeg4"]:
+
         # upload to s3
         try:
             # upload video
