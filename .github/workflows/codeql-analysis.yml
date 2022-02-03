@@ -26,6 +26,8 @@ on:
     paths-ignore:
       - "docs/**"
       - "readme.md"
+      - ".github/**"
+      - ".pylintrc"
       - "**/.rst"
       - "**/.jpg"
       - "**/.png"

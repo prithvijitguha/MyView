@@ -23,7 +23,7 @@ on:
 
 jobs:
   build:
-
+    name: build, test and codecov
     runs-on: ubuntu-latest
     strategy:
       max-parallel: 4
@@ -44,9 +44,19 @@ jobs:
       run: |
         black .
         flake8 .
-        pylint main.py crud db jwt media models schemas tests
+        pylint .
     - name: Dependency Check Safety
       run: |
         safety check -r requirements.txt
+    - name: Run tests and collect coverage
+      env:
+        JWT_ALGO: ${{ secrets.JWT_ALGO }}
+        JWT_SECRET: ${{ secrets.JWT_SECRET }}
+        ACCESS_TOKEN_EXPIRES: ${{ secrets.ACCESS_TOKEN_EXPIRES }}
+      run: |
+        coverage run -m pytest
+        coverage xml
+    - name: Upload coverage to Codecov
+      uses: codecov/codecov-action@v2
 
 
