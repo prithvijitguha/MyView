@@ -1,9 +1,12 @@
 """Utils functions to be used in main"""
-
+# pylint: disable=import-error
+# flake8: noqa:E501
 import hashlib
 import os
 
 from html import escape
+
+from fastapi import Header
 
 
 def create_video_name(video_name: str):
@@ -37,3 +40,9 @@ def sanitize_request(request):
     # iterate through dict values
     # TODO add sanitization
     return request
+
+
+async def valid_content_length(content_length: int = Header(..., lt=10_00_00_000)):
+    """Check the header content_length
+    ensure its smaller than 100mb"""
+    return content_length

@@ -37,7 +37,7 @@ app.dependency_overrides[get_db] = override_get_db
 client = TestClient(app)
 
 
-def test_read_main():
+def test_read_gome():
     """Check the index page for responses"""
     response = client.get("/")
     assert response.status_code == 200
@@ -85,3 +85,11 @@ def test_login():
     )
 
     assert response.status_code == 302
+
+
+def test_logout():
+    """
+    Test Logout
+    """
+    response = client.get("/logout")
+    assert response.status_code == 200, response.template
