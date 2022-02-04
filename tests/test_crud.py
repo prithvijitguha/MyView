@@ -13,6 +13,7 @@ def test_hash():
     """
     hashed_password = crud.hash_password("test_password")
     assert isinstance(hashed_password, str)
+    assert hashed_password != "test_password"
 
 
 def test_compare_password():
