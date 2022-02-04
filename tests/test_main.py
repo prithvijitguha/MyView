@@ -5,9 +5,11 @@
 from fastapi.testclient import TestClient
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
+from moto import mock_s3
+
 from main import app
 from db.database import Base, get_db
-
+from jwt.jwt_utils import get_current_user_optional
 
 # Create local test.db
 
@@ -33,11 +35,12 @@ def override_get_db():
 
 
 app.dependency_overrides[get_db] = override_get_db
+app.dependency_overrides[get_current_user_optional] = get_current_user_optional
 
 client = TestClient(app)
 
 
-def test_read_gome():
+def test_read_home():
     """Check the index page for responses"""
     response = client.get("/")
     assert response.status_code == 200
@@ -93,3 +96,26 @@ def test_logout():
     """
     response = client.get("/logout")
     assert response.status_code == 200, response.template
+
+
+@mock_s3
+def test_upload_file():
+    """
+    Test Upload File
+    """
+    response = client.post(
+        "/upload_file",
+        data={
+            "video_file": "test_string",
+            "videoName": "test_video",
+            "videoLength": "424",
+            "videoHeight": 720,
+            "videoWidth": 1080,
+            "thumbnail": "test_thumbnail",
+            "videoDescription": "test_game_video_description",
+            "videoCategories": "test_gaming",
+        },
+    )
+
+    # FIX ME: needs to made into actual code, currently wrong test
+    assert response.status_code == 422
