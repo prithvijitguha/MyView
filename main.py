@@ -16,6 +16,7 @@ import os
 
 from html import escape
 from typing import Optional
+from tempfile import NamedTemporaryFile
 
 from fastapi import FastAPI, Request, Depends, Response, status
 from fastapi import HTTPException, File, UploadFile, Form
@@ -290,24 +291,31 @@ async def upload_file(
         videoDescription = escape(videoDescription)
     if videoCategories:
         videoCategories = escape(videoCategories)
+    file_size = 10_00_00_000
+
     real_file_size = 0
+    # pylint: disable="consider-using-with"
+    temp = NamedTemporaryFile()
     # check file size
-    while content := await video_file.read(1024):  # async read chunk
-        real_file_size += len(content)
-        # if file size exceeds 100mb
-        if real_file_size > 100:
+    for chunk in video_file.file:
+        real_file_size += len(chunk)
+        if real_file_size > file_size:
             raise HTTPException(
-                status_code=status.HTTP_413_REQUEST_ENTITY_TOO_LARGE,
-                detail="File Too Large",
+                status_code=status.HTTP_413_REQUEST_ENTITY_TOO_LARGE, detail="Too large"
             )
+        temp.write(chunk)
+    temp.close()
+
     # pylint: disable=too-many-locals
     if video_file.content_type in ["video/mp4", "video/x-m4v", "video/mpeg4"]:
 
         # upload to s3
         try:
             # upload video
+            # bring the file reader to start position
+            await video_file.seek(0)
             # convert to bytes
-            data = video_file.file._file
+            data = video_file.file
             # get filename
             filename = video_file.filename
             file_format = video_file.content_type
