@@ -156,11 +156,7 @@ def test_upload_file():
 def test_read_video():
     """Test Read video function"""
     video_link = (
-        next(override_get_db())
-        .query(models.Video)
-        .filter(models.Video.video_id == "1")
-        .first()
-        .video_link
+        next(override_get_db()).query(models.Video).limit(10).first().video_link
     )
     response = client.get(
         f"/video/{video_link}",
@@ -175,11 +171,7 @@ def test_read_video():
 def test_search_video():
     """Test Search Video"""
     video_name = (
-        next(override_get_db())
-        .query(models.Video)
-        .filter(models.Video.video_id == 1)
-        .first()
-        .video_name
+        next(override_get_db()).query(models.Video).limit(10).first().video_name
     )
     response = client.get("/search", data={"search_query": video_name})
     # FIX ME: This test doesn't work properly, current used 422 unprocessible entity.
@@ -190,39 +182,21 @@ def test_search_video():
 
 def test_like_video():
     """Test Like Video"""
-    video_id = (
-        next(override_get_db())
-        .query(models.Video)
-        .filter(models.Video.video_id == 1)
-        .first()
-        .video_id
-    )
+    video_id = next(override_get_db()).query(models.Video).limit(10).first().video_id
     response = client.post("/like", json={"video_id": str(video_id)})
     assert response.status_code == 200
 
 
 def test_dislike_video():
     """Test Dislike Video"""
-    video_id = (
-        next(override_get_db())
-        .query(models.Video)
-        .filter(models.Video.video_id == 1)
-        .first()
-        .video_id
-    )
+    video_id = next(override_get_db()).query(models.Video).limit(10).first().video_id
     response = client.post("/dislike", json={"video_id": str(video_id)})
     assert response.status_code == 200
 
 
 def test_add_comment():
     """Test Add comment"""
-    video_id = (
-        next(override_get_db())
-        .query(models.Video)
-        .filter(models.Video.video_id == 1)
-        .first()
-        .video_id
-    )
+    video_id = next(override_get_db()).query(models.Video).limit(10).first().video_id
     response = client.post(
         "/comment/add",
         json={
