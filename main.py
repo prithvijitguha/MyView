@@ -526,7 +526,7 @@ def logout(response: Response, request: Request):
 
 
 @app.get("/search")
-def search_video(search_query: str, request: Request, db: Session = Depends(get_db)):
+def search_video(request: Request, search_query: str, db: Session = Depends(get_db)):
     """
     Search Video
     Args:
