@@ -97,7 +97,7 @@ To get started on this project. To get a local copy up and running follow these 
 
 ### Prerequisites
 
-1. Creat a virtual environment
+1. Create a virtual environment
     ```sh
     python -m venv myview
     ```
