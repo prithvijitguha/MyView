@@ -110,7 +110,7 @@ To get started on this project. To get a local copy up and running follow these 
 
     Windows:
     ```sh
-    myview/scripts/activate
+    myview\scripts\activate
     ```
 
 
