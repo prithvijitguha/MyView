@@ -31,6 +31,7 @@ def upload_file(file_object, bucket, object_name):
 
     try:
         s3_client.put_object(Body=file_object, Bucket=bucket, Key=object_name)
-    except ClientError:
+    except ClientError as error_message:
+        print(error_message)
         return False
     return True

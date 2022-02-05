@@ -12,4 +12,5 @@ docs/build/
 
 #secrets and databases
 .env
+backup.env
 *.db
