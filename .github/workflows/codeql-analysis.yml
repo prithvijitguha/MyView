@@ -38,7 +38,6 @@ on:
     - cron: '36 23 * * 1'
 
 jobs:
-  needs: build
   analyze:
     name: Analyze
     runs-on: ubuntu-latest
