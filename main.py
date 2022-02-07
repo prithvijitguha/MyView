@@ -646,10 +646,21 @@ async def add_comment(
     return result
 
 
-# @app.delete("/comment/delete")
-# async def delete_comment(
-#     request: Request,
-#     active_user: Optional[schemas.User] = Depends(get_current_user_optional),
-#     db: Session = Depends(get_db),
-# ):
-#     pass
+@app.delete("/comment/delete")
+async def delete_comment(
+    request: Request,
+    active_user: Optional[schemas.User] = Depends(get_current_user_optional),
+    db: Session = Depends(get_db),
+):
+    """
+    Function to delete comment
+    """
+    if not active_user:
+        # TODO replace with redirect
+        return {"Error": "Not logged in"}
+    comment_id = await request.json()
+    print(comment_id)
+    comment_id = escape(comment_id)
+    comment_id = int(comment_id)
+    crud.delete_comment(db, comment_id)
+    return {"Success": "comment deleted"}
