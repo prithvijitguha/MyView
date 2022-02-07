@@ -89,9 +89,7 @@ function submitComment() {
 
 
 function deleteComment(htmlElementId) {
-    console.log(htmlElementId)
     comment_id = htmlElementId.slice(16)
-    console.log(comment_id)
     //fetch request to delete comment
 
     //get the parent element and delete it

@@ -644,3 +644,12 @@ async def add_comment(
 
     result = crud.create_comment(db, comment_data, video_id, active_user.user_id)
     return result
+
+
+# @app.delete("/comment/delete")
+# async def delete_comment(
+#     request: Request,
+#     active_user: Optional[schemas.User] = Depends(get_current_user_optional),
+#     db: Session = Depends(get_db),
+# ):
+#     pass
