@@ -63,6 +63,10 @@
     <!--comment-->
     <h4>{{ comment.comment_content }}</h4>
     <h4>{{ comment.ts_comment }}</h4>
+    {% if active_user.user_id == comment.comment_user_id %}
+    <input type="button" class="btn-check" name="btnradio"  autocomplete="off">
+    <label class="btn btn-outline-primary" id="CommentCommentID{{ comment.comment_id }}" onclick="deleteComment(this.id)"for="btnradio1">🗑️</label>
+    {% endif %}
 </div>
 {% endfor %}
 

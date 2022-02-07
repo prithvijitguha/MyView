@@ -242,3 +242,16 @@ def test_add_comment():
         },
     )
     assert response.status_code == 200
+
+
+def test_delete_comment():
+    """Test Delete Comment"""
+    comment_id = (
+        next(override_get_db())
+        .query(models.Comment)
+        .filter(models.Comment.comment_id == 1)
+        .first()
+        .comment_id
+    )
+    response = client.delete("/comment/delete", json=str(comment_id))
+    assert response.status_code == 200

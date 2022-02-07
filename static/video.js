@@ -86,3 +86,28 @@ function submitComment() {
     console.error('Error:', error);
     });
 }
+
+
+function deleteComment(htmlElementId) {
+    comment_id = htmlElementId.slice(16)
+    const data = comment_id
+    //fetch request to delete comment
+    fetch('/comment/delete', {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json', 'Accept': 'application/json'
+        },
+        body: JSON.stringify(data),
+        })
+        .then(response => response.json())
+        .then(data => {
+        console.log('Success:', data);
+        })
+        .catch((error) => {
+        console.error('Error:', error);
+        });
+
+    //get the parent element and delete it
+    parentElement = document.getElementById(htmlElementId)
+    parentElement.parentElement.remove()
+}

@@ -559,7 +559,6 @@ def delete_comment(db: Session, comment_id: int):
     try:
         db.delete(db_comment)
         db.commit()
-        db.refresh(db_comment)
         return True
     except Exception as e:
         print(f"Could not delete user={comment_id}: {e}")
