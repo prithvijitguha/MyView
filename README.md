@@ -99,18 +99,18 @@ To get started on this project. To get a local copy up and running follow these 
 
 1. Creat a virtual environment
     ```sh
-    python -m venv myview
+    python -m venv myview_env
     ```
 2. Activate virtual environment
 
     Linux:
     ```sh
-    source myview/bin/activate
+    source myview_env/bin/activate
     ```
 
     Windows:
     ```sh
-    myview/scripts/activate
+    myview_env/scripts/activate
     ```
 
 
