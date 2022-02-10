@@ -244,6 +244,23 @@ def test_add_comment():
     assert response.status_code == 200
 
 
+def test_update_comment():
+    """Test Update Comment"""
+    comment_id = (
+        next(override_get_db())
+        .query(models.Comment)
+        .filter(models.Comment.comment_id == 1)
+        .first()
+        .comment_id
+    )
+    db = next(override_get_db())
+    new_comment = "new comment content"
+    comment_object = crud.update_comment(
+        db, req_comment_id=comment_id, new_content=new_comment
+    )
+    assert comment_object.comment_content == new_comment
+
+
 def test_delete_comment():
     """Test Delete Comment"""
     comment_id = (
@@ -255,3 +272,10 @@ def test_delete_comment():
     )
     response = client.delete("/comment/delete", json=str(comment_id))
     assert response.status_code == 200
+
+
+def test_delete_video():
+    """Test Delete Video"""
+    db = next(override_get_db())
+    status = crud.delete_video(db, 1)
+    assert status
