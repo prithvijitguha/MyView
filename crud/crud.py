@@ -462,10 +462,9 @@ def delete_video(db: Session, video_id: int):
     try:
         db.delete(db_video)
         db.commit()
-        db.refresh(db_video)
         return True
     except Exception as e:
-        print(f"Could not delete user={video_id}: {e}")
+        print(f"Could not delete video={video_id}: {e}")
         return False
 
 
