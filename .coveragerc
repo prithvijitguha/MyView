@@ -1,5 +1,5 @@
 [run]
-omit = db/* */__init__.py
+omit = db/* */__init__.py db/database.py
 
 [report]
-omit = db/* */__init__.py
+omit = db/* */__init__.py db/database.py
