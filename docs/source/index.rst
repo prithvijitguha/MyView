@@ -20,6 +20,7 @@ MyView
 Contents
 --------
 
+
 .. toctree::
    :maxdepth: 1
 
@@ -30,3 +31,9 @@ Contents
    contributing_guide_code
    contributing_guide_docs
    front_end_prototype
+
+
+Indices and tables
+==================
+* :ref:`genindex`
+* :ref:`modindex`
