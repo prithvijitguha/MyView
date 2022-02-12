@@ -1,0 +1,5 @@
+[run]
+omit = db/* */__init__.py
+
+[report]
+omit = db/* */__init__.py
