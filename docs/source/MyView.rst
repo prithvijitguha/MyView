@@ -7,6 +7,7 @@ Subpackages
 .. toctree::
    :maxdepth: 4
 
+   MyView.main
    MyView.crud
    MyView.db
    MyView.jwt
@@ -16,21 +17,6 @@ Subpackages
    MyView.tests
    MyView.utils
 
-Submodules
-----------
 
-main module
-------------------
 
-.. automodule:: main
-   :members:
-   :undoc-members:
-   :show-inheritance:
 
-Module contents
----------------
-
-.. automodule:: .
-   :members:
-   :undoc-members:
-   :show-inheritance:
