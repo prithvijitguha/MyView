@@ -22,7 +22,7 @@ Contents
 
 
 .. toctree::
-   :maxdepth: 1
+   :maxdepth: 4
 
    architecture
    modules
