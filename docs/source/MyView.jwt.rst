@@ -4,10 +4,10 @@ MyView.jwt package
 Submodules
 ----------
 
-jwt.jwt\_utils module
+Myview.jwt.jwt\_utils module
 ----------------------------
 
-.. automodule:: jwt.jwt_utils
+.. automodule:: Myview.jwt.jwt_utils
    :members:
    :undoc-members:
    :show-inheritance:
@@ -15,7 +15,7 @@ jwt.jwt\_utils module
 Module contents
 ---------------
 
-.. automodule:: jwt
+.. automodule:: Myview.jwt
    :members:
    :undoc-members:
    :show-inheritance:

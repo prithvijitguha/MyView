@@ -4,10 +4,10 @@ MyView.crud package
 Submodules
 ----------
 
-crud.crud module
+Myview.crud.crud module
 -----------------------
 
-.. automodule:: crud.crud
+.. automodule:: Myview.crud.crud
    :members:
    :undoc-members:
    :show-inheritance:
@@ -15,7 +15,7 @@ crud.crud module
 Module contents
 ---------------
 
-.. automodule:: crud
+.. automodule:: Myview.crud
    :members:
    :undoc-members:
    :show-inheritance:
