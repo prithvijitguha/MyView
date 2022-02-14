@@ -4,10 +4,10 @@ MyView.models package
 Submodules
 ----------
 
-models.models module
+Myview.models.models module
 ---------------------------
 
-.. automodule:: models.models
+.. automodule:: Myview.models.models
    :members:
    :undoc-members:
    :show-inheritance:
@@ -15,7 +15,7 @@ models.models module
 Module contents
 ---------------
 
-.. automodule:: models
+.. automodule:: Myview.models
    :members:
    :undoc-members:
    :show-inheritance:

@@ -4,10 +4,10 @@ MyView.schemas package
 Submodules
 ----------
 
-schemas.schemas module
+Myview.schemas.schemas module
 -----------------------------
 
-.. automodule:: schemas.schemas
+.. automodule:: Myview.schemas.schemas
    :members:
    :undoc-members:
    :show-inheritance:
@@ -15,7 +15,7 @@ schemas.schemas module
 Module contents
 ---------------
 
-.. automodule:: schemas
+.. automodule:: Myview.schemas
    :members:
    :undoc-members:
    :show-inheritance:

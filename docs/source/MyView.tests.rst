@@ -4,34 +4,34 @@ MyView.tests package
 Submodules
 ----------
 
-tests.test\_crud module
+Myview.tests.test\_crud module
 ------------------------------
 
-.. automodule:: tests.test_crud
+.. automodule:: Myview.tests.test_crud
    :members:
    :undoc-members:
    :show-inheritance:
 
-tests.test\_main module
+Myview.tests.test\_main module
 ------------------------------
 
-.. automodule:: tests.test_main
+.. automodule:: Myview.tests.test_main
    :members:
    :undoc-members:
    :show-inheritance:
 
-tests.test\_s3\_utils module
+Myview.tests.test\_s3\_utils module
 -----------------------------------
 
-.. automodule:: tests.test_s3_utils
+.. automodule:: Myview.tests.test_s3_utils
    :members:
    :undoc-members:
    :show-inheritance:
 
-tests.test\_utils module
+Myview.tests.test\_utils module
 -------------------------------
 
-.. automodule:: tests.test_utils
+.. automodule:: Myview.tests.test_utils
    :members:
    :undoc-members:
    :show-inheritance:
@@ -39,7 +39,7 @@ tests.test\_utils module
 Module contents
 ---------------
 
-.. automodule:: tests
+.. automodule:: Myview.tests
    :members:
    :undoc-members:
    :show-inheritance:

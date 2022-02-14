@@ -4,10 +4,10 @@ MyView.media package
 Submodules
 ----------
 
-media.s3\_utils module
+Myview.media.s3\_utils module
 -----------------------------
 
-.. automodule:: media.s3_utils
+.. automodule:: Myview.media.s3_utils
    :members:
    :undoc-members:
    :show-inheritance:
@@ -15,7 +15,7 @@ media.s3\_utils module
 Module contents
 ---------------
 
-.. automodule:: media
+.. automodule:: Myview.media
    :members:
    :undoc-members:
    :show-inheritance:
