@@ -45,7 +45,7 @@ origins = [
 ]
 
 # static files directory for javascript and css
-app.mount("/static", StaticFiles(directory="static"), name="static")
+app.mount("/static", StaticFiles(directory="./static"), name="static")
 
 # html templates directory
 templates = Jinja2Templates(directory="templates")
