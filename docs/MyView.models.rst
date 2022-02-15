@@ -1,13 +1,13 @@
-MyView.crud package
-===================
+MyView.models package
+=====================
 
 Submodules
 ----------
 
-Myview.crud.crud module
------------------------
+MyView.models.models module
+---------------------------
 
-.. automodule:: Myview.crud.crud
+.. automodule:: MyView.models.models
    :members:
    :undoc-members:
    :show-inheritance:
@@ -15,7 +15,7 @@ Myview.crud.crud module
 Module contents
 ---------------
 
-.. automodule:: Myview.crud
+.. automodule:: MyView.models
    :members:
    :undoc-members:
    :show-inheritance:

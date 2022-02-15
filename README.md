@@ -156,7 +156,7 @@ To get started on this project. To get a local copy up and running follow these 
         - [ ] Video Page
         - [ ] Homepage
         - [ ] Upload
-    - [ ] Test Coverage - 90%
+    - [x] Test Coverage - 85%
 - [ ] Production
     - [ ] Setup Production Database
     - [ ] Production Server
