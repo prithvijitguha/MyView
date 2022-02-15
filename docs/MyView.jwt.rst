@@ -1,13 +1,13 @@
-MyView.db package
-=================
+MyView.jwt package
+==================
 
 Submodules
 ----------
 
-Myview.db.database module
--------------------------
+MyView.jwt.jwt\_utils module
+----------------------------
 
-.. automodule:: Myview.db.database
+.. automodule:: MyView.jwt.jwt_utils
    :members:
    :undoc-members:
    :show-inheritance:
@@ -15,7 +15,7 @@ Myview.db.database module
 Module contents
 ---------------
 
-.. automodule:: Myview.db
+.. automodule:: MyView.jwt
    :members:
    :undoc-members:
    :show-inheritance:
