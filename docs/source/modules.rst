@@ -1,4 +1,4 @@
-models
+Modules
 ======
 
 .. toctree::
@@ -10,4 +10,4 @@ models
    media
    crud
    db
-
+   main
