@@ -1,13 +1,13 @@
-MyView.utils package
-====================
+utils package
+=============
 
 Submodules
 ----------
 
-MyView.utils.utils module
--------------------------
+utils.utils module
+------------------
 
-.. automodule:: MyView.utils.utils
+.. automodule:: utils.utils
    :members:
    :undoc-members:
    :show-inheritance:
@@ -15,7 +15,7 @@ MyView.utils.utils module
 Module contents
 ---------------
 
-.. automodule:: MyView.utils
+.. automodule:: utils
    :members:
    :undoc-members:
    :show-inheritance:

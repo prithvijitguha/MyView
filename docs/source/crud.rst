@@ -1,13 +1,13 @@
-MyView.jwt package
-==================
+crud package
+============
 
 Submodules
 ----------
 
-MyView.jwt.jwt\_utils module
-----------------------------
+crud.crud module
+----------------
 
-.. automodule:: MyView.jwt.jwt_utils
+.. automodule:: crud.crud
    :members:
    :undoc-members:
    :show-inheritance:
@@ -15,7 +15,7 @@ MyView.jwt.jwt\_utils module
 Module contents
 ---------------
 
-.. automodule:: MyView.jwt
+.. automodule:: crud
    :members:
    :undoc-members:
    :show-inheritance:

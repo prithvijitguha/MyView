@@ -1,13 +1,13 @@
-MyView.db package
-=================
+db package
+==========
 
 Submodules
 ----------
 
-MyView.db.database module
--------------------------
+db.database module
+------------------
 
-.. automodule:: MyView.db.database
+.. automodule:: db.database
    :members:
    :undoc-members:
    :show-inheritance:
@@ -15,7 +15,7 @@ MyView.db.database module
 Module contents
 ---------------
 
-.. automodule:: MyView.db
+.. automodule:: db
    :members:
    :undoc-members:
    :show-inheritance:
