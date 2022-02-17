@@ -18,13 +18,24 @@
 <h3>{{ video.video_name }}</h3>
 <h5>{{ video.views }} views </h5>
 <!--Like and Dislike Buttons-->
-<div class="btn-group" role="group" aria-label="Basic radio toggle button group">
-    <input type="radio" class="btn-check" name="btnradio"  autocomplete="off">
-    <label class="btn btn-outline-primary" id="likeButton" onclick="like_unlike()"for="btnradio1">👍</label>
 
-    <input type="radio" class="btn-check" name="btnradio" autocomplete="off">
-    <label class="btn btn-outline-primary" id="dislikeButton" onclick="dislike_undislike()"for="btnradio2">👎</label>
-</div><br><br>
+<div id="likeDislikeDisplay"></div>
+<script type="text/babel">
+    function RenderLikeDislike() {
+        return (
+            <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+                <input type="radio" class="btn-check" name="btnradio"  autocomplete="off"></input>
+                <label class="btn btn-outline-primary" id="likeButton" onclick="like_unlike()"for="btnradio1">👍</label>
+
+                <input type="radio" class="btn-check" name="btnradio" autocomplete="off"></input>
+                <label class="btn btn-outline-primary" id="dislikeButton" onclick="dislike_undislike()"for="btnradio2">👎</label>
+            </div>
+        );
+    }
+    ReactDOM.render(<RenderLikeDislike />, document.querySelector("#likeDislikeDisplay"));
+</script>
+
+
 
 <!--profilepicture flag present-->
     {% if get_profile(video.video_username)%}
