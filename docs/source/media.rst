@@ -1,13 +1,13 @@
-MyView.crud package
-===================
+media package
+=============
 
 Submodules
 ----------
 
-MyView.crud.crud module
------------------------
+media.s3\_utils module
+----------------------
 
-.. automodule:: MyView.crud.crud
+.. automodule:: media.s3_utils
    :members:
    :undoc-members:
    :show-inheritance:
@@ -15,7 +15,7 @@ MyView.crud.crud module
 Module contents
 ---------------
 
-.. automodule:: MyView.crud
+.. automodule:: media
    :members:
    :undoc-members:
    :show-inheritance:
