@@ -2,6 +2,11 @@ function like_unlike() {
     like_button =  document.getElementById("likeButton")
     dislike_button = document.getElementById("dislikeButton")
     video_id = document.getElementById("video_id_hidden").innerHTML
+    //make button liked and unlike dislike if liked
+    //new bootstrap button
+    var bsButton = new bootstrap.Button(like_button)
+    //toggle state
+    bsButton.toggle()
     //check the checked property of dislike button
     if (dislike_button.checked == true) {
         //set it to false
@@ -33,6 +38,13 @@ function dislike_undislike() {
     dislike_button =  document.getElementById("dislikeButton")
     like_button = document.getElementById("likeButton")
     video_id = document.getElementById("video_id_hidden").innerHTML
+    //make button liked and unlike dislike if liked
+    //new bootstrap button
+    var disBsButton = new bootstrap.Button(dislike_button)
+    //toggle state
+    disBsButton.toggle()
+
+
     //check the checked property of like button
     if (like_button.checked == true) {
         //set it to false
