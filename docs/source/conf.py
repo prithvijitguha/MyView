@@ -40,6 +40,8 @@ release = "0.1"
 # ones.
 extensions = ["sphinx.ext.autodoc", "sphinx.ext.napoleon"]
 
+autodoc_mock_imports = ["fastapi", "SQLAlchemy", "python-jose", "tests"]
+
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ["_templates"]
 
