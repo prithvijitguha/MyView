@@ -7,11 +7,9 @@ function like_unlike() {
     var bsButton = new bootstrap.Button(like_button)
     //toggle state
     bsButton.toggle()
-    //check the checked property of dislike button
-    if (dislike_button.checked == true) {
-        //set it to false
-        dislike_button.checked = false
-    }
+    // decheck dislike button
+    $('#dislikeButton').removeClass('active')
+    $('#dislikeButton').prop('checked',false)
 
     const data = {
         "video_id": video_id,
@@ -43,7 +41,9 @@ function dislike_undislike() {
     var disBsButton = new bootstrap.Button(dislike_button)
     //toggle state
     disBsButton.toggle()
-
+    //decheck like button
+    $('#likeButton').removeClass('active')
+    $('#likeButton').prop('checked',false)
 
     //check the checked property of like button
     if (like_button.checked == true) {
