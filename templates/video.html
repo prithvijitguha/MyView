@@ -16,7 +16,18 @@
 <br>
 <br>
 <h3>{{ video.video_name }}</h3>
-<h5>{{ video.views }} views </h5>
+<p class="videoViewsTimestamp"><span>{{ video.views }} views </span>&nbsp;&nbsp;<span>{{ video.ts_upload }}</span></p>
+
+<!--profilepicture flag present-->
+{% if get_profile(video.video_username)%}
+<img class="profilePicture" src="{{ profile_picture_url}}/{{ video.video_username }}"
+width="45" height="45" alt="profile-picture">
+{% else %}
+<img class="profilePicture" src="{{ url_for('static', path='/assets/default_picture.jpg') }}"
+width="45" height="45" alt="profile-picture">
+{% endif %}
+<h5 class="videoUsername">{{ video.video_username }}</h5>
+
 <!--Like and Dislike Buttons-->
 
 <div id="likeDislikeDisplay"></div>
@@ -39,54 +50,52 @@
     }
     ReactDOM.render(<LikeDislikeComp/>, document.querySelector("#likeDislikeDisplay"));
 </script>
+<br>
 
+<h6 class="videoName w-100">{{ video.video_name }}</h6>
 
-
-<!--profilepicture flag present-->
-    {% if get_profile(video.video_username)%}
-    <img class="profilePicture" src="{{ profile_picture_url}}/{{ video.video_username }}"
-    width="30" height="30" alt="profile-picture" >
-    {% else %}
-    <img class="profilePicture" src="{{ url_for('static', path='/assets/default_picture.jpg') }}"
-    width="30" height="30" alt="profile-picture" >
-    {% endif %}
-    <p class="videoUsername">{{ video.video_username }}</p>
-    <h6 class="videoName w-100">{{ video.video_name }}</h6>
-    <strong class="viewCount">{{ video.views }} views</strong>
 {% if video.description %}
 <p>{{ video.description }}</p>
 {% endif %}
-
-<div class="input-group">
-    <span class="input-group-text">
-
-    </span>
-    <textarea placeholder="Add a public comment" id="commentBox" class="form-control" aria-label="With textarea"></textarea>
-    <button onclick="submitComment()">comment</button>
-</div>
+<div id="displayCommentBox"></div>
+<script type="text/babel">
+class CommentBoxRender extends React.Component {
+    constructor(props) {
+    super(props);
+}
+render() {
+        return (
+        <div>
+            <textarea placeholder="Add a public comment" id="commentBox" class="w-50" rows="3" aria-label="With textarea"></textarea>
+            <br />
+            <button onClick={submitComment}>comment</button>
+        </div>
+        );
+    }
+}
+ReactDOM.render(<CommentBoxRender/>, document.querySelector("#likeDislikeDisplay"));
+</script>
 {% for comment in comments %}
-<div class="container displayComment">
-    <!--profile picture-->
-    {% if get_profile(get_username(comment.comment_user_id))%}
-    <img class="profilePicture" src="{{ profile_picture_url}}/{{ video.video_username }}"
-    width="30" height="30" alt="profile-picture">
-    {% else %}
-    <img class="profilePicture" src="{{ url_for('static', path='/assets/default_picture.jpg') }}"
-    width="30" height="30" alt="profile-picture">
-    {% endif %}
-    <!--commenter username-->
-    <h6><strong>{{ get_username(comment.comment_user_id) }}</strong></h6>
-    <!--comment-->
-    <h4>{{ comment.comment_content }}</h4>
-    <h4>{{ comment.ts_comment }}</h4>
-    {% if active_user.user_id == comment.comment_user_id %}
-    <input type="button" class="btn-check" name="btnradio"  autocomplete="off">
-    <label class="btn btn-outline-primary" id="CommentCommentID{{ comment.comment_id }}" onclick="deleteComment(this.id)"for="btnradio1">🗑️</label>
-    {% endif %}
-</div>
+    <div class="container displayComment">
+        <!--profile picture-->
+        {% if get_profile(get_username(comment.comment_user_id))%}
+        <img class="profilePicture" src="{{ profile_picture_url}}/{{ video.video_username }}"
+        width="30" height="30" alt="profile-picture">
+        {% else %}
+        <img class="profilePicture" src="{{ url_for('static', path='/assets/default_picture.jpg') }}"
+        width="30" height="30" alt="profile-picture">
+        {% endif %}
+        <!--commenter username-->
+        <h6><strong>{{ get_username(comment.comment_user_id) }}</strong></h6>
+        <!--comment-->
+        <h4>{{ comment.comment_content }}</h4>
+        <h4>{{ comment.ts_comment }}</h4>
+        {% if active_user.user_id == comment.comment_user_id %}
+        <input type="button" class="btn-check" name="btnradio"  autocomplete="off">
+        <label class="btn btn-outline-primary" id="CommentCommentID{{ comment.comment_id }}" onclick="deleteComment(this.id)"for="btnradio1">🗑️</label>
+        {% endif %}
+    </div>
 {% endfor %}
-
-
 <p id="video_id_hidden" style="display: none;">{{ video.video_id }}</p>
 </div>
 {% endblock %}
