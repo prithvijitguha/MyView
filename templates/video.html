@@ -28,8 +28,8 @@ width="45" height="45" alt="profile-picture">
 {% endif %}
 <h5 class="videoUsername">{{ video.video_username }}</h5>
 
-<!--Like and Dislike Buttons-->
 
+<!--Like and Dislike Buttons-->
 <div id="likeDislikeDisplay"></div>
 <script type="text/babel">
     class LikeDislikeComp extends React.Component {
@@ -62,18 +62,34 @@ width="45" height="45" alt="profile-picture">
 class CommentBoxRender extends React.Component {
     constructor(props) {
     super(props);
-}
-render() {
-        return (
-        <div>
-            <textarea placeholder="Add a public comment" id="commentBox" class="w-50" rows="3" aria-label="With textarea"></textarea>
-            <br />
-            <button onClick={submitComment}>comment</button>
-        </div>
-        );
+
+    this.state = {
+            value: "",
+            rows: "1",
+            disable_text: true,
+            class: ""
+        }
+    this.handleChange = this.handleChange.bind(this);
     }
-}
-ReactDOM.render(<CommentBoxRender/>, document.querySelector("#likeDislikeDisplay"));
+
+    handleChange(event) {
+        this.setState({value: event.target.value});
+        this.setState({rows: "3"})
+        this.setState({disable_text:false});
+        this.setState({class: "btn btn-primary"})
+    }
+
+    render() {
+            return (
+            <div>
+                <textarea id="commentBox" placeholder="Add a public comment" value={this.state.value} onChange={this.handleChange} rows={this.state.rows} aria-label="With textarea"></textarea>
+                <br />
+                <button disabled={this.state.disable_text} class={this.state.class} onClick={submitComment}>comment</button>
+            </div>
+            );
+        }
+    }
+    ReactDOM.render(<CommentBoxRender/>, document.querySelector("#likeDislikeDisplay"));
 </script>
 {% for comment in comments %}
     <div class="container displayComment">
