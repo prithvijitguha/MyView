@@ -31,25 +31,7 @@ width="45" height="45" alt="profile-picture">
 
 <!--Like and Dislike Buttons-->
 <div id="likeDislikeDisplay"></div>
-<script type="text/babel">
-    class LikeDislikeComp extends React.Component {
-        constructor(props) {
-        super(props);
-    }
-    render() {
-        return (
-            <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
-                <input type="radio" class="btn-check" name="btnradio"  autocomplete="off"></input>
-                <label class="btn btn-outline-primary" id="likeButton" onClick={like_unlike} for="btnradio1">👍</label>
-
-                <input type="radio" class="btn-check" name="btnradio" autocomplete="off"></input>
-                <label class="btn btn-outline-primary" id="dislikeButton" onClick={dislike_undislike} for="btnradio2">👎</label>
-            </div>
-            );
-        }
-    }
-    ReactDOM.render(<LikeDislikeComp/>, document.querySelector("#likeDislikeDisplay"));
-</script>
+<script type="text/babel" src="{{ url_for('static', path='/components/like_dislike.js') }}"></script>
 <br>
 
 <h6 class="videoName w-100">{{ video.video_name }}</h6>
@@ -58,39 +40,7 @@ width="45" height="45" alt="profile-picture">
 <p>{{ video.description }}</p>
 {% endif %}
 <div id="displayCommentBox"></div>
-<script type="text/babel">
-class CommentBoxRender extends React.Component {
-    constructor(props) {
-    super(props);
-
-    this.state = {
-            value: "",
-            rows: "1",
-            disable_text: true,
-            class: ""
-        }
-    this.handleChange = this.handleChange.bind(this);
-    }
-
-    handleChange(event) {
-        this.setState({value: event.target.value});
-        this.setState({rows: "3"})
-        this.setState({disable_text:false});
-        this.setState({class: "btn btn-primary"})
-    }
-
-    render() {
-            return (
-            <div>
-                <textarea id="commentBox" placeholder="Add a public comment" value={this.state.value} onChange={this.handleChange} rows={this.state.rows} aria-label="With textarea"></textarea>
-                <br />
-                <button disabled={this.state.disable_text} class={this.state.class} onClick={submitComment}>comment</button>
-            </div>
-            );
-        }
-    }
-    ReactDOM.render(<CommentBoxRender/>, document.querySelector("#likeDislikeDisplay"));
-</script>
+<script type="text/babel" src="{{ url_for('static', path='/components/comment.js') }}"></script>
 {% for comment in comments %}
     <div class="container displayComment">
         <!--profile picture-->
