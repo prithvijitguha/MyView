@@ -18,7 +18,7 @@
             <br>
             <br>
             <h3 id="videoTitle">{{ video.video_name }}</h3>
-            <p class="videoViewsTimestamp"><span>{{ video.views }} views </span>&nbsp;&nbsp;<span>{{ video.ts_upload }}</span></p>
+            <p class="videoViewsTimestamp"><span>{{ video.views }} views </span>&nbsp;&nbsp;<span class="timestamp  VideoTimestamp">{{ video.ts_upload }}</span></p>
 
             <!--Like and Dislike Buttons-->
             <div id="likeDislikeDisplay"></div>
@@ -58,7 +58,7 @@
         width="30" height="30" alt="profile-picture">
         {% endif %}
         <!--commenter username-->
-        <p><span><strong>{{ get_username(comment.comment_user_id) }}</strong></span>&nbsp;&nbsp;<span class="commentTimestamp">{{ comment.ts_comment }}</span></p>
+        <p><span><strong>{{ get_username(comment.comment_user_id) }}</strong></span>&nbsp;&nbsp;<span class="timestamp commentTimestamp">{{ comment.ts_comment }}</span></p>
         <!--comment-->
         <h4 class="commentContent">{{ comment.comment_content }}</h4>
 

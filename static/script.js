@@ -30,3 +30,18 @@ function addModal() {
 `);
 }
 
+function TimeAgo(element) {
+  var final = moment(element.innerHTML).fromNow();
+  element.innerHTML = final;
+}
+
+
+function Timestamp_Ago() {
+  //get all timestamp elements
+  var timestampCollection = document.getElementsByClassName("timestamp")
+  //convert to array
+  var timestampArray = Array.from(timestampCollection)
+  //pass to timeago function
+  timestampArray.forEach(TimeAgo)
+
+}
