@@ -23,18 +23,17 @@
             <!--Like and Dislike Buttons-->
             <div id="likeDislikeDisplay"></div>
             <script type="text/babel" src="{{ url_for('static', path='/components/like_dislike.js') }}"></script>
-            <br>
         </div>
     </center>
 
         <div id="videoMetaData">
             <!--profilepicture flag present-->
             {% if get_profile(video.video_username)%}
-            <img class="profilePicture" src="{{ profile_picture_url}}/{{ video.video_username }}"
-            width="45" height="45" alt="profile-picture">
+            <img class="VideoProfilePicture" src="{{ profile_picture_url}}/{{ video.video_username }}"
+            alt="profile-picture">
             {% else %}
-            <img class="profilePicture" src="{{ url_for('static', path='/assets/default_picture.jpg') }}"
-            width="45" height="45" alt="profile-picture">
+            <img class="VideoProfilePicture" src="{{ url_for('static', path='/assets/default_picture.jpg') }}"
+            alt="profile-picture">
             {% endif %}
             <h5 class="videoUsername">{{ video.video_username }}</h5>
 
@@ -51,20 +50,22 @@
     <div class="container displayComment">
         <!--profile picture-->
         {% if get_profile(get_username(comment.comment_user_id))%}
-        <img class="profilePicture" src="{{ profile_picture_url}}/{{ video.video_username }}"
-        width="30" height="30" alt="profile-picture">
+        <img class="commentProfilePicture" src="{{ profile_picture_url}}/{{ video.video_username }}"
+        alt="profile-picture">
         {% else %}
-        <img class="profilePicture" src="{{ url_for('static', path='/assets/default_picture.jpg') }}"
-        width="30" height="30" alt="profile-picture">
+        <img class="commentProfilePicture" src="{{ url_for('static', path='/assets/default_picture.jpg') }}"
+        alt="profile-picture">
         {% endif %}
         <!--commenter username-->
-        <p><span><strong>{{ get_username(comment.comment_user_id) }}</strong></span>&nbsp;&nbsp;<span class="timestamp commentTimestamp">{{ comment.ts_comment }}</span></p>
+        <p class="commentUserIdTimeStamp"><span><strong class="h6">{{ get_username(comment.comment_user_id) }}</strong></span>&nbsp;&nbsp;<span class="timestamp commentTimestamp">{{ comment.ts_comment }}</span></p>
         <!--comment-->
-        <h4 class="commentContent">{{ comment.comment_content }}</h4>
+        <p class="h6 commentContent">{{ comment.comment_content }}</p>
 
         {% if active_user.user_id == comment.comment_user_id %}
-        <input type="button" class="btn-check" name="btnradio"  autocomplete="off">
-        <label class="btn btn-outline-primary deleteCommentButton" id="CommentCommentID{{ comment.comment_id }}" onclick="deleteComment(this.id)"for="btnradio1">🗑️</label>
+        <div class="deleteCommentButtonClass">
+            <input type="button" class="btn-check" name="btnradio"  autocomplete="off">
+            <label class="btn btn-outline-danger deleteCommentButton" id="CommentCommentID{{ comment.comment_id }}" onclick="deleteComment(this.id)"for="btnradio1">delete</label>
+        </div>
         {% endif %}
     </div>
 {% endfor %}
