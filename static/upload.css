@@ -1,0 +1,20 @@
+.uploadContents {
+    width: 85%;
+    text-align: center;
+    padding-left: 25%;
+}
+
+#demoVideo {
+    height: 45%;
+    width: 75%;
+}
+
+#thumbnailImage {
+    height: 45%;
+    width: 75%;
+}
+
+.formElements {
+    margin-top: 5%;
+    margin-bottom: 5%;
+}
