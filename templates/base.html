@@ -25,12 +25,13 @@
     <script crossorigin src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
     <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
 
-
+    <!--Moment Javascript Package-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js" integrity="sha512-qTXRIMyZIFb8iQcfjXWCO8+M5Tbc38Qi5WzdPOYZHIlZpzBHG3L3by84BBBOiRGiEb7KKtAOAs5qYdUiZiQNNQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
     <title>MyView {% block title %}{% endblock %}</title>
     {% endblock %}
   </head>
-  <body>
+  <body onload="Timestamp_Ago()">
     <nav class="navbar navbar-expand-md navbar-light bg-light mb-4">
       <div class="container-fluid">
         <a class="navbar-brand ml-auto" href="/">

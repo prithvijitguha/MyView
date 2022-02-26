@@ -123,3 +123,4 @@ function deleteComment(htmlElementId) {
     parentElement = document.getElementById(htmlElementId)
     parentElement.parentElement.remove()
 }
+

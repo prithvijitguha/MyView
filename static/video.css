@@ -1,7 +1,77 @@
-.profilePicture {
+.VideoProfilePicture {
     border-radius: 50%;
+    height: 50px;
+    width: 50px;
+}
+
+
+.containsVideo{
+    margin-left: 2%;
+    margin-right: 2%;
+}
+
+#videoPlayer {
+    width: 70%;
+    height: 50%;
+}
+
+#videoTitle {
+    text-align: left;
+    margin-left: 15%;
+}
+
+.videoViewsTimestamp {
+    text-align: left;
+    margin-left: 15%;
 }
 
 #commentBox {
     width: 50%;
+}
+
+#likeDislikeDisplay {
+    text-align: right;
+    margin-right: 15%;
+}
+
+#videoMetaData {
+    margin-left: 15%;
+}
+
+#displayCommentBox {
+    margin-left: 15%;
+}
+
+
+.displayComment {
+    margin-left: 15%;
+    margin-top: 2%;
+    margin-bottom: 2%;
+}
+
+
+.commentProfilePicture {
+    border-radius: 50%;
+    float: left;
+    width: 45px;
+    height: 45px;
+}
+
+.commentUserIdTimeStamp {
+    margin-left: 5%;
+}
+
+.commentContent {
+    margin-left: 5%;
+    color: #545252
+}
+
+.deleteCommentButtonClass {
+    margin-left: 5%;
+    height: 25px;
+    width: 25px;
+}
+
+.deleteCommentButton {
+    font-size: xx-small;
 }
