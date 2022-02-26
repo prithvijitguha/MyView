@@ -2,20 +2,34 @@
     border-radius: 50%;
 }
 
+
+.containsVideo{
+    margin-left: 2%;
+    margin-right: 2%;
+}
+
 #videoPlayer {
     width: 70%;
     height: 50%;
 }
 
+#videoTitle {
+    text-align: left;
+    margin-left: 15%;
+}
+
+.videoViewsTimestamp {
+    text-align: left;
+    margin-left: 15%;
+}
 
 #commentBox {
     width: 50%;
 }
 
 #likeDislikeDisplay {
-    float: right;
-    width: 50%;
-    margin-top: 0%;
+    text-align: right;
+    margin-right: 15%;
 }
 
 #videoMetaData {

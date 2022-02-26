@@ -9,7 +9,7 @@
 <!--Javascript link-->
 <script src="{{ url_for('static', path='/video.js') }}"></script>
 <!--Add videos here-->
-
+<div class="containsVideo">
     <center>
         <div id="videoContents">
             <video id="videoPlayer" tabindex="-1" controls autoplay>
@@ -17,7 +17,7 @@
             </video>
             <br>
             <br>
-            <h3>{{ video.video_name }}</h3>
+            <h3 id="videoTitle">{{ video.video_name }}</h3>
             <p class="videoViewsTimestamp"><span>{{ video.views }} views </span>&nbsp;&nbsp;<span>{{ video.ts_upload }}</span></p>
 
             <!--Like and Dislike Buttons-->
@@ -58,16 +58,16 @@
         width="30" height="30" alt="profile-picture">
         {% endif %}
         <!--commenter username-->
-        <h6><strong>{{ get_username(comment.comment_user_id) }}</strong></h6>
+        <p><span><strong>{{ get_username(comment.comment_user_id) }}</strong></span>&nbsp;&nbsp;<span class="commentTimestamp">{{ comment.ts_comment }}</span></p>
         <!--comment-->
-        <h4>{{ comment.comment_content }}</h4>
-        <h4>{{ comment.ts_comment }}</h4>
+        <h4 class="commentContent">{{ comment.comment_content }}</h4>
+
         {% if active_user.user_id == comment.comment_user_id %}
         <input type="button" class="btn-check" name="btnradio"  autocomplete="off">
-        <label class="btn btn-outline-primary" id="CommentCommentID{{ comment.comment_id }}" onclick="deleteComment(this.id)"for="btnradio1">🗑️</label>
+        <label class="btn btn-outline-primary deleteCommentButton" id="CommentCommentID{{ comment.comment_id }}" onclick="deleteComment(this.id)"for="btnradio1">🗑️</label>
         {% endif %}
     </div>
 {% endfor %}
 <p id="video_id_hidden" style="display: none;">{{ video.video_id }}</p>
-
+</div>
 {% endblock %}
