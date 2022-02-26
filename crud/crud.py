@@ -436,14 +436,20 @@ def get_video_link(db: Session, video_link: str):
     return db.query(models.Video).filter(models.Video.video_link == video_link).first()
 
 
-def get_top_videos(db: Session):
+def get_top_videos(db: Session, skip: int = 0, limit: int = 100):
     """
     Get top videos ordered by
     views
 
     Gets the top 10 videos
     """
-    return db.query(models.Video).order_by(models.Video.views.desc()).limit(10).all()
+    return (
+        db.query(models.Video)
+        .order_by(models.Video.views.desc())
+        .offset(skip)
+        .limit(limit)
+        .all()
+    )
 
 
 # def delete video
@@ -562,3 +568,21 @@ def delete_comment(db: Session, comment_id: int):
     except Exception as e:
         print(f"Could not delete user={comment_id}: {e}")
         return False
+
+
+def get_profile_bool(db: Session, username: str):
+    """Gets profile picture flag
+
+    Args:
+        db: Database
+        username: Username to check
+
+    Returns:
+        Bool value of User.profile_picture
+    """
+    return (
+        db.query(models.User)
+        .filter(models.User.username == username)
+        .first()
+        .profile_picture
+    )

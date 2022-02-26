@@ -15,7 +15,7 @@ MyView all views saved here
 import os
 
 from html import escape
-from typing import Optional
+from typing import Optional, Union
 from tempfile import NamedTemporaryFile
 
 from fastapi import FastAPI, Request, Depends, Response, status
@@ -42,6 +42,9 @@ app = FastAPI()
 origins = [
     "http://localhost",
     "http://localhost:8080",
+    "http://localhost:8000",
+    "http://127.0.0.1:8000/",
+    "*",
 ]
 
 # static files directory for javascript and css
@@ -110,6 +113,42 @@ def read_user(user_id: int, db: Session = Depends(get_db)):
     return db_user
 
 
+@app.get("/get_top_videos/{skip}/{limit}")
+def get_videos(
+    skip: Union[int, str] = 0,
+    limit: Union[int, str] = 10,
+    db: Session = Depends(get_db),
+):
+    """Function to get top videos from database
+
+    Args:
+        db: Database
+        skip: video of videos to start
+        limit: video of videos to end
+
+    Returns:
+        Array of videos ordered by views
+    """
+    return crud.get_top_videos(db, skip, limit)
+
+
+@app.get("/get_profile_picture/{username}")
+def get_profile_picture_bool(
+    username: str,
+    db: Session = Depends(get_db),
+):
+    """Gets the profile picture bool flag
+
+    Args:
+        username: Username to check
+        db: Database
+
+    Returns:
+        boolean value of Bool value of User.profile_picture
+    """
+    return crud.get_profile_bool(db, username)
+
+
 @app.get("/", response_class=HTMLResponse)
 async def home(
     request: Request,
@@ -131,8 +170,7 @@ async def home(
     # sanitize active_user
     if active_user:
         active_user = utils.sanitize_active_user(active_user)
-
-    top_videos = crud.get_top_videos(db)
+    top_videos = get_videos(db=db)
     thumbnail_drive = os.environ.get("thumbnail_drive")
     cloud_url = os.environ.get("cloud_url")
     thumbnail_url = f"{cloud_url}/{thumbnail_drive}"

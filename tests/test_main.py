@@ -279,3 +279,9 @@ def test_delete_video():
     db = next(override_get_db())
     status = crud.delete_video(db, 1)
     assert status
+
+
+def test_get_top_videos():
+    """Test Top Videos"""
+    response = client.get(f"/get_top_videos/{0}/{1}")
+    assert response.status_code == 200

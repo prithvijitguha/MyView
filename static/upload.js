@@ -52,9 +52,6 @@ function checkVideo(){
       //change the frame element source and title
       $("#demoVideo").attr("src", URL.createObjectURL(video_file))
       document.getElementById("demoVideo").play()
-
-      //enable the capture thumbnail button
-      document.getElementById("thumbnailCapturebtn").disabled = false;
       //get video frame
       video = document.getElementById("demoVideo");
 
@@ -70,7 +67,7 @@ function checkVideo(){
 
     }
   }
-
+  /*
   function capture(){
     //function to capture thumbnail
     canvas = document.getElementById('thumbnailDisplay');
@@ -81,6 +78,7 @@ function checkVideo(){
     //add video as source for display
     document.getElementById("thumbnailImage").setAttribute("src", canvas_image)
   }
+   */
 
   function checkImage(){
     //get the element
@@ -107,11 +105,7 @@ function checkVideo(){
   }
 
 
-
-
   function get_metadata() {
-    //capture first image as thumbnail
-    capture()
     //autofill video name
     trimmed_name = video_file.name.split('.').slice(0, -1).join('.')
     //durationdocument.getElementById("inputVideoName").value = video_file.name;
