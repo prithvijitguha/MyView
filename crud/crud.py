@@ -436,14 +436,20 @@ def get_video_link(db: Session, video_link: str):
     return db.query(models.Video).filter(models.Video.video_link == video_link).first()
 
 
-def get_top_videos(db: Session):
+def get_top_videos(db: Session, skip: int = 0, limit: int = 100):
     """
     Get top videos ordered by
     views
 
     Gets the top 10 videos
     """
-    return db.query(models.Video).order_by(models.Video.views.desc()).limit(10).all()
+    return (
+        db.query(models.Video)
+        .order_by(models.Video.views.desc())
+        .offset(skip)
+        .limit(limit)
+        .all()
+    )
 
 
 # def delete video

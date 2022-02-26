@@ -6,6 +6,7 @@
 {% block content %}
 <!--css style sheet-->
 <link rel="stylesheet" href="{{ url_for('static', path='/index.css') }}">
+<script src="{{ url_for('static', path='/index.js') }}"></script>
 
 <!--Add Thumbnails here-->
 <!--mx auto sets margin auto-->
@@ -13,7 +14,7 @@
   <!--5 cols auto margin left and right-->
   <div class="row row-cols-5 mx-auto">
    {% for video in videos %}
-   <div class="mx-auto">
+   <div class="mx-auto videoThumbnailContent">
     <a href="video/{{ video.video_link}}"><img class="img-fluid videoThumbnail" src="{{ thumbnail_url}}/{{ video.video_link }}" alt="thumbnail"></a>
         <br><br>
           <!--profilepicture flag present-->
