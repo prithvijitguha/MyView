@@ -2,6 +2,33 @@
     border-radius: 50%;
 }
 
+#videoPlayer {
+    width: 70%;
+    height: 50%;
+}
+
+
 #commentBox {
     width: 50%;
+}
+
+#likeDislikeDisplay {
+    float: right;
+    width: 50%;
+    margin-top: 0%;
+}
+
+#videoMetaData {
+    margin-left: 15%;
+}
+
+#displayCommentBox {
+    margin-left: 15%;
+}
+
+
+.displayComment {
+    margin-left: 15%;
+    margin-top: 2%;
+    margin-bottom: 2%;
 }
