@@ -1,12 +1,9 @@
-var start = 1
-var end = 2
-
-
+var start = 11
+var end = 20
 
 function append_new_videos(data_array) {
     //for each element create a video element
     data_array.forEach(create_video_element)
-
 }
 
 function create_video_element(data) {
@@ -22,16 +19,51 @@ function create_video_element(data) {
     thumbnail = document.createElement("img")
     thumbnail.setAttribute("class", "img-fluid videoThumbnail")
     thumbnail.setAttribute("src", `https://d32dcw9m3mntm7.cloudfront.net/thumbnail/${data.video_link}`)
+    //create image profile pic as child element
+    profile_pic = document.createElement("img")
+    profile_pic.setAttribute("class", "profilePicture")
+    profile_pic_flag = get_profile_pic_bool(data.video_username)
+    if (profile_pic_flag == "true") {
+        profile_pic.src = `https://d32dcw9m3mntm7.cloudfront.net/profile_picture/${data.video_username}`
+    }
+    else {
+        profile_pic.src = "./static/assets/default_picture.jpg"
+    }
+    //create video name
+    videoName = document.createElement("h6")
+    videoName.setAttribute("class", "videoName w-100")
+    videoName.innerHTML = data.video_name
+    //create video username
+    videoUsername = document.createElement("p")
+    videoUsername.setAttribute("class", "videoUsername")
+    videoUsername.innerHTML = data.video_username
+    // create view count
+    view_count = document.createElement("strong")
+    view_count.setAttribute("class", "viewCount")
+    view_count.innerHTML = `${data.views} views`
+    // create timestamp
+    timestamp = document.createElement("h6")
+    timestamp.setAttribute("class", "timestamp timestampVideo")
+    timestamp.innerHTML = moment(data.ts_upload).fromNow();
     ahref.appendChild(thumbnail)
     main_div.appendChild(ahref)
-    //create image profile pic as child element
-    //create video ame
-    //create video username
-    // create view count
-    // create timestamp
+    main_div.appendChild(profile_pic)
+    main_div.appendChild(videoName)
+    main_div.appendChild(videoUsername)
+    main_div.appendChild(view_count)
+    main_div.appendChild(timestamp)
+
+
 
     //append it to rows
     rows_array.slice(-1).pop().appendChild(main_div)
+}
+
+
+async function get_profile_pic_bool(username) {
+    let response = await fetch(`/get_profile_picture/${username}`);
+    let data = await response.text();
+    return data;
 }
 
 
@@ -42,4 +74,12 @@ function get_top_videos() {
     start = start + end
     end = end + end
 }
+
+// If scrolled to bottom, load the next 10 videos
+window.onscroll = () => {
+    if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
+        get_top_videos()
+    }
+};
+
 

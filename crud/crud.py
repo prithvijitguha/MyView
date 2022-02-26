@@ -568,3 +568,21 @@ def delete_comment(db: Session, comment_id: int):
     except Exception as e:
         print(f"Could not delete user={comment_id}: {e}")
         return False
+
+
+def get_profile_bool(db: Session, username: str):
+    """Gets profile picture flag
+
+    Args:
+        db: Database
+        username: Username to check
+
+    Returns:
+        Bool value of User.profile_picture
+    """
+    return (
+        db.query(models.User)
+        .filter(models.User.username == username)
+        .first()
+        .profile_picture
+    )

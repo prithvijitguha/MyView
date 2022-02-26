@@ -116,7 +116,7 @@ def read_user(user_id: int, db: Session = Depends(get_db)):
 @app.get("/get_top_videos/{skip}/{limit}")
 def get_videos(
     skip: Union[int, str] = 0,
-    limit: Union[int, str] = 1,
+    limit: Union[int, str] = 10,
     db: Session = Depends(get_db),
 ):
     """Function to get top videos from database
@@ -130,6 +130,23 @@ def get_videos(
         Array of videos ordered by views
     """
     return crud.get_top_videos(db, skip, limit)
+
+
+@app.get("/get_profile_picture/{username}")
+def get_profile_picture_bool(
+    username: str,
+    db: Session = Depends(get_db),
+):
+    """Gets the profile picture bool flag
+
+    Args:
+        username: Username to check
+        db: Database
+
+    Returns:
+        boolean value of Bool value of User.profile_picture
+    """
+    return crud.get_profile_bool(db, username)
 
 
 @app.get("/", response_class=HTMLResponse)
