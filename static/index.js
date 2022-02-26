@@ -1,5 +1,8 @@
-var start = 11
-var end = 20
+var start = 0
+var end = 6
+
+window.onload = get_top_videos()
+
 
 function append_new_videos(data_array) {
     //for each element create a video element
@@ -7,7 +10,7 @@ function append_new_videos(data_array) {
 }
 
 function create_video_element(data) {
-    rows_html_collection = document.getElementsByClassName("row row-cols-5 mx-auto")
+    rows_html_collection = document.getElementsByClassName("row row-cols-3 mx-auto")
     rows_array = Array.from(rows_html_collection)
     //create class
     main_div = document.createElement("div")
@@ -67,15 +70,15 @@ async function get_profile_pic_bool(username) {
 }
 
 
-function get_top_videos() {
-    fetch(`/get_top_videos/${start}/${end}`)
-    .then(response => response.json())
-    .then(data => append_new_videos(data));
+async function get_top_videos() {
+    let response = await fetch(`/get_top_videos/${start}/${end}`)
+    let data = await response.json()
+    append_new_videos(data)
     start = start + end
     end = end + end
 }
 
-// If scrolled to bottom, load the next 10 videos
+// If scrolled to bottom, load the next set of videos
 window.onscroll = () => {
     if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
         get_top_videos()

@@ -12,11 +12,11 @@
 <!--mx auto sets margin auto-->
 <div class="grid mx-auto">
   <!--5 cols auto margin left and right-->
-  <div class="row row-cols-5 mx-auto">
-   {% for video in videos %}
+  <div class="row row-cols-3 mx-auto">
+    <!--
+      {% for video in videos %}
    <div class="mx-auto videoThumbnailContent">
     <a href="video/{{ video.video_link}}"><img class="img-fluid videoThumbnail" src="{{ thumbnail_url}}/{{ video.video_link }}" alt="thumbnail"></a>
-          <!--profilepicture flag present-->
           {% if get_profile(video.video_username)%}
             <img class="profilePicture" src="{{ profile_picture_url}}/{{ video.video_username }}"
             alt="profile-picture" >
@@ -30,6 +30,11 @@
           <h6 class="timestamp timestampVideo">{{ video.ts_upload }}</h6>
     </div>
     {% endfor %}
+
+
+
+    -->
   </div>
 </div>
+
 {% endblock %}
