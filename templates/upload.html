@@ -9,13 +9,26 @@
 
 <script src="{{ url_for('static', path='/upload.js') }}"></script>
 
+<div id="progressBarDiv" class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-body">
+            <div id="myBar"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+
 <div class="uploadContents">
-<form action="/upload_file" method="POST" enctype="multipart/form-data">
+<form action="/upload_file" method="POST" enctype="multipart/form-data" onsubmit="submitCheck()">
     <!--DemoVideo-->
         <p class="h3">Video</p>
             <video id="demoVideo" poster="{{ url_for('static', path='/assets/stock.png') }}" controls><source src="" title="" type="video/mp4"></video>
         <div class="formElements">
-            <input required type="file" name="video_file" class="form-control" id="inputVideoFile" aria-describedby="inputGroupFileAddon04" aria-label="Upload" oninput="checkVideo()" accept="video/mp4,video/x-m4v, video/mpeg4">
+            <input required type="file" name="video_file" class="form-control" id="inputVideoFile" aria-describedby="inputVideoButton" aria-label="Upload" oninput="checkVideo()" accept="video/mp4,video/x-m4v, video/mpeg4">
         </div>
         <div>
             <p class="h3">Thumbnail</p>
@@ -35,12 +48,12 @@
     <!--Video Description-->
         <div class="formElements">
             <label for="formFile" class="form-label">Video Description</label>
-            <input type="text" name="videoDescription" class="form-control" aria-describedby="videoDescription" aria-label="videoDescription">
+            <input type="text" id="inputVideoDescription" name="videoDescription" class="form-control" aria-describedby="videoDescription" aria-label="videoDescription">
         </div>
     <!--Video Categories-->
         <div class="formElements">
             <label for="formFile" class="form-label">Video Categories</label>
-            <input type="text" name="videoCategories" class="form-control" aria-describedby="videoCategories" aria-label="videoCategories">
+            <input type="text" id="inputVideoCategories" name="videoCategories" class="form-control" aria-describedby="videoCategories" aria-label="videoCategories">
         </div>
     <!--Video Length-->
         <div class="" style="display: none;">

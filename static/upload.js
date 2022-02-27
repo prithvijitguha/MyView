@@ -111,3 +111,49 @@ function checkVideo(){
     document.getElementById("inputVideoHeight").value = video.videoHeight;
     document.getElementById("inputVideoWidth").value = video.videoWidth;
   }
+
+
+  function progressBarMove() {
+    var progress = 0;
+    if (progress == 0) {
+      progress = 1
+      progress_bar = document.getElementById("myBar")
+      //show progress bar modal
+      progress_div = document.getElementById("progressBarDiv");
+      progress_div.style.display = "block";
+      var width = 10
+      var id = setInterval(frame, 50)
+      function frame() {
+        if (width >= 100) {
+          clearInterval(id);
+          i = 0;
+        } else {
+          width++;
+          progress_bar.style.width = width + "%";
+          progress_bar.innerHTML = width + "%";
+        }
+      }
+    }
+  }
+
+  function blockInput() {
+    var input_btn = document.getElementById("inputGroupFileAddon04");
+    input_btn.disabled = true;
+  }
+
+
+  function submitCheck() {
+    //go to start of page
+    window.scrollTo(0, 0);
+    //block input buttons
+    blockInput()
+    //add progress bar
+    progressModal = new bootstrap.Modal(document.getElementById('progressBarDiv'))
+    progressModal.show()
+    progressBarMove()
+  }
+
+
+
+
+
