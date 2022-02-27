@@ -10,6 +10,7 @@ MyView all views saved here
 # pylint: disable=using-constant-test
 # pylint: disable=too-many-arguments
 # pylint: disable=too-many-locals
+# pylint: disable=redefined-outer-name
 
 
 import os
@@ -674,8 +675,94 @@ async def delete_comment(
         # TODO replace with redirect
         return {"Error": "Not logged in"}
     comment_id = await request.json()
-    print(comment_id)
     comment_id = escape(comment_id)
     comment_id = int(comment_id)
     crud.delete_comment(db, comment_id)
     return {"Success": "comment deleted"}
+
+
+@app.get("/profile")
+def profile_page(
+    request: Request,
+    active_user: schemas.User = Depends(get_current_user_optional),
+):
+    """URL to serve profile page
+
+    Args:
+        request: HTTP request
+        active_user: Current logged in user
+
+    Returns:
+        template: profile.html
+        context: dict of request and active_user
+
+    If user not logged in redirects to login page
+    """
+    if not active_user:
+        # url for login
+        url = app.url_path_for("login")
+        # return url
+        response = RedirectResponse(url=url)
+        # set found status code
+        redirect_code = status.HTTP_302_FOUND
+        response.status_code = redirect_code
+        return response
+
+    context = {
+        "request": request,
+        "active_user": active_user,
+    }
+
+    return templates.TemplateResponse("profile.html", context=context)
+
+
+@app.get("/get_uploaded_videos/{username}/{skip}/{limit}")
+def get_uploaded_videos(
+    username: str,
+    active_user: Optional[schemas.User] = Depends(get_current_user_optional),
+    skip: Union[int, str] = 0,
+    limit: Union[int, str] = 5,
+    db: Session = Depends(get_db),
+):
+    """Function to get top videos from database
+
+    Args:
+        db: Database
+        skip: video of videos to start
+        limit: video of videos to end
+
+    Returns:
+        Array of videos ordered by views
+    """
+    if active_user.username != username:
+        raise HTTPException(
+            status_code=400, detail="Current User not matching the user searched for"
+        )
+    return crud.get_top_videos_by_user(db, username, skip, limit)
+
+
+@app.delete("/delete_video/{username}/{video_id}")
+def delete_video(
+    username: str,
+    video_id: int,
+    active_user: Optional[schemas.User] = Depends(get_current_user_optional),
+    db: Session = Depends(get_db),
+):
+    """Delete Video API
+
+    Args:
+        username: Username of video to delete
+        video_id: Id of video to be delete
+        active_user: Current user
+        db: Database
+
+    Returns:
+        status of success or failure
+
+    Raises:
+        if active_user and username do not match
+    """
+    if active_user.username != username:
+        raise HTTPException(status_code=400, detail="Unauthorized Delete Request")
+    status = crud.delete_video(db, video_id)
+    return status

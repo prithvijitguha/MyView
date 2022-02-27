@@ -153,9 +153,9 @@ To get started on this project. To get a local copy up and running follow these 
     - [x] Comment Section
 - [ ] Staging
     - [ ] Style Improvement:
-        - [ ] Video Page
+        - [x] Video Page
         - [ ] Homepage
-        - [ ] Upload
+        - [x] Upload
     - [x] Test Coverage - 85%
 - [ ] Production
     - [ ] Setup Production Database

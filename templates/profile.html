@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block title %}{% endblock %}
+{% block head %}
+{{ super() }}
+{% endblock %}
+{% block content %}
+<!--css style sheet-->
+<link rel="stylesheet" href="{{ url_for('static', path='profile.css') }}">
+
+<center>
+<!--profile picture-->
+<div id="profilePictureComponent"></div>
+<script type="text/babel" src="{{ url_for('static', path='/components/profilePicture.js') }}"></script>
+
+<h6 id="profileUsername" class="profileElements">{{ active_user.username }}</h6>
+<h6 class="profileElements">email: {{ active_user.email }}</h6>
+
+<h6 class="profileElements"><span>Joined </span><span class="timestamp ">{{ active_user.ts_joined }}</span></h6>
+</center>
+
+<div class="container">
+    <div class="row justify-content-md-center">
+
+    </div>
+</div>
+
+<script src="{{ url_for('static', path='profile.js') }}"></script>
+{% endblock %}
