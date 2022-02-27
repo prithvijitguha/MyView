@@ -13,7 +13,7 @@
 
 .videoThumbnail:hover {
     transform: scale(1.5);
-    transition-delay:0.5s;
+    transition-delay:0.9s;
 }
 
 .videoThumbnailContent {

@@ -10,15 +10,16 @@ function append_new_videos(data_array) {
 }
 
 function create_video_element(data) {
-    rows_html_collection = document.getElementsByClassName("row row-cols-3 mx-auto")
+    rows_html_collection = document.getElementsByClassName("row justify-content-md-center")
     rows_array = Array.from(rows_html_collection)
-    //create class
+    //create column class
     main_div = document.createElement("div")
-    main_div.setAttribute("class", "mx-auto videoThumbnailContent");
+    main_div.setAttribute("class", "col-xs-1 col-md-4 mx-auto");
     //create a href element child
     ahref = document.createElement("a");
     ahref.href = `video/${data.video_link}`;
 
+    // create thumbnail image
     thumbnail = document.createElement("img")
     thumbnail.setAttribute("class", "img-fluid videoThumbnail")
     thumbnail.setAttribute("src", `https://d32dcw9m3mntm7.cloudfront.net/thumbnail/${data.video_link}`)
@@ -48,6 +49,7 @@ function create_video_element(data) {
     timestamp = document.createElement("h6")
     timestamp.setAttribute("class", "timestamp timestampVideo")
     timestamp.innerHTML = moment(data.ts_upload).fromNow();
+    //put all elements together
     ahref.appendChild(thumbnail)
     main_div.appendChild(ahref)
     main_div.appendChild(profile_pic)
@@ -55,8 +57,6 @@ function create_video_element(data) {
     main_div.appendChild(videoUsername)
     main_div.appendChild(view_count)
     main_div.appendChild(timestamp)
-
-
 
     //append it to rows
     rows_array.slice(-1).pop().appendChild(main_div)

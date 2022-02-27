@@ -171,35 +171,11 @@ async def home(
     if active_user:
         active_user = utils.sanitize_active_user(active_user)
 
-    # top_videos = get_videos(db=db)
-    # thumbnail_drive = os.environ.get("thumbnail_drive")
-    # cloud_url = os.environ.get("cloud_url")
-    # thumbnail_url = f"{cloud_url}/{thumbnail_drive}"
-    # profile_folder = os.environ.get("profile_folder")
-    # profile_picture_url = f"{cloud_url}/{profile_folder}"
-
     request = utils.sanitize_request(request)
-
-    # def get_profile(username):
-    #     """
-    #     Function to get
-    #     bool of profile_picture of
-    #     User
-    #     """
-    #     return (
-    #         db.query(models.User)
-    #         .filter(models.User.username == username)
-    #         .first()
-    #         .profile_picture
-    #     )
 
     context = {
         "request": request,
         "active_user": active_user,
-        # "videos": top_videos,
-        # "thumbnail_url": thumbnail_url,
-        # "profile_picture_url": profile_picture_url,
-        # "get_profile": get_profile,
     }
 
     return templates.TemplateResponse(
