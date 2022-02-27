@@ -586,3 +586,25 @@ def get_profile_bool(db: Session, username: str):
         .first()
         .profile_picture
     )
+
+
+def get_top_videos_by_user(db: Session, username: str, skip: int = 0, limit: int = 100):
+    """Get Videos uploaded by Username from most recent
+
+    Args:
+        db: Database
+        username: Username
+        skip: Start
+        limit: End
+
+    Returns:
+        List of Videos
+    """
+    return (
+        db.query(models.Video)
+        .filter(models.Video.video_username == username)
+        .order_by(models.Video.ts_upload.desc())
+        .offset(skip)
+        .limit(limit)
+        .all()
+    )
