@@ -84,7 +84,7 @@ async def get_current_user(
             raise credentials_exception
         token_data = schemas.Token(email=email)
     except JWTError:
-        raise credentials_exception
+        return {"status": "cookie_expired"}
     user = db.query(models.User).filter(models.User.email == token_data.email).first()
     if user is None:
         raise credentials_exception
@@ -102,4 +102,6 @@ def get_current_user_optional(
     Returns:
         - Optional[schemas.User]
     """
+    if isinstance(user, dict) and user["status"] == "cookie_expired":
+        return None
     return user
