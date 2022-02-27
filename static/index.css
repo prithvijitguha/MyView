@@ -2,6 +2,7 @@
     border-radius: 50%;
     width: 40px;
     height: 40px;
+    margin-top: 5%;
 }
 
 .videoThumbnail {
@@ -12,5 +13,10 @@
 
 .videoThumbnail:hover {
     transform: scale(1.5);
-    transition-delay:0.5s;
+    transition-delay:0.9s;
+}
+
+.videoThumbnailContent {
+    margin-top:5%;
+    margin-bottom: 5%;
 }

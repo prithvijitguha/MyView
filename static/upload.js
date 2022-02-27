@@ -67,18 +67,6 @@ function checkVideo(){
 
     }
   }
-  /*
-  function capture(){
-    //function to capture thumbnail
-    canvas = document.getElementById('thumbnailDisplay');
-    video = document.getElementById("demoVideo");
-    //get original video dimensions
-    canvas.getContext('2d').drawImage(video, 0, 0, video.width, video.height)
-    canvas_image = canvas.toDataURL('image/jpeg', 1.0)
-    //add video as source for display
-    document.getElementById("thumbnailImage").setAttribute("src", canvas_image)
-  }
-   */
 
   function checkImage(){
     //get the element
@@ -86,7 +74,7 @@ function checkVideo(){
     //get the first element in files and check its type
     image_file = input_value.files[0]
     file_type = image_file.type
-    //if file type is not video
+    //if file type is not an image
     //then create a message that tells the user invalid file type
     if (!file_type.includes('image')) {
       input_value.value = ""
@@ -102,6 +90,11 @@ function checkVideo(){
       //display alert
       console.log("invalid file type, input reset")
     }
+    //get the thumbnail display element
+    thumbnailDisplay = document.getElementById("thumbnailImage")
+    //create an object url for image and attach as src for display
+    thumbnailDisplay.src = URL.createObjectURL(image_file)
+
   }
 
 
@@ -118,3 +111,49 @@ function checkVideo(){
     document.getElementById("inputVideoHeight").value = video.videoHeight;
     document.getElementById("inputVideoWidth").value = video.videoWidth;
   }
+
+
+  function progressBarMove() {
+    var progress = 0;
+    if (progress == 0) {
+      progress = 1
+      progress_bar = document.getElementById("myBar")
+      //show progress bar modal
+      progress_div = document.getElementById("progressBarDiv");
+      progress_div.style.display = "block";
+      var width = 10
+      var id = setInterval(frame, 50)
+      function frame() {
+        if (width >= 100) {
+          clearInterval(id);
+          i = 0;
+        } else {
+          width++;
+          progress_bar.style.width = width + "%";
+          progress_bar.innerHTML = width + "%";
+        }
+      }
+    }
+  }
+
+  function blockInput() {
+    var input_btn = document.getElementById("inputGroupFileAddon04");
+    input_btn.disabled = true;
+  }
+
+
+  function submitCheck() {
+    //go to start of page
+    window.scrollTo(0, 0);
+    //block input buttons
+    blockInput()
+    //add progress bar
+    progressModal = new bootstrap.Modal(document.getElementById('progressBarDiv'))
+    progressModal.show()
+    progressBarMove()
+  }
+
+
+
+
+
