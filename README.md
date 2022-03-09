@@ -151,10 +151,10 @@ To get started on this project. To get a local copy up and running follow these 
     - [x] Playing Video Function
     - [x] Homepage
     - [x] Comment Section
-- [ ] Staging
-    - [ ] Style Improvement:
+- [x] Staging
+    - [x] Style Improvement:
         - [x] Video Page
-        - [ ] Homepage
+        - [x] Homepage
         - [x] Upload
     - [x] Test Coverage - 85%
 - [ ] Production
