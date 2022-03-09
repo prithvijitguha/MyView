@@ -50,6 +50,7 @@ jobs:
         safety check -r requirements.txt
     - name: Run tests and collect coverage
       env:
+        postgres_uri: ${{ secrets.postgres_uri }}
         JWT_ALGO: ${{ secrets.JWT_ALGO }}
         JWT_SECRET: ${{ secrets.JWT_SECRET }}
         ACCESS_TOKEN_EXPIRES: ${{ secrets.ACCESS_TOKEN_EXPIRES }}
