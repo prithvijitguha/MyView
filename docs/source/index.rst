@@ -31,6 +31,7 @@ Contents
    contributing_guide_code
    contributing_guide_docs
    front_end_prototype
+   release_notes
 
 
 Indices and tables
