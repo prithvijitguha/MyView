@@ -10,6 +10,8 @@
   <p align="center">
     <strong>MyView</strong> is an online video sharing platform built using FastAPI
     <br />
+    <a href="http://myviewapp.herokuapp.com/"><h2><strong>Live Website »</strong></h2></a>
+    <br />
     <a href="https://myview.readthedocs.io/en/latest/"><strong>Explore the docs »</strong></a>
     <br />
     <br />
@@ -57,7 +59,7 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-**STATUS: Development**
+**STATUS: Production**
 
 
 <a href="https://github.com/prithvijitguha/MyView">
