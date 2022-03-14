@@ -157,10 +157,10 @@ To get started on this project. To get a local copy up and running follow these 
         - [x] Homepage
         - [x] Upload
     - [x] Test Coverage - 85%
-- [ ] Production
-    - [ ] Setup Production Database
-    - [ ] Production Server
-    - [ ] Production pipeline
+- [x] Production
+    - [x] Setup Production Database
+    - [x] Production Server
+    - [x] Production pipeline
 See the [open issues](https://github.com/prithvijitguha/MyView/issues/) for a full list of proposed features (and known issues).
 
 <p align="right">(<a href="#top">back to top</a>)</p>
