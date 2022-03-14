@@ -10,6 +10,8 @@
   <p align="center">
     <strong>MyView</strong> is an online video sharing platform built using FastAPI
     <br />
+    <a href="http://myviewapp.herokuapp.com/"><h2><strong>Live Website »</strong></h2></a>
+    <br />
     <a href="https://myview.readthedocs.io/en/latest/"><strong>Explore the docs »</strong></a>
     <br />
     <br />
@@ -57,7 +59,7 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-**STATUS: Development**
+**STATUS: Production**
 
 
 <a href="https://github.com/prithvijitguha/MyView">
@@ -157,10 +159,10 @@ To get started on this project. To get a local copy up and running follow these 
         - [x] Homepage
         - [x] Upload
     - [x] Test Coverage - 85%
-- [ ] Production
-    - [ ] Setup Production Database
-    - [ ] Production Server
-    - [ ] Production pipeline
+- [x] Production
+    - [x] Setup Production Database
+    - [x] Production Server
+    - [x] Production pipeline
 See the [open issues](https://github.com/prithvijitguha/MyView/issues/) for a full list of proposed features (and known issues).
 
 <p align="right">(<a href="#top">back to top</a>)</p>

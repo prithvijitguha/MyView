@@ -38,7 +38,23 @@ from utils import utils
 
 models.Base.metadata.create_all(bind=engine)
 
-app = FastAPI()
+description = """MyView is an online video sharing platform with open source in mind"""
+
+app = FastAPI(
+    docs_url=None,
+    redoc_url=None,
+    title="MyView",
+    description=description,
+    version="0.1.0",
+    contact={
+        "name": "Prithvijit Guha",
+        "url": "https://github.com/prithvijitguha",
+    },
+    license_info={
+        "name": "BSD 3-Clause License",
+        "url": "https://github.com/prithvijitguha/MyView/blob/master/LICENSE",
+    },
+)
 
 origins = [
     "http://localhost",
@@ -50,6 +66,7 @@ origins = [
 
 # static files directory for javascript and css
 app.mount("/static", StaticFiles(directory="./static"), name="static")
+
 
 # html templates directory
 templates = Jinja2Templates(directory="templates")
