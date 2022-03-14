@@ -76,17 +76,16 @@ MyView is an online video sharing platform currently in development using FastAP
 
 ### Built With
 
-* [FastApi](https://fastapi.tiangolo.com/)
-* [Python](https://www.python.org/)
-* [PostgreSQL](https://www.postgresql.org/)
-* [Heroku](https://www.heroku.com/)
-* [AzurePipelines](https://azure.microsoft.com/en-in/services/devops/pipelines/)
-* [GithubActions](https://github.com/features/actions)
-* [Amazon S3](https://aws.amazon.com/s3/)
-* [Javascript](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
-* [Bootstrap](https://getbootstrap.com/)
-* [JQuery](https://jquery.com)
-* [ReadTheDocs](https://readthedocs.org/)
+Property | Tech
+--- | ---
+Backend | [FastApi](https://fastapi.tiangolo.com/)&nbsp;[Python](https://www.python.org/)
+Frontend | [Javascript](https://developer.mozilla.org/en-US/docs/Web/JavaScript)&nbsp; [JQuery](https://jquery.com)&nbsp;[Bootstrap](https://getbootstrap.com/)&nbsp; [Reactjs](https://reactjs.org/)
+Database | [PostgreSQL](https://www.postgresql.org/)
+Production Server | [Heroku](https://www.heroku.com/)
+Storage | [Amazon S3](https://aws.amazon.com/s3/)
+CI/CD | [AzurePipelines](https://azure.microsoft.com/en-in/services/devops/pipelines/)&nbsp; [GithubActions](https://github.com/features/actions)
+Documentation | [ReadTheDocs](https://readthedocs.org/)
+
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
