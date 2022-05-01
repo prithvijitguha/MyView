@@ -23,6 +23,12 @@
             <!--Like and Dislike Buttons-->
             <div id="likeDislikeDisplay"></div>
             <script type="text/babel" src="{{ url_for('static', path='/components/like_dislike.js') }}"></script>
+            <!--Delete Video-->
+            {% if (video.video_username == active_user.username) or (active_user.admin)%}
+            <div id="deleteVideoButton">
+                <label class="btn btn-outline-danger deleteVideoButton" onclick="delete_video('{{video.video_id}}', '{{ active_user.username }}')">delete</label>
+            </div>
+            {% endif %}
         </div>
     </center>
 

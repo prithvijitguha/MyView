@@ -779,7 +779,7 @@ def delete_video(
     Raises:
         if active_user and username do not match
     """
-    if active_user.username != username:
+    if active_user.username != username or not active_user.admin:
         raise HTTPException(status_code=400, detail="Unauthorized Delete Request")
     status = crud.delete_video(db, video_id)
     return status

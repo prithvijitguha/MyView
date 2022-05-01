@@ -124,3 +124,36 @@ function deleteComment(htmlElementId) {
     parentElement.parentElement.remove()
 }
 
+
+
+
+
+function delete_video(video_id, username) {
+    data = {
+        "username": username,
+        "video_id": video_id
+    }
+    fetch(`/delete_video/${username}/${video_id}`,{
+    method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json', 'Accept': 'application/json'
+        },
+        body: JSON.stringify(data),
+        })
+        .then(response => response.json())
+        .then(data => {
+        console.log('Success:', data);
+        })
+        .catch((error) => {
+        console.error('Error:', error);
+        });
+
+
+    // //get the parent element and delete it
+    // delete_button = document.getElementById(`videoID${video_id}`)
+    // parent_video = delete_button.parentElement.parentElement
+    // parent_video.style.opacity = 0
+    // parent_video.remove()
+
+}
+

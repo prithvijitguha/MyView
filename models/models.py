@@ -30,6 +30,7 @@ class User(Base):
     email = Column(String, unique=True, index=True)
     profile_picture = Column(Boolean, default=False)
     ts_joined = Column(DateTime)
+    admin = Column(Boolean, default=False)
 
     uploaded = relationship("Video", back_populates="user")
 
