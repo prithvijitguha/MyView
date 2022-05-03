@@ -75,3 +75,11 @@
 .deleteCommentButton {
     font-size: xx-small;
 }
+
+
+.deleteVideoButton {
+    margin-top: 2%;
+    margin-bottom: 2%;
+    text-align: left;
+    margin-right: 65%;
+}
