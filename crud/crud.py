@@ -465,6 +465,15 @@ def delete_video(db: Session, video_id: int):
         - status: bool
     """
     db_video = db.query(models.Video).filter(models.Video.video_id == video_id).first()
+
+    # delete the views for that video
+    db.query(models.VideoViews).filter(models.VideoViews.video_id == video_id).delete()
+
+    # delete the likes of that video
+    db.query(models.UserLikesDislikes).filter(
+        models.UserLikesDislikes.like_video_id == video_id
+    ).delete()
+
     try:
         db.delete(db_video)
         db.commit()
